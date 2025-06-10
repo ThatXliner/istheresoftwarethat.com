@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useUser } from '../../contexts/UserContext';
 import { Menu, X, Search, User, LogIn, GitCompare, BookmarkCheck } from 'lucide-react';
-import SearchBar from '../search/SearchBar';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSearchVisible, setIsSearchVisible] = useState(false);
   const { isLoggedIn, user, login, logout } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
@@ -15,7 +13,6 @@ const Header = () => {
   // Hide mobile menu when changing routes
   useEffect(() => {
     setIsMobileMenuOpen(false);
-    setIsSearchVisible(false);
   }, [location.pathname]);
 
   // Handle scroll effect
@@ -28,23 +25,8 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleSearch = (query: string) => {
-    navigate(`/search?q=${encodeURIComponent(query)}`);
-    setIsSearchVisible(false);
-  };
-
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
-    if (!isMobileMenuOpen) {
-      setIsSearchVisible(false);
-    }
-  };
-
-  const toggleSearch = () => {
-    setIsSearchVisible(!isSearchVisible);
-    if (!isSearchVisible) {
-      setIsMobileMenuOpen(false);
-    }
   };
 
   const handleAuth = () => {
@@ -76,13 +58,6 @@ const Header = () => {
             {isLoggedIn && (
               <NavLink to="/bookmarks" icon={<BookmarkCheck className="w-4 h-4" />} label="Bookmarks" />
             )}
-            <button
-              className="flex items-center py-2 px-3 text-slate-700 hover:bg-slate-100 rounded-md transition-colors"
-              onClick={toggleSearch}
-            >
-              <Search className="w-4 h-4 mr-1" />
-              <span>Search</span>
-            </button>
             
             <button
               className={`flex items-center py-2 px-3 rounded-md transition-colors ${
@@ -109,13 +84,6 @@ const Header = () => {
           {/* Mobile Navigation Toggle */}
           <div className="flex items-center md:hidden">
             <button
-              className="p-2 text-slate-700 hover:bg-slate-100 rounded-md transition-colors mr-1"
-              onClick={toggleSearch}
-              aria-label="Search"
-            >
-              <Search className="w-6 h-6" />
-            </button>
-            <button
               className="p-2 text-slate-700 hover:bg-slate-100 rounded-md transition-colors"
               onClick={toggleMobileMenu}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
@@ -124,17 +92,6 @@ const Header = () => {
             </button>
           </div>
         </div>
-        
-        {/* Desktop Search Bar (when active) */}
-        {isSearchVisible && (
-          <div className="py-4 border-t border-slate-200 hidden md:block">
-            <SearchBar 
-              onSearch={handleSearch} 
-              placeholder="Describe what you're looking for..." 
-              buttonText="Search"
-            />
-          </div>
-        )}
       </div>
       
       {/* Mobile Menu */}
@@ -167,17 +124,6 @@ const Header = () => {
               )}
             </button>
           </nav>
-        </div>
-      )}
-      
-      {/* Mobile Search Bar (when active) */}
-      {isSearchVisible && (
-        <div className="md:hidden bg-white border-t border-slate-200 p-4">
-          <SearchBar 
-            onSearch={handleSearch} 
-            placeholder="Describe what you're looking for..." 
-            buttonText="Search"
-          />
         </div>
       )}
     </header>
