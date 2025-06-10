@@ -1,42 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Code, Star, ExternalLink } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { Star, ExternalLink } from "lucide-react";
+import { featuredSoftware } from "../common/data";
 
 // Mock featured software data
-const featuredSoftware = [
-  {
-    id: '1',
-    name: 'VS Code',
-    description: 'Powerful, lightweight code editor with extensive extension support',
-    category: 'Development',
-    upvotes: 1250,
-    icon: Code,
-  },
-  {
-    id: '2',
-    name: 'GIMP',
-    description: 'Professional image editing software with advanced features',
-    category: 'Design',
-    upvotes: 980,
-    icon: Code,
-  },
-  {
-    id: '3',
-    name: 'Blender',
-    description: '3D creation suite for modeling, animation, and rendering',
-    category: 'Media',
-    upvotes: 1420,
-    icon: Code,
-  },
-  {
-    id: '4',
-    name: 'LibreOffice',
-    description: 'Complete office suite with word processing, spreadsheets, and presentations',
-    category: 'Productivity',
-    upvotes: 890,
-    icon: Code,
-  },
-];
 
 const FeaturedSoftware = () => {
   return (
@@ -55,10 +21,14 @@ const FeaturedSoftware = () => {
               <span className="text-sm font-medium">{software.upvotes}</span>
             </div>
           </div>
-          
-          <h3 className="text-lg font-semibold text-slate-800 mb-2">{software.name}</h3>
-          <p className="text-slate-600 text-sm mb-4 line-clamp-2">{software.description}</p>
-          
+
+          <h3 className="text-lg font-semibold text-slate-800 mb-2">
+            {software.name}
+          </h3>
+          <p className="text-slate-600 text-sm mb-4 line-clamp-2">
+            {software.description}
+          </p>
+
           <div className="flex items-center justify-between">
             <span className="bg-slate-100 text-slate-700 px-2 py-1 rounded-full text-xs">
               {software.category}

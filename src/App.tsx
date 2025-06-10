@@ -1,13 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/layout/Header';
-import Footer from './components/layout/Footer';
-import HomePage from './pages/HomePage';
-import SearchResultsPage from './pages/SearchResultsPage';
-import SoftwareDetailsPage from './pages/SoftwareDetailsPage';
-import ComparePage from './pages/ComparePage';
-import { SoftwareProvider } from './contexts/SoftwareContext';
-import { UserProvider } from './contexts/UserContext';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
+import HomePage from "./pages/HomePage";
+import SearchResultsPage from "./pages/SearchResultsPage";
+import SoftwareDetailsPage from "./pages/SoftwareDetailsPage";
+import ComparePage from "./pages/ComparePage";
+import { SoftwareProvider } from "./contexts/SoftwareContext";
+import { UserProvider } from "./contexts/UserContext";
+import SubmitPage from "./pages/SubmitPage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/search" element={<SearchResultsPage />} />
                 <Route path="/software/:id" element={<SoftwareDetailsPage />} />
                 <Route path="/compare" element={<ComparePage />} />
+                <Route path="/submit" element={<SubmitPage />} />
               </Routes>
             </main>
             <Footer />
