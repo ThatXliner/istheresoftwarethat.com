@@ -56,7 +56,7 @@ const Header = () => {
             <NavLink to="/search" icon={<Search className="w-4 h-4" />} label="Browse" />
             <NavLink to="/compare" icon={<GitCompare className="w-4 h-4" />} label="Compare" />
             {isLoggedIn && (
-              <NavLink to="/bookmarks" icon={<BookmarkCheck className="w-4 h-4" />} label="Bookmarks" />
+              <NavLink to="/bookmarks\" icon={<BookmarkCheck className="w-4 h-4" />} label="Bookmarks" />
             )}
             
             <button
@@ -101,7 +101,7 @@ const Header = () => {
             <MobileNavLink to="/search" icon={<Search className="w-5 h-5" />} label="Browse Software" />
             <MobileNavLink to="/compare" icon={<GitCompare className="w-5 h-5" />} label="Compare Software" />
             {isLoggedIn && (
-              <MobileNavLink to="/bookmarks" icon={<BookmarkCheck className="w-5 h-5" />} label="Your Bookmarks" />
+              <MobileNavLink to="/bookmarks\" icon={<BookmarkCheck className="w-5 h-5" />} label="Your Bookmarks" />
             )}
             <button
               className={`flex items-center p-3 rounded-md text-left ${
