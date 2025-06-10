@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import SearchResultsPage from "./pages/SearchResultsPage";
 import SoftwareDetailsPage from "./pages/SoftwareDetailsPage";
 import ComparePage from "./pages/ComparePage";
+import LoginPage from "./pages/LoginPage";
 import { SoftwareProvider } from "./contexts/SoftwareContext";
 import { UserProvider } from "./contexts/UserContext";
 import SubmitPage from "./pages/SubmitPage";
@@ -23,6 +24,7 @@ function App() {
                 <Route path="/search" element={<SearchResultsPage />} />
                 <Route path="/software/:id" element={<SoftwareDetailsPage />} />
                 <Route path="/compare" element={<ComparePage />} />
+                <Route path="/login" element={<LoginPage />} />
                 <Route path="/submit" element={<SubmitPage />} />
               </Routes>
             </main>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useUser } from '../../contexts/UserContext';
-import { Menu, X, Search, User, LogIn, GitCompare, BookmarkCheck } from 'lucide-react';
+import { Menu, X, User, LogIn, GitCompare, BookmarkCheck } from 'lucide-react';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -33,7 +33,7 @@ const Header = () => {
     if (isLoggedIn) {
       logout();
     } else {
-      login();
+      navigate('/login');
     }
   };
 
@@ -53,10 +53,10 @@ const Header = () => {
           
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
-            <NavLink to="/search" icon={<Search className="w-4 h-4" />} label="Browse" />
+            <NavLink to="/search" icon={<GitCompare className="w-4 h-4" />} label="Browse" />
             <NavLink to="/compare" icon={<GitCompare className="w-4 h-4" />} label="Compare" />
             {isLoggedIn && (
-              <NavLink to="/bookmarks\" icon={<BookmarkCheck className="w-4 h-4" />} label="Bookmarks" />
+              <NavLink to="/bookmarks" icon={<BookmarkCheck className="w-4 h-4" />} label="Bookmarks" />
             )}
             
             <button
@@ -98,10 +98,10 @@ const Header = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden bg-white border-t border-slate-200">
           <nav className="flex flex-col p-4 space-y-3">
-            <MobileNavLink to="/search" icon={<Search className="w-5 h-5" />} label="Browse Software" />
+            <MobileNavLink to="/search" icon={<GitCompare className="w-5 h-5" />} label="Browse Software" />
             <MobileNavLink to="/compare" icon={<GitCompare className="w-5 h-5" />} label="Compare Software" />
             {isLoggedIn && (
-              <MobileNavLink to="/bookmarks\" icon={<BookmarkCheck className="w-5 h-5" />} label="Your Bookmarks" />
+              <MobileNavLink to="/bookmarks" icon={<BookmarkCheck className="w-5 h-5" />} label="Your Bookmarks" />
             )}
             <button
               className={`flex items-center p-3 rounded-md text-left ${
