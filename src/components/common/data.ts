@@ -1,11 +1,42 @@
 import {
+  Briefcase,
   Code,
   Figma,
+  Film,
+  GraduationCap,
   MessageSquare,
+  Palette,
+  Shield,
   Video,
+  Wrench,
   type LucideIcon,
 } from "lucide-react";
-export type Categories = "Development" | "Design" | "Media" | "Productivity";
+interface Category {
+  name: string;
+  icon: LucideIcon;
+  color: string;
+}
+export const categories: Category[] = [
+  { name: "Development", icon: Code, color: "blue" },
+  { name: "Design", icon: Palette, color: "purple" },
+  { name: "Communication", icon: MessageSquare, color: "green" },
+  { name: "Productivity", icon: Briefcase, color: "orange" },
+  { name: "Media", icon: Film, color: "red" },
+  { name: "Security", icon: Shield, color: "slate" },
+  { name: "Utilities", icon: Wrench, color: "amber" },
+  { name: "Education", icon: GraduationCap, color: "emerald" },
+];
+
+// Um there has to be a smarter, more dynamic way to do this
+export type Categories =
+  | "Development"
+  | "Design"
+  | "Communication"
+  | "Productivity"
+  | "Media"
+  | "Security"
+  | "Utilities"
+  | "Education";
 export interface Software {
   id: number;
   name: string;
@@ -14,6 +45,7 @@ export interface Software {
   icon: LucideIcon;
   category: Categories;
   addedDate: Date;
+  // TODO: License, platform, readme link, download method, etc
 }
 // Mock featured software data
 export const featuredSoftware: Software[] = [
@@ -56,7 +88,7 @@ export const featuredSoftware: Software[] = [
     addedDate: new Date("2025-01-01"),
   },
 ];
-
+export async function getRecentAdditions(amount = 5) {}
 // Mock recent additions data
 export const recentAdditions: Software[] = [
   {

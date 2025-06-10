@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Search, Sparkles, Database, GitCompare } from 'lucide-react';
-import SearchBar from '../components/search/SearchBar';
-import CategoryList from '../components/categories/CategoryList';
-import FeaturedSoftware from '../components/software/FeaturedSoftware';
-import RecentAdditions from '../components/software/RecentAdditions';
-import SubmitBanner from '../components/common/SubmitBanner';
+import { useNavigate } from "react-router-dom";
+import { Search, Sparkles, Database, GitCompare } from "lucide-react";
+import SearchBar from "../components/search/SearchBar";
+import CategoryList from "../components/categories/CategoryList";
+import FeaturedSoftware from "../components/software/FeaturedSoftware";
+import RecentAdditions from "../components/software/RecentAdditions";
+import SubmitBanner from "../components/common/SubmitBanner";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -25,37 +24,40 @@ const HomePage = () => {
           <p className="text-slate-600 text-lg mb-8 md:text-xl">
             Discover the perfect free and open-source software for your needs
           </p>
-          <SearchBar 
-            onSearch={handleSearch} 
-            placeholder="Describe what you're looking for..." 
+          <SearchBar
+            onSearch={handleSearch}
+            placeholder="Describe what you're looking for..."
             buttonText="Find Software"
           />
           <div className="mt-6 text-sm text-slate-500">
-            Try: "helps me edit videos" or "lets me design websites without coding"
+            Try: "helps me edit videos" or "lets me design websites without
+            coding"
           </div>
         </div>
       </section>
 
       {/* Features Section */}
       <section className="px-4 max-w-7xl mx-auto w-full">
-        <h2 className="text-2xl font-bold text-slate-800 mb-8 text-center">How It Works</h2>
+        <h2 className="text-2xl font-bold text-slate-800 mb-8 text-center">
+          How It Works
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <FeatureCard 
+          <FeatureCard
             icon={<Search className="w-8 h-8 text-blue-500" />}
             title="Semantic Search"
             description="Describe what you need in plain English and we'll find the right software"
           />
-          <FeatureCard 
+          <FeatureCard
             icon={<Database className="w-8 h-8 text-blue-500" />}
             title="Comprehensive Catalog"
             description="Browse our extensive collection of free and open-source software"
           />
-          <FeatureCard 
+          <FeatureCard
             icon={<GitCompare className="w-8 h-8 text-blue-500" />}
             title="Compare Tools"
             description="Side-by-side comparison to find the best fit for your needs"
           />
-          <FeatureCard 
+          <FeatureCard
             icon={<Sparkles className="w-8 h-8 text-blue-500" />}
             title="Community Powered"
             description="Recommendations and reviews from real users like you"
@@ -65,19 +67,25 @@ const HomePage = () => {
 
       {/* Categories Section */}
       <section className="px-4 max-w-7xl mx-auto w-full">
-        <h2 className="text-2xl font-bold text-slate-800 mb-8">Browse By Category</h2>
+        <h2 className="text-2xl font-bold text-slate-800 mb-8">
+          Browse By Category
+        </h2>
         <CategoryList />
       </section>
 
       {/* Featured Software */}
       <section className="px-4 max-w-7xl mx-auto w-full">
-        <h2 className="text-2xl font-bold text-slate-800 mb-8">Featured Software</h2>
+        <h2 className="text-2xl font-bold text-slate-800 mb-8">
+          Featured Software
+        </h2>
         <FeaturedSoftware />
       </section>
 
       {/* Recent Additions */}
       <section className="px-4 max-w-7xl mx-auto w-full">
-        <h2 className="text-2xl font-bold text-slate-800 mb-8">Recently Added</h2>
+        <h2 className="text-2xl font-bold text-slate-800 mb-8">
+          Recently Added
+        </h2>
         <RecentAdditions />
       </section>
 

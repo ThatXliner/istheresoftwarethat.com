@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import React, { useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { categories } from "../common/data";
 
 interface FilterPanelProps {
   filters: {
@@ -12,12 +13,9 @@ interface FilterPanelProps {
 }
 
 // Sample data for filters
-const PLATFORMS = ['Windows', 'macOS', 'Linux', 'Web', 'Android', 'iOS'];
-const LICENSES = ['MIT', 'GPL', 'Apache', 'BSD', 'LGPL', 'MPL'];
-const CATEGORIES = [
-  'Productivity', 'Development', 'Design', 'Communication', 
-  'Media', 'Security', 'Utilities', 'Education'
-];
+// TODO: create these from the data
+const PLATFORMS = ["Windows", "macOS", "Linux", "Web", "Android", "iOS"];
+const LICENSES = ["MIT", "GPL", "Apache", "BSD", "LGPL", "MPL"];
 
 const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
   const [expandedSections, setExpandedSections] = useState({
@@ -36,7 +34,7 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
   const handlePlatformChange = (platform: string) => {
     let newPlatforms;
     if (filters.platforms.includes(platform)) {
-      newPlatforms = filters.platforms.filter(p => p !== platform);
+      newPlatforms = filters.platforms.filter((p) => p !== platform);
     } else {
       newPlatforms = [...filters.platforms, platform];
     }
@@ -46,7 +44,7 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
   const handleLicenseChange = (license: string) => {
     let newLicenses;
     if (filters.licenses.includes(license)) {
-      newLicenses = filters.licenses.filter(l => l !== license);
+      newLicenses = filters.licenses.filter((l) => l !== license);
     } else {
       newLicenses = [...filters.licenses, license];
     }
@@ -56,7 +54,7 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
   const handleCategoryChange = (category: string) => {
     let newCategories;
     if (filters.categories.includes(category)) {
-      newCategories = filters.categories.filter(c => c !== category);
+      newCategories = filters.categories.filter((c) => c !== category);
     } else {
       newCategories = [...filters.categories, category];
     }
@@ -76,10 +74,10 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
     });
   };
 
-  const hasActiveFilters = 
-    filters.platforms.length > 0 || 
-    filters.licenses.length > 0 || 
-    filters.categories.length > 0 || 
+  const hasActiveFilters =
+    filters.platforms.length > 0 ||
+    filters.licenses.length > 0 ||
+    filters.categories.length > 0 ||
     !filters.activeStatus;
 
   return (
@@ -87,7 +85,7 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold text-slate-800">Filters</h2>
         {hasActiveFilters && (
-          <button 
+          <button
             className="text-sm text-blue-600 hover:underline"
             onClick={clearAllFilters}
           >
@@ -108,15 +106,15 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
           <span className="ml-2 text-slate-700">Active Development Only</span>
         </label>
       </div>
-      
+
       {/* Platforms Filter */}
-      <FilterSection 
-        title="Platforms" 
+      <FilterSection
+        title="Platforms"
         isExpanded={expandedSections.platforms}
-        onToggle={() => toggleSection('platforms')}
+        onToggle={() => toggleSection("platforms")}
       >
         <div className="space-y-2">
-          {PLATFORMS.map(platform => (
+          {PLATFORMS.map((platform) => (
             <label key={platform} className="flex items-center cursor-pointer">
               <input
                 type="checkbox"
@@ -129,15 +127,15 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
           ))}
         </div>
       </FilterSection>
-      
+
       {/* Licenses Filter */}
-      <FilterSection 
-        title="Licenses" 
+      <FilterSection
+        title="Licenses"
         isExpanded={expandedSections.licenses}
-        onToggle={() => toggleSection('licenses')}
+        onToggle={() => toggleSection("licenses")}
       >
         <div className="space-y-2">
-          {LICENSES.map(license => (
+          {LICENSES.map((license) => (
             <label key={license} className="flex items-center cursor-pointer">
               <input
                 type="checkbox"
@@ -150,15 +148,15 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
           ))}
         </div>
       </FilterSection>
-      
+
       {/* Categories Filter */}
-      <FilterSection 
-        title="Categories" 
+      <FilterSection
+        title="Categories"
         isExpanded={expandedSections.categories}
-        onToggle={() => toggleSection('categories')}
+        onToggle={() => toggleSection("categories")}
       >
         <div className="space-y-2">
-          {CATEGORIES.map(category => (
+          {categories.map(({ name: category }) => (
             <label key={category} className="flex items-center cursor-pointer">
               <input
                 type="checkbox"
@@ -182,7 +180,12 @@ interface FilterSectionProps {
   children: React.ReactNode;
 }
 
-const FilterSection = ({ title, isExpanded, onToggle, children }: FilterSectionProps) => {
+const FilterSection = ({
+  title,
+  isExpanded,
+  onToggle,
+  children,
+}: FilterSectionProps) => {
   return (
     <div className="border-t border-slate-200 py-4">
       <button
