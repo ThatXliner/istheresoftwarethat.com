@@ -4,6 +4,7 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import HomePage from "./pages/HomePage";
 import SearchResultsPage from "./pages/SearchResultsPage";
+import BrowsePage from "./pages/BrowsePage";
 import SoftwareDetailsPage from "./pages/SoftwareDetailsPage";
 import ComparePage from "./pages/ComparePage";
 import LoginPage from "./pages/LoginPage";
@@ -21,7 +22,9 @@ function App() {
             <main className="flex-grow">
               <Routes>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/search" element={<SearchResultsPage />} />
+                <Route path="/search" element={<BrowsePage />} />
+                <Route path="/browse" element={<BrowsePage />} />
+                <Route path="/results" element={<SearchResultsPage />} />
                 <Route path="/software/:id" element={<SoftwareDetailsPage />} />
                 <Route path="/compare" element={<ComparePage />} />
                 <Route path="/login" element={<LoginPage />} />
