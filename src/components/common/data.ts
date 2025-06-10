@@ -42,7 +42,7 @@ export interface Software {
   name: string;
   description: string;
   upvotes: number;
-  icon: LucideIcon;
+  icon: LucideIcon; // todo: image url but fall back to icon based on category
   category: Categories;
   addedDate: Date;
   // TODO: License, platform, readme link, download method, etc
