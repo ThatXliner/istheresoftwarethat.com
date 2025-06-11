@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { featuredSoftware, recentAdditions } from '../components/common/data';
 import FilterPanel from '../components/search/FilterPanel';
+import SearchBar from '../components/search/SearchBar';
 import { Star, ExternalLink, Calendar, Award, SlidersHorizontal } from 'lucide-react';
 
 const BrowsePage = () => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [allSoftware, setAllSoftware] = useState<any[]>([]);
   const [filteredSoftware, setFilteredSoftware] = useState<any[]>([]);
   const [sortBy, setSortBy] = useState('name');
   const [showFilters, setShowFilters] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState({
     platforms: [] as string[],
     licenses: [] as string[],
@@ -32,6 +34,16 @@ const BrowsePage = () => {
   useEffect(() => {
     // Apply filters and sorting
     let filtered = [...allSoftware];
+
+    // Apply search query filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(software => 
+        software.name.toLowerCase().includes(query) ||
+        software.description.toLowerCase().includes(query) ||
+        software.category.toLowerCase().includes(query)
+      );
+    }
 
     // Apply category filter from URL params
     const categoryParam = searchParams.get('category');
@@ -65,7 +77,7 @@ const BrowsePage = () => {
     });
     
     setFilteredSoftware(filtered);
-  }, [allSoftware, filters, sortBy, searchParams]);
+  }, [allSoftware, filters, sortBy, searchParams, searchQuery]);
 
   const handleSortChange = (newSortBy: string) => {
     setSortBy(newSortBy);
@@ -73,6 +85,10 @@ const BrowsePage = () => {
 
   const handleFilterChange = (newFilters: any) => {
     setFilters({ ...filters, ...newFilters });
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
   };
 
   const toggleFilters = () => {
@@ -86,13 +102,15 @@ const BrowsePage = () => {
       categories: [],
       activeStatus: true,
     });
+    setSearchQuery('');
   };
 
   const hasActiveFilters = 
     filters.platforms.length > 0 ||
     filters.licenses.length > 0 ||
     filters.categories.length > 0 ||
-    !filters.activeStatus;
+    !filters.activeStatus ||
+    searchQuery.trim().length > 0;
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -116,6 +134,17 @@ const BrowsePage = () => {
         
         {/* Filter panel - hidden on mobile unless toggled */}
         <div className={`lg:w-1/4 ${showFilters ? 'block' : 'hidden lg:block'}`}>
+          {/* Search Bar */}
+          <div className="mb-6">
+            <SearchBar 
+              onSearch={handleSearch}
+              placeholder="Search software..."
+              buttonText="Search"
+              initialValue={searchQuery}
+            />
+          </div>
+          
+          {/* Filter Panel */}
           <FilterPanel 
             filters={filters} 
             onFilterChange={handleFilterChange} 
@@ -129,13 +158,14 @@ const BrowsePage = () => {
             <div className="flex items-center text-slate-600">
               <span className="text-sm font-medium mr-3">
                 Showing {filteredSoftware.length} software packages
+                {searchQuery && ` for "${searchQuery}"`}
               </span>
               {hasActiveFilters && (
                 <button
                   onClick={clearAllFilters}
                   className="text-sm text-blue-600 hover:underline"
                 >
-                  Clear filters
+                  Clear all
                 </button>
               )}
             </div>
@@ -174,7 +204,7 @@ const BrowsePage = () => {
               <h3 className="text-xl font-semibold text-slate-700 mb-2">No Software Found</h3>
               <p className="text-slate-600 mb-6">
                 {hasActiveFilters 
-                  ? "Try adjusting your filters to find what you're looking for."
+                  ? "Try adjusting your search or filters to find what you're looking for."
                   : "We're working on adding more software to our catalog."
                 }
               </p>
