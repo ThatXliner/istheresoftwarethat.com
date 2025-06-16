@@ -118,6 +118,7 @@ const BrowsePage = () => {
       activeStatus: true,
     });
     setSearchQuery("");
+    // XXX: somehow get the state within SearchBar to be cleared
   };
 
   const hasActiveFilters =
@@ -159,7 +160,7 @@ const BrowsePage = () => {
               onSearch={handleSearch}
               placeholder="Search software..."
               buttonText="Search"
-              initialValue={searchQuery}
+              initialValue={searchParams.get("q") ?? ""}
             />
           </div>
 
