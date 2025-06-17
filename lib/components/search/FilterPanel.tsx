@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { categories } from "../common/data";
+import { categories } from "@/lib/components/common/data";
 export type Filters = {
   platforms: string[];
   licenses: string[];
@@ -9,13 +9,8 @@ export type Filters = {
   // activeStatus: boolean;
 };
 interface FilterPanelProps {
-  filters: {
-    platforms: string[];
-    licenses: string[];
-    categories: string[];
-    // activeStatus: boolean;
-  };
-  onFilterChange: (filters: Filters) => void;
+  filters: Filters;
+  setFilters: (filters: Filters) => void;
 }
 
 // Sample data for filters
@@ -23,7 +18,7 @@ interface FilterPanelProps {
 const PLATFORMS = ["Windows", "macOS", "Linux", "Web", "Android", "iOS"];
 const LICENSES = ["MIT", "GPL", "Apache", "BSD", "LGPL", "MPL"];
 
-const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
+const FilterPanel = ({ filters, setFilters }: FilterPanelProps) => {
   const [expandedSections, setExpandedSections] = useState({
     platforms: true,
     licenses: true,
@@ -44,7 +39,7 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
     } else {
       newPlatforms = [...filters.platforms, platform];
     }
-    onFilterChange({ ...filters, platforms: newPlatforms });
+    setFilters({ ...filters, platforms: newPlatforms });
   };
 
   const handleLicenseChange = (license: string) => {
@@ -54,17 +49,18 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
     } else {
       newLicenses = [...filters.licenses, license];
     }
-    onFilterChange({ ...filters, licenses: newLicenses });
+    setFilters({ ...filters, licenses: newLicenses });
   };
 
   const handleCategoryChange = (category: string) => {
+    console.log("Whis");
     let newCategories;
     if (filters.categories.includes(category)) {
       newCategories = filters.categories.filter((c) => c !== category);
     } else {
       newCategories = [...filters.categories, category];
     }
-    onFilterChange({ ...filters, categories: newCategories });
+    setFilters({ ...filters, categories: newCategories });
   };
 
   // const handleActiveStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,7 +68,7 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
   // };
 
   const clearAllFilters = () => {
-    onFilterChange({
+    setFilters({
       platforms: [],
       licenses: [],
       categories: [],

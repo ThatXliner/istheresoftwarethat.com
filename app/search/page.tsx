@@ -46,13 +46,6 @@ const BrowsePage = () => {
     }
 
     // Apply category filter from URL params
-    const categoryParam = searchParams.get("category");
-    if (categoryParam) {
-      filtered = filtered.filter(
-        (software) =>
-          software.category.toLowerCase() === categoryParam.toLowerCase(),
-      );
-    }
 
     // Apply other filters
     if (filters.categories.length > 0) {
@@ -79,7 +72,7 @@ const BrowsePage = () => {
       }
     });
     return filtered;
-  }, [allSoftware, filters, sortBy, searchParams, searchQuery]);
+  }, [allSoftware, filters, sortBy, searchQuery]);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -136,9 +129,10 @@ const BrowsePage = () => {
           {/* Filter Panel */}
           <FilterPanel
             filters={filters}
-            onFilterChange={(newFilters) =>
-              setFilters({ ...filters, ...newFilters })
-            }
+            setFilters={(newFilters) => {
+              console.log("asdfsdafsdf", newFilters);
+              setFilters({ ...newFilters });
+            }}
           />
         </div>
 
