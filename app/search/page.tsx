@@ -1,48 +1,36 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import {
   featuredSoftware,
   recentAdditions,
 } from "@/lib/components/common/data";
-import FilterPanel from "@/lib/components/search/FilterPanel";
+import FilterPanel, { type Filters } from "@/lib/components/search/FilterPanel";
 import SearchBar from "@/lib/components/search/SearchBar";
-import {
-  Star,
-  ExternalLink,
-  Calendar,
-  Award,
-  SlidersHorizontal,
-} from "lucide-react";
+import { ExternalLink, SlidersHorizontal } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import SoftwareCard from "./SoftwareCard";
 
 const BrowsePage = () => {
   const searchParams = useSearchParams();
-  const [allSoftware, setAllSoftware] = useState<any[]>([]);
-  const [filteredSoftware, setFilteredSoftware] = useState<any[]>([]);
+  // XXX: for now
+  const allSoftware = useMemo(
+    () => [...featuredSoftware, ...recentAdditions],
+    [],
+  );
   const [sortBy, setSortBy] = useState("name");
   const [showFilters, setShowFilters] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filters, setFilters] = useState({
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") ?? "");
+  const [filters, setFilters] = useState<Filters>({
     platforms: [] as string[],
     licenses: [] as string[],
-    categories: [] as string[],
-    activeStatus: true,
+    categories:
+      searchParams.get("category") != null
+        ? [searchParams.get("category") as string]
+        : ([] as string[]),
+    // activeStatus: true,
   });
 
-  useEffect(() => {
-    // Combine all software from different sources
-    const combined = [...featuredSoftware, ...recentAdditions];
-
-    // Remove duplicates based on ID
-    const unique = combined.filter(
-      (software, index, self) =>
-        index === self.findIndex((s) => s.id === software.id),
-    );
-
-    setAllSoftware(unique);
-  }, []);
-
-  useEffect(() => {
+  const filteredSoftware = useMemo(() => {
     // Apply filters and sorting
     let filtered = [...allSoftware];
 
@@ -90,17 +78,8 @@ const BrowsePage = () => {
           return 0;
       }
     });
-
-    setFilteredSoftware(filtered);
+    return filtered;
   }, [allSoftware, filters, sortBy, searchParams, searchQuery]);
-
-  const handleSortChange = (newSortBy: string) => {
-    setSortBy(newSortBy);
-  };
-
-  const handleFilterChange = (newFilters: any) => {
-    setFilters({ ...filters, ...newFilters });
-  };
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -110,22 +89,11 @@ const BrowsePage = () => {
     setShowFilters(!showFilters);
   };
 
-  const clearAllFilters = () => {
-    setFilters({
-      platforms: [],
-      licenses: [],
-      categories: [],
-      activeStatus: true,
-    });
-    setSearchQuery("");
-    // XXX: somehow get the state within SearchBar to be cleared
-  };
-
   const hasActiveFilters =
     filters.platforms.length > 0 ||
     filters.licenses.length > 0 ||
     filters.categories.length > 0 ||
-    !filters.activeStatus ||
+    // !filters.activeStatus ||
     searchQuery.trim().length > 0;
 
   return (
@@ -143,6 +111,7 @@ const BrowsePage = () => {
       <div className="flex flex-col lg:flex-row gap-8">
         {/* Mobile filter toggle */}
         <button
+          type="button"
           className="lg:hidden flex items-center gap-2 text-slate-700 font-medium mb-4"
           onClick={toggleFilters}
         >
@@ -165,7 +134,12 @@ const BrowsePage = () => {
           </div>
 
           {/* Filter Panel */}
-          <FilterPanel filters={filters} onFilterChange={handleFilterChange} />
+          <FilterPanel
+            filters={filters}
+            onFilterChange={(newFilters) =>
+              setFilters({ ...filters, ...newFilters })
+            }
+          />
         </div>
 
         {/* Main content */}
@@ -179,7 +153,16 @@ const BrowsePage = () => {
               </span>
               {hasActiveFilters && (
                 <button
-                  onClick={clearAllFilters}
+                  type="reset"
+                  onClick={() => {
+                    setFilters({
+                      platforms: [],
+                      licenses: [],
+                      categories: [],
+                    });
+                    setSearchQuery("");
+                    // XXX: somehow get the state within SearchBar to be cleared
+                  }}
                   className="text-sm text-blue-600 hover:underline"
                 >
                   Clear all
@@ -197,7 +180,7 @@ const BrowsePage = () => {
               <select
                 id="sort"
                 value={sortBy}
-                onChange={(e) => handleSortChange(e.target.value)}
+                onChange={(e) => setSortBy(e.target.value)}
                 className="border border-slate-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="name">Name (A-Z)</option>
@@ -215,7 +198,7 @@ const BrowsePage = () => {
             ))}
           </div>
 
-          {/* Empty State */}
+          {/* No software found */}
           {filteredSoftware.length === 0 && (
             <div className="text-center py-12">
               <div className="bg-slate-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
@@ -231,7 +214,14 @@ const BrowsePage = () => {
               </p>
               {hasActiveFilters ? (
                 <button
-                  onClick={clearAllFilters}
+                  type="reset"
+                  onClick={() => {
+                    setFilters({
+                      platforms: [] as string[],
+                      licenses: [] as string[],
+                      categories: [],
+                    });
+                  }}
                   className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors"
                 >
                   Clear All Filters
@@ -247,75 +237,6 @@ const BrowsePage = () => {
             </div>
           )}
         </div>
-      </div>
-    </div>
-  );
-};
-
-interface SoftwareCardProps {
-  software: any;
-}
-
-const SoftwareCard = ({ software }: SoftwareCardProps) => {
-  return (
-    <div className="bg-white rounded-lg shadow-sm border border-slate-100 overflow-hidden transition-all duration-300 hover:shadow-md hover:scale-[1.02] group">
-      {/* Card Header */}
-      <div className="p-6">
-        {/* Icon and Category */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="bg-blue-100 p-3 rounded-lg group-hover:scale-110 transition-transform duration-300">
-            <software.icon className="w-6 h-6 text-blue-600" />
-          </div>
-          <span className="bg-slate-100 text-slate-700 px-2 py-1 rounded-full text-xs font-medium">
-            {software.category}
-          </span>
-        </div>
-
-        {/* Software Name */}
-        <h3 className="text-lg font-semibold text-slate-800 mb-2 group-hover:text-blue-600 transition-colors">
-          {software.name}
-        </h3>
-
-        {/* Description with ellipsis */}
-        <p className="text-slate-600 text-sm mb-4 line-clamp-3 leading-relaxed">
-          {software.description}
-        </p>
-
-        {/* Stats */}
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center text-amber-500">
-            <Star className="w-4 h-4 mr-1 fill-current" />
-            <span className="text-sm font-medium text-slate-700">
-              {software.upvotes}
-            </span>
-          </div>
-
-          <div className="flex items-center text-slate-500">
-            <Calendar className="w-4 h-4 mr-1" />
-            <span className="text-xs">
-              {new Date(software.addedDate).toLocaleDateString()}
-            </span>
-          </div>
-        </div>
-
-        {/* Pricing Badge */}
-        <div className="mb-4">
-          <span className="inline-flex items-center bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
-            <Award className="w-3 h-3 mr-1" />
-            Free & Open Source
-          </span>
-        </div>
-      </div>
-
-      {/* Card Footer */}
-      <div className="px-6 pb-6">
-        <a
-          href={`/software/${software.id}`}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors text-center text-sm flex items-center justify-center group-hover:bg-blue-700"
-        >
-          <span>View Details</span>
-          <ExternalLink className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-        </a>
       </div>
     </div>
   );

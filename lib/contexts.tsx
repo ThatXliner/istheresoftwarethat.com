@@ -53,7 +53,7 @@ export const useUser = () => {
   return context;
 };
 
-import type { Software } from "./types";
+import type { Software } from "./components/common/data";
 
 interface SoftwareContextType {
   getAllSoftware: () => Promise<Software[]>;

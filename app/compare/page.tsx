@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useSoftware } from "@/lib/contexts";
-import type { Software } from "@/lib/types";
 import { Search, Check, X, Plus, Trash2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import type { Software } from "@/lib/components/common/data";
 
 const ComparePage = () => {
   const searchParams = useSearchParams();

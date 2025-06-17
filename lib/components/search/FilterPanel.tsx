@@ -2,15 +2,20 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { categories } from "../common/data";
-
+export type Filters = {
+  platforms: string[];
+  licenses: string[];
+  categories: string[];
+  // activeStatus: boolean;
+};
 interface FilterPanelProps {
   filters: {
     platforms: string[];
     licenses: string[];
     categories: string[];
-    activeStatus: boolean;
+    // activeStatus: boolean;
   };
-  onFilterChange: (filters: any) => void;
+  onFilterChange: (filters: Filters) => void;
 }
 
 // Sample data for filters
@@ -39,7 +44,7 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
     } else {
       newPlatforms = [...filters.platforms, platform];
     }
-    onFilterChange({ platforms: newPlatforms });
+    onFilterChange({ ...filters, platforms: newPlatforms });
   };
 
   const handleLicenseChange = (license: string) => {
@@ -49,7 +54,7 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
     } else {
       newLicenses = [...filters.licenses, license];
     }
-    onFilterChange({ licenses: newLicenses });
+    onFilterChange({ ...filters, licenses: newLicenses });
   };
 
   const handleCategoryChange = (category: string) => {
@@ -59,27 +64,25 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
     } else {
       newCategories = [...filters.categories, category];
     }
-    onFilterChange({ categories: newCategories });
+    onFilterChange({ ...filters, categories: newCategories });
   };
 
-  const handleActiveStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onFilterChange({ activeStatus: e.target.checked });
-  };
+  // const handleActiveStatusChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   onFilterChange({ activeStatus: e.target.checked });
+  // };
 
   const clearAllFilters = () => {
     onFilterChange({
       platforms: [],
       licenses: [],
       categories: [],
-      activeStatus: true,
     });
   };
 
   const hasActiveFilters =
     filters.platforms.length > 0 ||
     filters.licenses.length > 0 ||
-    filters.categories.length > 0 ||
-    !filters.activeStatus;
+    filters.categories.length > 0;
 
   return (
     <div className="bg-white rounded-lg shadow-sm p-4">
@@ -96,7 +99,7 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
       </div>
 
       {/* Active Development Filter */}
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <label className="flex items-center cursor-pointer">
           <input
             type="checkbox"
@@ -106,7 +109,7 @@ const FilterPanel = ({ filters, onFilterChange }: FilterPanelProps) => {
           />
           <span className="ml-2 text-slate-700">Active Development Only</span>
         </label>
-      </div>
+      </div> */}
 
       {/* Platforms Filter */}
       <FilterSection

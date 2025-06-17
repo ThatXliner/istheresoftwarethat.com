@@ -37,6 +37,34 @@ export type Categories =
   | "Security"
   | "Utilities"
   | "Education";
+
+export interface Compatibility {
+  windows: boolean;
+  macos: boolean;
+  linux: boolean;
+}
+
+export interface Links {
+  website: string;
+  github?: string;
+}
+
+export interface InstallationInstructions {
+  windows: string;
+  macos: string;
+  linux: string;
+}
+export interface Feature {
+  title: string;
+  description: string;
+}
+
+export interface Review {
+  username: string;
+  date: string;
+  comment: string;
+  isUpvote: boolean;
+}
 export interface Software {
   id: number;
   name: string;
@@ -45,8 +73,18 @@ export interface Software {
   icon: LucideIcon; // todo: image url but fall back to icon based on category
   category: Categories;
   addedDate: Date;
+  compatibility: Compatibility;
+  links?: Links;
+  installationInstructions?: InstallationInstructions;
+  features?: Feature[];
+  reviews: Review[];
   // TODO: License, platform, readme link, download method, etc
 }
+export const ALL_PLATFORMS: Compatibility = {
+  linux: true,
+  macos: true,
+  windows: true,
+};
 // Mock featured software data
 export const featuredSoftware: Software[] = [
   {
@@ -58,6 +96,8 @@ export const featuredSoftware: Software[] = [
     upvotes: 1250,
     icon: Code,
     addedDate: new Date("2025-01-01"),
+    compatibility: ALL_PLATFORMS,
+    reviews: [],
   },
   {
     id: 2,
@@ -67,6 +107,8 @@ export const featuredSoftware: Software[] = [
     upvotes: 980,
     icon: Code,
     addedDate: new Date("2025-01-01"),
+    compatibility: ALL_PLATFORMS,
+    reviews: [],
   },
   {
     id: 3,
@@ -76,6 +118,8 @@ export const featuredSoftware: Software[] = [
     upvotes: 1420,
     icon: Code,
     addedDate: new Date("2025-01-01"),
+    compatibility: ALL_PLATFORMS,
+    reviews: [],
   },
   {
     id: 4,
@@ -86,6 +130,8 @@ export const featuredSoftware: Software[] = [
     upvotes: 890,
     icon: Code,
     addedDate: new Date("2025-01-01"),
+    compatibility: ALL_PLATFORMS,
+    reviews: [],
   },
 ];
 export async function getRecentAdditions(amount = 5) {}
@@ -100,6 +146,8 @@ export const recentAdditions: Software[] = [
     addedDate: new Date("2025-01-02"),
     icon: Code,
     upvotes: 69,
+    compatibility: ALL_PLATFORMS,
+    reviews: [],
   },
   {
     id: 6,
@@ -110,6 +158,8 @@ export const recentAdditions: Software[] = [
     addedDate: new Date("2025-01-01"),
     icon: Figma,
     upvotes: 69,
+    compatibility: ALL_PLATFORMS,
+    reviews: [],
   },
   {
     id: 7,
@@ -119,6 +169,8 @@ export const recentAdditions: Software[] = [
     addedDate: new Date("2024-12-30"),
     icon: MessageSquare,
     upvotes: 69,
+    compatibility: ALL_PLATFORMS,
+    reviews: [],
   },
   {
     id: 8,
@@ -129,5 +181,7 @@ export const recentAdditions: Software[] = [
     addedDate: new Date("2024-12-28"),
     icon: Video,
     upvotes: 69,
+    compatibility: ALL_PLATFORMS,
+    reviews: [],
   },
 ];
