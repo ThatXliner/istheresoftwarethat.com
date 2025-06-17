@@ -132,7 +132,6 @@ const BrowsePage = () => {
           <FilterPanel
             filters={filters}
             setFilters={(newFilters) => {
-              console.log("asdfsdafsdf", newFilters);
               setFilters({ ...newFilters });
             }}
           />

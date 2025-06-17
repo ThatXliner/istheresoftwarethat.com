@@ -53,7 +53,6 @@ const FilterPanel = ({ filters, setFilters }: FilterPanelProps) => {
   };
 
   const handleCategoryChange = (category: string) => {
-    console.log("Whis");
     let newCategories;
     if (filters.categories.includes(category)) {
       newCategories = filters.categories.filter((c) => c !== category);
