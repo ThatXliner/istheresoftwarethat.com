@@ -31,6 +31,8 @@ const BrowsePage = () => {
   });
 
   const filteredSoftware = useMemo(() => {
+    // TODO: better filter code. Right now we don't consider platforms or other things
+    // hard coding each filter is not scalable
     // Apply filters and sorting
     let filtered = [...allSoftware];
 
