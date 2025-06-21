@@ -1,18 +1,15 @@
 "use client";
 import { useState } from "react";
 import { useUser } from "@/lib/contexts";
-import { LogIn, User, Mail, Lock, Eye, EyeOff } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { LogIn, User, Mail } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Password from "./Password";
+import { signIn, signUp } from "./actions";
 
 const LoginPage = () => {
+  const params = useSearchParams();
   const [isLogin, setIsLogin] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    username: "",
-  });
   const { login } = useUser();
   const router = useRouter();
   const navigate = router.push;
@@ -22,17 +19,6 @@ const LoginPage = () => {
     // Mock authentication - in real app this would call an API
     login();
     navigate("/");
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   return (
@@ -60,11 +46,16 @@ const LoginPage = () => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form
+            onSubmit={
+              isLogin ? signIn.bind(null, params.get("redirectTo")) : signUp
+            }
+            className="space-y-6"
+          >
             {!isLogin && (
               <div>
                 <label
-                  htmlFor="username\"
+                  htmlFor="username"
                   className="block text-sm font-medium text-slate-700 mb-2"
                 >
                   Username
@@ -78,8 +69,6 @@ const LoginPage = () => {
                     name="username"
                     type="text"
                     required={!isLogin}
-                    value={formData.username}
-                    onChange={handleInputChange}
                     className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Choose a username"
                   />
@@ -103,54 +92,20 @@ const LoginPage = () => {
                   name="email"
                   type="email"
                   required
-                  value={formData.email}
-                  onChange={handleInputChange}
                   className="w-full pl-10 pr-4 py-3 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Enter your email"
                 />
               </div>
             </div>
 
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-slate-700 mb-2"
-              >
-                Password
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-slate-400" />
-                </div>
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  required
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  className="w-full pl-10 pr-12 py-3 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Enter your password"
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  onClick={togglePasswordVisibility}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-slate-400 hover:text-slate-600" />
-                  ) : (
-                    <Eye className="h-5 w-5 text-slate-400 hover:text-slate-600" />
-                  )}
-                </button>
-              </div>
-            </div>
+            <Password />
 
             {isLogin && (
               <div className="flex items-center justify-between">
                 <label className="flex items-center">
                   <input
                     type="checkbox"
+                    defaultChecked={true}
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300 rounded"
                   />
                   <span className="ml-2 text-sm text-slate-600">
@@ -158,7 +113,7 @@ const LoginPage = () => {
                   </span>
                 </label>
                 <Link
-                  href="/forgot-password"
+                  href="/login/forgot-password"
                   className="text-sm text-blue-600 hover:underline"
                 >
                   Forgot password?
