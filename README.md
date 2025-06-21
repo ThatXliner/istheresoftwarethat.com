@@ -1,14 +1,3 @@
-# istheresoftwarethat.com
+# IsthereSoftwareThat.Com
 
-TODO:
-
-- Use Next.js
-- Use TanStack
-- Add Supabase (or just Turso?)
-- Search bar working
-- Dumb addition working (literally just checks localStorage)
-
-Roadmap:
-
-- algorithm to determine "active development"
-- source from ProductHunt?
+What sets us apart is that we have a very complex score mechanism, designed with the fast-paced nature of software in mind.
