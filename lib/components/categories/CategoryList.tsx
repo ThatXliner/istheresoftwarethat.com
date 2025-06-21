@@ -11,11 +11,11 @@ const CategoryList = () => {
           className="bg-white p-6 rounded-lg shadow-sm border border-slate-100 transition-all duration-300 hover:shadow-md group"
         >
           <div
-            className={`mb-4 text-${category.color}-500 group-hover:scale-110 transition-transform`}
+            className={`mb-4 text-${category.color}-500 group-hover:scale-110 transition-transform w-full`}
           >
-            <category.icon className="w-8 h-8" />
+            <category.icon className="w-8 h-8 mx-auto" />
           </div>
-          <h3 className="text-lg font-semibold text-slate-800">
+          <h3 className="text-lg font-semibold text-center group-hover:scale-110 transition-transform text-slate-800 w-full">
             {category.name}
           </h3>
         </Link>

@@ -8,7 +8,7 @@ import type { Software } from "@/lib/components/common/data";
 
 const ComparePage = () => {
   const searchParams = useSearchParams();
-  const { getSoftwareById, getAllSoftware, searchSoftware } = useSoftware();
+  // const { getSoftwareById, getAllSoftware, searchSoftware } = useSoftware();
   const [compareItems, setCompareItems] = useState<Software[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Software[]>([]);

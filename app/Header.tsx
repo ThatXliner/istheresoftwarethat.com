@@ -1,13 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useUser } from "@/lib/contexts";
 import { Menu, X, User, LogIn, GitCompare, BookmarkCheck } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-const Header = () => {
+import { createClient } from "@/utils/supabase/client";
+const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { isLoggedIn, user, login, logout } = useUser();
   const router = useRouter();
   const navigate = router.push;
 
@@ -30,9 +29,14 @@ const Header = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleAuth = () => {
+  const handleAuth = async () => {
     if (isLoggedIn) {
-      logout();
+      // TODO: Since the button says "account"
+      // we should create a proper account page
+      const client = await createClient();
+      client.auth.signOut().then(() => {
+        router.push("/");
+      });
     } else {
       navigate("/login");
     }
@@ -68,13 +72,14 @@ const Header = () => {
             />
             {isLoggedIn && (
               <NavLink
-                to="/bookmarks\"
+                to="/bookmarks"
                 icon={<BookmarkCheck className="w-4 h-4" />}
                 label="Bookmarks"
               />
             )}
 
             <button
+              type="button"
               className={`flex items-center py-2 px-3 rounded-md transition-colors ${
                 isLoggedIn
                   ? "text-slate-700 hover:bg-slate-100"

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSoftware, useUser } from "@/lib/contexts";
+// import { useSoftware, useUser } from "@/lib/contexts";
 import type { Software } from "@/lib/components/common/data";
 import {
   Globe,

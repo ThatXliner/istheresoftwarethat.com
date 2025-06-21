@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/lib/layout/Header";
-import Footer from "@/lib/layout/Footer";
-import DataProviders from "./DataProviders";
+import Header from "./Header";
+import Footer from "./Footer";
+// import DataProviders from "./DataProviders";
+import { createClient } from "@/utils/supabase/server";
+import { cookies } from "next/headers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,21 +22,24 @@ export const metadata: Metadata = {
   description: "Find great software",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const client = createClient(cookieStore);
+  const { data, error } = await client.auth.getUser();
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="flex flex-col min-h-screen bg-slate-50">
-          <DataProviders>
-            <Header />
-            {children}
-          </DataProviders>
+          {/* <DataProviders> */}
+          <Header isLoggedIn={!(error || !data?.user)} />
+          <main className="flex-grow">{children}</main>
+          {/* </DataProviders> */}
           <Footer />
         </div>
       </body>

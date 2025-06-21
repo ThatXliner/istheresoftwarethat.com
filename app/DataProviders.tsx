@@ -1,5 +1,4 @@
 "use client";
-import { SoftwareProvider, UserProvider } from "@/lib/contexts";
 
 export default function DataProviders({
   children,
@@ -8,9 +7,7 @@ export default function DataProviders({
 }) {
   return (
     <UserProvider>
-      <SoftwareProvider>
-        <main className="flex-grow">{children}</main>
-      </SoftwareProvider>
+      <SoftwareProvider></SoftwareProvider>
     </UserProvider>
   );
 }
