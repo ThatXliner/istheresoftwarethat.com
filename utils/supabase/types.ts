@@ -6,245 +6,162 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
-      attendance: {
+      features: {
         Row: {
-          attendee: string
-          code_used: string
-          created_at: string
-          metadata: Json | null
-          status: number
-        }
-        Insert: {
-          attendee: string
-          code_used: string
-          created_at?: string
-          metadata?: Json | null
-          status?: number
-        }
-        Update: {
-          attendee?: string
-          code_used?: string
-          created_at?: string
-          metadata?: Json | null
-          status?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "attendance_attendee_fkey"
-            columns: ["attendee"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "attendance_code_used_fkey"
-            columns: ["code_used"]
-            isOneToOne: false
-            referencedRelation: "codes"
-            referencedColumns: ["code"]
-          }
-        ]
-      }
-      attendees: {
-        Row: {
-          attendee: string
-          metadata: Json
-          with_code: string
-        }
-        Insert: {
-          attendee: string
-          metadata?: Json
-          with_code: string
-        }
-        Update: {
-          attendee?: string
-          metadata?: Json
-          with_code?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "attendees_attendee_fkey"
-            columns: ["attendee"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "attendees_with_code_fkey"
-            columns: ["with_code"]
-            isOneToOne: false
-            referencedRelation: "groups"
-            referencedColumns: ["code"]
-          }
-        ]
-      }
-      codes: {
-        Row: {
-          code: string
-          created_at: string
-          group: number
-          metadata: Json
-        }
-        Insert: {
-          code?: string
-          created_at?: string
-          group: number
-          metadata?: Json
-        }
-        Update: {
-          code?: string
-          created_at?: string
-          group?: number
-          metadata?: Json
-        }
-        Relationships: [
-          {
-            foreignKeyName: "codes_group_fkey"
-            columns: ["group"]
-            isOneToOne: true
-            referencedRelation: "groups"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
-      groups: {
-        Row: {
-          admin: string
-          code: string
-          config: Json
-          created_at: string
+          description: string
           id: number
-          joinable: boolean
-          metadata: Json
-          name: string
-          order: Json
+          software_id: number
+          title: string
         }
         Insert: {
-          admin: string
-          code?: string
-          config?: Json
-          created_at?: string
+          description: string
           id?: number
-          joinable?: boolean
-          metadata?: Json
-          name: string
-          order?: Json
+          software_id: number
+          title: string
         }
         Update: {
-          admin?: string
-          code?: string
-          config?: Json
-          created_at?: string
+          description?: string
           id?: number
-          joinable?: boolean
-          metadata?: Json
-          name?: string
-          order?: Json
+          software_id?: number
+          title?: string
         }
         Relationships: [
           {
-            foreignKeyName: "groups_admin_fkey"
-            columns: ["admin"]
+            foreignKeyName: "fk_features_software"
+            columns: ["software_id"]
             isOneToOne: false
-            referencedRelation: "profiles"
+            referencedRelation: "software"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
-      profiles: {
+      installation_instructions: {
         Row: {
-          account_type: number
-          email: string
-          id: string
+          linux: string
+          macos: string
+          software_id: number
+          windows: string
+        }
+        Insert: {
+          linux: string
+          macos: string
+          software_id: number
+          windows: string
+        }
+        Update: {
+          linux?: string
+          macos?: string
+          software_id?: number
+          windows?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_installation_software"
+            columns: ["software_id"]
+            isOneToOne: true
+            referencedRelation: "software"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      reviews: {
+        Row: {
+          comment: string
+          date: string
+          id: number
+          is_upvote: boolean
+          software_id: number
           username: string
         }
         Insert: {
-          account_type: number
-          email: string
-          id: string
+          comment: string
+          date: string
+          id?: number
+          is_upvote: boolean
+          software_id: number
           username: string
         }
         Update: {
-          account_type?: number
-          email?: string
-          id?: string
+          comment?: string
+          date?: string
+          id?: number
+          is_upvote?: boolean
+          software_id?: number
           username?: string
         }
         Relationships: [
           {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
+            foreignKeyName: "fk_reviews_software"
+            columns: ["software_id"]
+            isOneToOne: false
+            referencedRelation: "software"
             referencedColumns: ["id"]
-          }
+          },
         ]
+      }
+      software: {
+        Row: {
+          added_date: string
+          category: string | null
+          compatibility: Json | null
+          description: string
+          icon: string | null
+          id: number
+          links: Json
+          name: string
+          upvotes: number
+        }
+        Insert: {
+          added_date?: string
+          category?: string | null
+          compatibility?: Json | null
+          description: string
+          icon?: string | null
+          id?: number
+          links?: Json
+          name: string
+          upvotes?: number
+        }
+        Update: {
+          added_date?: string
+          category?: string | null
+          compatibility?: Json | null
+          description?: string
+          icon?: string | null
+          id?: number
+          links?: Json
+          name?: string
+          upvotes?: number
+        }
+        Relationships: []
+      }
+      users: {
+        Row: {
+          created_at: string
+          id: string
+          username: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          username: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          username?: string
+        }
+        Relationships: []
       }
     }
     Views: {
-      attendees_with_group: {
-        Row: {
-          attendee: string | null
-          group: number | null
-          metadata: Json | null
-          with_code: string | null
-        }
-        Insert: {
-          attendee?: string | null
-          group?: never
-          metadata?: Json | null
-          with_code?: string | null
-        }
-        Update: {
-          attendee?: string | null
-          group?: never
-          metadata?: Json | null
-          with_code?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "attendees_attendee_fkey"
-            columns: ["attendee"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "attendees_with_code_fkey"
-            columns: ["with_code"]
-            isOneToOne: false
-            referencedRelation: "groups"
-            referencedColumns: ["code"]
-          }
-        ]
-      }
+      [_ in never]: never
     }
     Functions: {
-      bool2str: {
-        Args: {
-          input_bool: boolean
-        }
-        Returns: string
-      }
-      delete_expired_codes: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      end_session: {
-        Args: {
-          attendance_code: string
-        }
-        Returns: undefined
-      }
-      is_joinable: {
-        Args: {
-          join_code: string
-        }
-        Returns: boolean
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
@@ -255,83 +172,114 @@ export interface Database {
   }
 }
 
+type DefaultSchema = Database[Extract<keyof Database, "public">]
+
 export type Tables<
-  PublicTableNameOrOptions extends
-    | keyof (Database["public"]["Tables"] & Database["public"]["Views"])
+  DefaultSchemaTableNameOrOptions extends
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-        Database[PublicTableNameOrOptions["schema"]]["Views"])
-    : never = never
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
-      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      Database[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : PublicTableNameOrOptions extends keyof (Database["public"]["Tables"] &
-      Database["public"]["Views"])
-  ? (Database["public"]["Tables"] &
-      Database["public"]["Views"])[PublicTableNameOrOptions] extends {
-      Row: infer R
-    }
-    ? R
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
     : never
-  : never
 
 export type TablesInsert<
-  PublicTableNameOrOptions extends
-    | keyof Database["public"]["Tables"]
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Insert: infer I
-    }
-    ? I
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
     : never
-  : never
 
 export type TablesUpdate<
-  PublicTableNameOrOptions extends
-    | keyof Database["public"]["Tables"]
+  DefaultSchemaTableNameOrOptions extends
+    | keyof DefaultSchema["Tables"]
     | { schema: keyof Database },
-  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
-    : never = never
-> = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = DefaultSchemaTableNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : PublicTableNameOrOptions extends keyof Database["public"]["Tables"]
-  ? Database["public"]["Tables"][PublicTableNameOrOptions] extends {
-      Update: infer U
-    }
-    ? U
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
     : never
-  : never
 
 export type Enums<
-  PublicEnumNameOrOptions extends
-    | keyof Database["public"]["Enums"]
+  DefaultSchemaEnumNameOrOptions extends
+    | keyof DefaultSchema["Enums"]
     | { schema: keyof Database },
-  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
-    : never = never
-> = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
-  : PublicEnumNameOrOptions extends keyof Database["public"]["Enums"]
-  ? Database["public"]["Enums"][PublicEnumNameOrOptions]
-  : never
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = DefaultSchemaEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof DefaultSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never
+
+export const Constants = {
+  public: {
+    Enums: {},
+  },
+} as const
 

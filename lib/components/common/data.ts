@@ -70,6 +70,7 @@ export interface Software {
   name: string;
   description: string;
   upvotes: number;
+  // downvotes: number;
   icon: LucideIcon; // todo: image url but fall back to icon based on category
   category: Categories;
   addedDate: Date;

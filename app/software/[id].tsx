@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { useSoftware } from "../contexts/SoftwareContext";
-import { useUser } from "../contexts/UserContext";
-import type { Software } from "../types/Software";
+import { useSoftware, useUser } from "@/lib/contexts";
+import type { Software } from "@/lib/components/common/data";
 import {
   Globe,
   Github,
@@ -18,9 +16,11 @@ import {
   AlertCircle,
   Code,
 } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 
 const SoftwareDetailsPage = () => {
-  const { id } = useParams<{ id: string }>();
+  const params = useSearchParams();
+  const id = params.get("id");
   const { getSoftwareById, addToBookmarks, upvoteSoftware, downvoteSoftware } =
     useSoftware();
   const { isLoggedIn } = useUser();
