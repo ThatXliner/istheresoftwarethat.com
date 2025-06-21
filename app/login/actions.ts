@@ -10,7 +10,7 @@ export async function signIn(redirectTo: string | null, formData: FormData) {
   const password = formData.get("password") as string;
   const client = await getServerClient();
 
-  const { data, error } = await client.auth.signInWithPassword({
+  const { error } = await client.auth.signInWithPassword({
     email,
     password,
   });
@@ -24,20 +24,23 @@ export async function signIn(redirectTo: string | null, formData: FormData) {
 
     return redirect(redirectURL.href);
   }
-  const user = data.user;
   return redirect(redirectTo ?? "/");
 }
 export async function signUp(formData: FormData, trial = 3): Promise<never> {
-  const origin = (await headers()).get("origin");
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  const name = formData.get("name") as string;
+  const username = formData.get("username") as string;
 
   const client = await getServerClient();
 
   const { error } = await client.auth.signUp({
     email,
     password,
+    options: {
+      data: {
+        username,
+      },
+    },
   });
   if (error) {
     console.log(error, JSON.stringify(error));

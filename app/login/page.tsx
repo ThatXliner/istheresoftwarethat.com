@@ -1,8 +1,7 @@
 "use client";
-import { useState } from "react";
-import { useUser } from "@/lib/contexts";
+import { useId, useState } from "react";
 import { LogIn, User, Mail } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Password from "./Password";
 import { signIn, signUp } from "./actions";
@@ -10,16 +9,8 @@ import { signIn, signUp } from "./actions";
 const LoginPage = () => {
   const params = useSearchParams();
   const [isLogin, setIsLogin] = useState(true);
-  const { login } = useUser();
-  const router = useRouter();
-  const navigate = router.push;
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Mock authentication - in real app this would call an API
-    login();
-    navigate("/");
-  };
+  const usernameId = useId();
+  const emailId = useId();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center py-12 px-4">
@@ -47,7 +38,7 @@ const LoginPage = () => {
 
           {/* Form */}
           <form
-            onSubmit={
+            action={
               isLogin ? signIn.bind(null, params.get("redirectTo")) : signUp
             }
             className="space-y-6"
@@ -55,7 +46,7 @@ const LoginPage = () => {
             {!isLogin && (
               <div>
                 <label
-                  htmlFor="username"
+                  htmlFor={usernameId}
                   className="block text-sm font-medium text-slate-700 mb-2"
                 >
                   Username
@@ -65,7 +56,7 @@ const LoginPage = () => {
                     <User className="h-5 w-5 text-slate-400" />
                   </div>
                   <input
-                    id="username"
+                    id={usernameId}
                     name="username"
                     type="text"
                     required={!isLogin}
@@ -78,7 +69,7 @@ const LoginPage = () => {
 
             <div>
               <label
-                htmlFor="email"
+                htmlFor={emailId}
                 className="block text-sm font-medium text-slate-700 mb-2"
               >
                 Email Address
@@ -88,7 +79,7 @@ const LoginPage = () => {
                   <Mail className="h-5 w-5 text-slate-400" />
                 </div>
                 <input
-                  id="email"
+                  id={emailId}
                   name="email"
                   type="email"
                   required
