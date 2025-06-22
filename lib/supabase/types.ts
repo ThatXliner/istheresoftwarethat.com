@@ -9,64 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      features: {
-        Row: {
-          description: string
-          id: number
-          software_id: number
-          title: string
-        }
-        Insert: {
-          description: string
-          id?: number
-          software_id: number
-          title: string
-        }
-        Update: {
-          description?: string
-          id?: number
-          software_id?: number
-          title?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fk_features_software"
-            columns: ["software_id"]
-            isOneToOne: false
-            referencedRelation: "software"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      installation_instructions: {
-        Row: {
-          linux: string
-          macos: string
-          software_id: number
-          windows: string
-        }
-        Insert: {
-          linux: string
-          macos: string
-          software_id: number
-          windows: string
-        }
-        Update: {
-          linux?: string
-          macos?: string
-          software_id?: number
-          windows?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "fk_installation_software"
-            columns: ["software_id"]
-            isOneToOne: true
-            referencedRelation: "software"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       reviews: {
         Row: {
           comment: string | null
@@ -120,30 +62,116 @@ export type Database = {
           added_date: string
           category: string | null
           compatibility: Json | null
-          description: string
-          icon: string | null
           id: number
-          links: Json
+          last_updated: string | null
+          license: string | null
           name: string
+          other_details: Json
+          size: number | null
+          tags: string[] | null
+          version: string | null
         }
         Insert: {
           added_date?: string
           category?: string | null
           compatibility?: Json | null
-          description: string
-          icon?: string | null
           id?: number
-          links?: Json
+          last_updated?: string | null
+          license?: string | null
           name: string
+          other_details?: Json
+          size?: number | null
+          tags?: string[] | null
+          version?: string | null
         }
         Update: {
           added_date?: string
           category?: string | null
           compatibility?: Json | null
-          description?: string
-          icon?: string | null
           id?: number
-          links?: Json
+          last_updated?: string | null
+          license?: string | null
+          name?: string
+          other_details?: Json
+          size?: number | null
+          tags?: string[] | null
+          version?: string | null
+        }
+        Relationships: []
+      }
+      software_stats: {
+        Row: {
+          contributors: number | null
+          downloads: number
+          github_stars: number | null
+          issues: number | null
+          software_id: number
+        }
+        Insert: {
+          contributors?: number | null
+          downloads: number
+          github_stars?: number | null
+          issues?: number | null
+          software_id: number
+        }
+        Update: {
+          contributors?: number | null
+          downloads?: number
+          github_stars?: number | null
+          issues?: number | null
+          software_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_stats_software"
+            columns: ["software_id"]
+            isOneToOne: true
+            referencedRelation: "software"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      software_tags: {
+        Row: {
+          software_id: number
+          tag_id: number
+        }
+        Insert: {
+          software_id: number
+          tag_id: number
+        }
+        Update: {
+          software_id?: number
+          tag_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "software_tags_software_id_fkey"
+            columns: ["software_id"]
+            isOneToOne: false
+            referencedRelation: "software"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "software_tags_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tags: {
+        Row: {
+          id: number
+          name: string
+        }
+        Insert: {
+          id?: number
+          name: string
+        }
+        Update: {
+          id?: number
           name?: string
         }
         Relationships: []

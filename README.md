@@ -16,3 +16,11 @@ hook up
 - being able to add software
 - fix recently added and Featured Software
 - "compare"
+
+
+
+
+## Philosophy and architecture
+
+- Database for all things searchable (includes tags)
+- metadata json for other thigns
