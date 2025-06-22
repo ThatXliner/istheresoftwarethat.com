@@ -8,15 +8,14 @@ import { useSearchParams } from "next/navigation";
 import SoftwareCard from "./SoftwareCard";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createClient } from "@/lib/supabase/client";
+import { getSoftwareList } from "@/lib/queries";
 
 export default function Client({ initialData }: { initialData: Software[] }) {
   const { data: software } = useSuspenseQuery<Software[]>({
     queryKey: ["software"],
     queryFn: async () => {
       const client = await createClient();
-      return softwareSchema
-        .array()
-        .parse(await client.from("software").select("*"));
+      return softwareSchema.array().parse(await getSoftwareList(client));
     },
     initialData,
   });
