@@ -1,10 +1,23 @@
 import { Suspense } from "react";
-import { useParams } from "next/navigation";
 import DetailsComponent from "../DetailsComponent";
+import { createClient } from "@/lib/supabase/server";
+import { softwareSchema } from "@/lib/components/common/data";
 
-const SoftwareDetailsPage = () => {
-  const params = useParams();
-  const id = params.id as string;
+export default async function SoftwareDetailsPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+  const client = await createClient();
+  const { data: software, error } = client
+    .from("software")
+    .select("*")
+    .eq("id", id)
+    .single();
+  if (error) {
+    throw error;
+  }
   return (
     <Suspense
       fallback={
@@ -18,9 +31,7 @@ const SoftwareDetailsPage = () => {
         </div>
       }
     >
-      <DetailsComponent id={id} />
+      <DetailsComponent software={softwareSchema.parse(software)} />
     </Suspense>
   );
-};
-
-export default SoftwareDetailsPage;
+}

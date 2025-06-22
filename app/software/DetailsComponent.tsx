@@ -1,4 +1,5 @@
-import { use, useState } from "react";
+"use client";
+import { useState } from "react";
 
 import Link from "next/link";
 import {
@@ -29,6 +30,7 @@ import {
   Monitor,
   Laptop,
 } from "lucide-react";
+import { Software } from "@/lib/components/common/data";
 // Enhanced mock data for detailed software view
 const mockSoftwareDetails = {
   "1": {
@@ -257,17 +259,8 @@ const mockSoftwareDetails = {
   },
 };
 // mock for now
-async function fetchSoftwareDetails(id: string) {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const mockData =
-        mockSoftwareDetails[id as keyof typeof mockSoftwareDetails];
-      resolve(mockData || null);
-    }, 500);
-  });
-}
-export default function DetailsComponent({ id }: { id: string }) {
-  const software = use(fetchSoftwareDetails(id));
+
+export default function DetailsComponent({ software }: { software: Software }) {
   const [activeTab, setActiveTab] = useState("overview");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
