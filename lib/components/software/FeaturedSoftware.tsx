@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Star, ExternalLink } from "lucide-react";
-import { featuredSoftware } from "../common/data";
+const featuredSoftware = [];
 
 // Mock featured software data
 

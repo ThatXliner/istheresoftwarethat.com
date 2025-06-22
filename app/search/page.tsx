@@ -7,7 +7,7 @@ export default async function Page() {
   const { data: software, error } = await supabase
     .from("software")
     .select(
-      "name, description, id, added_date, category, compatibility, reviews (username, date, comment, helpful_count, is_upvote, stars)",
+      "name, description, icon, id, added_date, category, compatibility, reviews (username, date, comment, helpful_count, is_upvote, stars)",
     );
   if (error) {
     throw error;

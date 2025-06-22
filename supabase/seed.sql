@@ -1,12 +1,12 @@
 INSERT INTO public.software (id, name, description, category, added_date, compatibility, icon, links) VALUES
-    (1, 'VS Code', 'can edit code with powerful extensions and Git integration?', 'Development', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://code.visualstudio.com"}'),
-    (2, 'GIMP', 'can edit images professionally?', 'Design', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.gimp.org"}'),
-    (3, 'Blender', 'can create 3D models, animations, and renders?', 'Media', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.blender.org"}'),
-    (4, 'LibreOffice', 'can replace Microsoft Office?', 'Productivity', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.libreoffice.org"}'),
-    (5, 'Obsidian', 'can help manage knowledge with linked notes?', 'Productivity', '2025-01-02T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://obsidian.md"}'),
-    (6, 'Figma', 'can design interfaces collaboratively?', 'Design', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.figma.com"}'),
-    (7, 'Discord', 'can help me chat and hang out with my communities?', 'Communication', '2024-12-30T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://discord.com"}'),
-    (8, 'OBS Studio', 'can record my screen and stream live?', 'Media', '2024-12-28T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://obsproject.com"}');
+    (1, 'VS Code', 'can edit code with powerful extensions and Git integration', 'Development', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://code.visualstudio.com"}'),
+    (2, 'GIMP', 'can edit images professionally', 'Design', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.gimp.org"}'),
+    (3, 'Blender', 'can create 3D models, animations, and renders', 'Media', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.blender.org"}'),
+    (4, 'LibreOffice', 'can replace Microsoft Office', 'Productivity', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.libreoffice.org"}'),
+    (5, 'Obsidian', 'can help manage knowledge with linked notes', 'Productivity', '2025-01-02T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://obsidian.md"}'),
+    (6, 'Figma', 'can design interfaces collaboratively', 'Design', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.figma.com"}'),
+    (7, 'Discord', 'can help me chat and hang out with my communities', 'Communication', '2024-12-30T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://discord.com"}'),
+    (8, 'OBS Studio', 'can record my screen and stream live', 'Media', '2024-12-28T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://obsproject.com"}');
    
 INSERT INTO public.installation_instructions (software_id, windows, macos, linux) VALUES
     (1, 'Download from https://code.visualstudio.com and run the installer.', 'Install via Homebrew: brew install --cask visual-studio-code', 'Use Snap: sudo snap install code --classic'),
@@ -80,7 +80,7 @@ WITH random_reviews AS (
     WHERE
         random() < 0.2 -- Limit number of reviews
 )
-INSERT INTO public.reviews (software_id, username, date, comment, helpful_count, is_upvote, stars)
+INSERT INTO public.reviews (software_id, username, date, comment, helpful_count, stars, is_upvote)
 SELECT
     software_id,
     username,
@@ -95,10 +95,11 @@ SELECT
         ELSE NULL
     END AS helpful_count,
     CASE 
+        WHEN mode_selector < 0.5 THEN floor(random() * 5 + 1)
+        ELSE NULL
+    END AS stars,
+    CASE 
         WHEN mode_selector >= 0.5 THEN upvote_selector < 0.7
         ELSE NULL
-    END AS is_upvote,
-    CASE 
-        WHEN mode_selector >= 0.5 THEN floor(random() * 5 + 1)
-        ELSE NULL
-    END AS stars FROM random_reviews;
+    END AS is_upvote
+FROM random_reviews;

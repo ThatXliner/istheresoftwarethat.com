@@ -1,6 +1,6 @@
 import { Clock, ExternalLink } from "lucide-react";
-import { recentAdditions } from "../common/data";
 import Link from "next/link";
+const recentAdditions = [];
 const RecentAdditions = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -69,28 +69,34 @@ export type Database = {
       }
       reviews: {
         Row: {
-          comment: string
+          comment: string | null
           date: string
+          helpful_count: number | null
           id: number
-          is_upvote: boolean
+          is_upvote: boolean | null
           software_id: number
-          username: string
+          stars: number | null
+          username: string | null
         }
         Insert: {
-          comment: string
-          date: string
+          comment?: string | null
+          date?: string
+          helpful_count?: number | null
           id?: number
-          is_upvote: boolean
+          is_upvote?: boolean | null
           software_id: number
-          username: string
+          stars?: number | null
+          username?: string | null
         }
         Update: {
-          comment?: string
+          comment?: string | null
           date?: string
+          helpful_count?: number | null
           id?: number
-          is_upvote?: boolean
+          is_upvote?: boolean | null
           software_id?: number
-          username?: string
+          stars?: number | null
+          username?: string | null
         }
         Relationships: [
           {
@@ -99,6 +105,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "software"
             referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_username_fkey"
+            columns: ["username"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["username"]
           },
         ]
       }
@@ -112,7 +125,6 @@ export type Database = {
           id: number
           links: Json
           name: string
-          upvotes: number
         }
         Insert: {
           added_date?: string
@@ -123,7 +135,6 @@ export type Database = {
           id?: number
           links?: Json
           name: string
-          upvotes?: number
         }
         Update: {
           added_date?: string
@@ -134,7 +145,6 @@ export type Database = {
           id?: number
           links?: Json
           name?: string
-          upvotes?: number
         }
         Relationships: []
       }

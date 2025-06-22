@@ -11,6 +11,13 @@ import {
   Wrench,
   type LucideIcon,
 } from "lucide-react";
+import {
+  DynamicIcon,
+  dynamicIconImports,
+  IconName,
+} from "lucide-react/dynamic";
+import Image from "next/image";
+import { createElement } from "react";
 import * as z from "zod/v4";
 export const compatibilitySchema = z.object({
   windows: z.boolean(),
@@ -34,28 +41,36 @@ export const featureSchema = z.object({
   description: z.string(),
 });
 // XXX: Should use discriminated unions
-export const reviewSchema = z.union([
-  z.object({
-    is_upvote: z.boolean(),
-
-    helpful_count: z.null(),
-    stars: z.null(),
-    comment: z.null(),
-
-    username: z.string(),
-    date: z.string(),
+export const reviewSchema = z.preprocess(
+  (data: { is_upvote: null | boolean }) => ({
+    ...data,
+    type: data.is_upvote !== null ? "upvote" : "review",
   }),
-  z.object({
-    is_upvote: z.null(),
+  z.discriminatedUnion("type", [
+    z.object({
+      type: z.literal("upvote"),
+      is_upvote: z.boolean(),
 
-    helpful_count: z.number(),
-    stars: z.number().min(1).max(5),
-    comment: z.string(),
+      helpful_count: z.null(),
+      stars: z.null(),
+      comment: z.null(),
 
-    username: z.string(),
-    date: z.string(),
-  }),
-]);
+      username: z.string(),
+      date: z.string(),
+    }),
+    z.object({
+      type: z.literal("review"),
+      is_upvote: z.null(),
+
+      helpful_count: z.number(),
+      stars: z.number().min(1).max(5),
+      comment: z.string(),
+
+      username: z.string(),
+      date: z.string(),
+    }),
+  ]),
+);
 
 export const categorySchema = z.enum([
   "Development",
@@ -72,8 +87,9 @@ export const softwareSchema = z.object({
   id: z.number(),
   name: z.string(),
   description: z.string(),
-  icon: z.any(), // LucideIcon type
+  icon: z.enum(Object.keys(dynamicIconImports) as IconName[]).nullable(),
   category: categorySchema,
+  // for some reason iso.datetime() doesn't work
   added_date: z.string().transform((date) => new Date(date)),
   compatibility: compatibilitySchema,
   links: linksSchema.optional(),
@@ -85,8 +101,6 @@ export const softwareSchema = z.object({
 export type Category = { name: string; icon: LucideIcon; color: string };
 export type Compatibility = z.infer<typeof compatibilitySchema>;
 export type Software = z.infer<typeof softwareSchema>;
-const reviewsSchema = reviewSchema.array();
-export type Reviews = z.infer<typeof reviewsSchema>;
 
 export const categories: Category[] = [
   { name: "Development", icon: Code, color: "blue" },
