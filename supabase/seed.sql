@@ -6,7 +6,7 @@ INSERT INTO public.software (id, name, description, upvotes, category, added_dat
     (5, 'Obsidian', 'can help manage knowledge with linked notes?', 69, 'Productivity', '2025-01-02T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://obsidian.md"}'),
     (6, 'Figma', 'can design interfaces collaboratively?', 69, 'Design', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.figma.com"}'),
     (7, 'Discord', 'can help me chat and hang out with my communities?', 69, 'Communication', '2024-12-30T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://discord.com"}'),
-    (8, 'OBS Studio', 'can record my screen and stream live?', 69, 'Media', '2024-12-28T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://obsproject.com"}')
+    (8, 'OBS Studio', 'can record my screen and stream live?', 69, 'Media', '2024-12-28T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://obsproject.com"}');
    
 INSERT INTO public.installation_instructions (software_id, windows, macos, linux) VALUES
     (1, 'Download from https://code.visualstudio.com and run the installer.', 'Install via Homebrew: brew install --cask visual-studio-code', 'Use Snap: sudo snap install code --classic'),
