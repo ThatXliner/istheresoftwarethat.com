@@ -1,5 +1,6 @@
 import type { Software } from "@/lib/components/common/data";
-import { Star, ExternalLink, Calendar, Award } from "lucide-react";
+import { Star, ExternalLink, Calendar, Award, Code } from "lucide-react";
+import { DynamicIcon } from "lucide-react/dynamic";
 export default function SoftwareCard({ software }: { software: Software }) {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-slate-100 overflow-hidden transition-all duration-300 hover:shadow-md hover:scale-[1.02] group">
@@ -8,7 +9,14 @@ export default function SoftwareCard({ software }: { software: Software }) {
         {/* Icon and Category */}
         <div className="flex items-center justify-between mb-4">
           <div className="bg-blue-100 p-3 rounded-lg group-hover:scale-110 transition-transform duration-300">
-            <software.icon className="w-6 h-6 text-blue-600" />
+            {software.icon === null ? (
+              <Code className="w-6 h-6" />
+            ) : (
+              <DynamicIcon
+                name={software.icon}
+                className="w-6 h-6 text-blue-600"
+              />
+            )}
           </div>
           <span className="bg-slate-100 text-slate-700 px-2 py-1 rounded-full text-xs font-medium">
             {software.category}

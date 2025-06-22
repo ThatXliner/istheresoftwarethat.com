@@ -4,9 +4,8 @@ import "./globals.css";
 import Header from "./Header";
 import Footer from "./Footer";
 // import DataProviders from "./DataProviders";
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
-
+import { createClient } from "@/lib/supabase/server";
+import Providers from "./providers";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -27,8 +26,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const client = createClient(cookieStore);
+  const client = await createClient();
   const { data, error } = await client.auth.getUser();
   return (
     <html lang="en">
@@ -36,11 +34,11 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <div className="flex flex-col min-h-screen bg-slate-50">
-          {/* <DataProviders> */}
-          <Header isLoggedIn={!(error || !data?.user)} />
-          <main className="flex-grow">{children}</main>
-          {/* </DataProviders> */}
-          <Footer />
+          <Providers>
+            <Header isLoggedIn={!(error || !data?.user)} />
+            <main className="flex-grow">{children}</main>
+            <Footer />
+          </Providers>
         </div>
       </body>
     </html>

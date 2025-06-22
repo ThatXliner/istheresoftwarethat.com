@@ -1,5 +1,4 @@
-"use client";
-import { useState, useEffect, Suspense } from "react";
+import { Suspense } from "react";
 import { useParams } from "next/navigation";
 import DetailsComponent from "../DetailsComponent";
 
