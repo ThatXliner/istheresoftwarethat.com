@@ -12,7 +12,6 @@ export default async function Page() {
   if (error) {
     throw error;
   }
-  console.log(software);
 
   // Awaiting here would implicitly suspend the component (so we don't need create our own <Suspense> wrapper)
   return <Client initialData={softwareSchema.array().parse(software)} />;

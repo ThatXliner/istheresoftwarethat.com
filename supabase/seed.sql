@@ -66,31 +66,39 @@ SELECT username
 FROM user_data;
 
 
--- Generate random reviews for each software
 WITH random_reviews AS (
     SELECT
         s.id AS software_id,
         u.username,
         NOW() - (interval '1 day' * (random() * 365)) AS date,
-        CASE WHEN random() < 0.5 THEN NULL ELSE
-            (ARRAY['Great software!', 'Needs improvement.', 'Highly recommended!', 'Not user-friendly.', 'Excellent features!', 'Buggy at times.', 'Worth the price.', 'Free and amazing!'])[floor(random() * 8 + 1)] END AS comment,
-        CASE WHEN random() < 0.5 THEN NULL ELSE (random() < 0.7) END AS is_upvote,
-        CASE WHEN random() < 0.5 THEN NULL ELSE floor(random() * 5 + 1) END AS stars,
-        CASE WHEN random() < 0.5 THEN NULL ELSE floor(random() * 100) END AS helpful_count
+        -- Generate one random value to choose mode per row
+        random() AS mode_selector,
+        random() AS upvote_selector
     FROM
         public.software s,
         public.users u
     WHERE
-        random() < 0.2 -- Adjust probability to control the number of reviews per user/software
+        random() < 0.2 -- Limit number of reviews
 )
-INSERT INTO public.reviews (software_id, username, date, comment, is_upvote, stars, helpful_count)
+INSERT INTO public.reviews (software_id, username, date, comment, helpful_count, is_upvote, stars)
 SELECT
     software_id,
     username,
     date,
-    comment,
-    is_upvote,
-    stars,
-    helpful_count
-FROM
-    random_reviews;
+    CASE 
+        WHEN mode_selector < 0.5 THEN
+            (ARRAY['Great software!', 'Needs improvement.', 'Highly recommended!', 'Not user-friendly.', 'Excellent features!', 'Buggy at times.', 'Worth the price.', 'Free and amazing!'])[floor(random() * 8 + 1)]
+        ELSE NULL
+    END AS comment,
+    CASE 
+        WHEN mode_selector < 0.5 THEN floor(random() * 100)
+        ELSE NULL
+    END AS helpful_count,
+    CASE 
+        WHEN mode_selector >= 0.5 THEN upvote_selector < 0.7
+        ELSE NULL
+    END AS is_upvote,
+    CASE 
+        WHEN mode_selector >= 0.5 THEN floor(random() * 5 + 1)
+        ELSE NULL
+    END AS stars FROM random_reviews;
