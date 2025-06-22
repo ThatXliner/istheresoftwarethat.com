@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, User, LogIn, GitCompare, BookmarkCheck } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

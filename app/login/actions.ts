@@ -1,6 +1,6 @@
 "use server";
 
-import { getServerClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 export async function signIn(redirectTo: string | null, formData: FormData) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  const client = await getServerClient();
+  const client = await createClient();
 
   const { error } = await client.auth.signInWithPassword({
     email,
@@ -31,7 +31,7 @@ export async function signUp(formData: FormData, trial = 3): Promise<never> {
   const password = formData.get("password") as string;
   const username = formData.get("username") as string;
 
-  const client = await getServerClient();
+  const client = await createClient();
 
   const { error } = await client.auth.signUp({
     email,

@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "update-types": "supabase gen types typescript --local --schema public > utils/supabase/types.ts"
+    "update-types": "supabase gen types typescript --local --schema public > lib/supabase/types.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",
@@ -17,7 +17,8 @@
     "lucide-react": "^0.514.0",
     "next": "15.3.3",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@biomejs/biome": "2.0.4",

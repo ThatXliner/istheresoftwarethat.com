@@ -1,12 +1,13 @@
-INSERT INTO public.software (id, name, description, upvotes, category, added_date, compatibility, icon) VALUES
-    (1, 'VS Code', 'Powerful, lightweight code editor with extensive extension support', 1250, 'Development', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL),
-    (2, 'GIMP', 'Professional image editing software with advanced features', 980, 'Design', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL),
-    (3, 'Blender', '3D creation suite for modeling, animation, and rendering', 1420, 'Media', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL),
-    (4, 'LibreOffice', 'Complete office suite with word processing, spreadsheets, and presentations', 890, 'Productivity', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL),
-    (5, 'Obsidian', 'Knowledge management app with powerful linking and note-taking features', 69, 'Productivity', '2025-01-02T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL),
-    (6, 'Figma', 'Collaborative interface design tool with real-time collaboration', 69, 'Design', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL),
-    (7, 'Discord', 'Voice, video and text communication platform for communities', 69, 'Communication', '2024-12-30T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL),
-    (8, 'OBS Studio', 'Free and open source software for video recording and live streaming', 69, 'Media', '2024-12-28T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL);
+INSERT INTO public.software (id, name, description, upvotes, category, added_date, compatibility, icon, links) VALUES
+    (1, 'VS Code', 'can edit code with powerful extensions and Git integration?', 1250, 'Development', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://code.visualstudio.com"}'),
+    (2, 'GIMP', 'can edit images professionally?', 980, 'Design', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.gimp.org"}'),
+    (3, 'Blender', 'can create 3D models, animations, and renders?', 1420, 'Media', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.blender.org"}'),
+    (4, 'LibreOffice', 'can replace Microsoft Office?', 890, 'Productivity', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.libreoffice.org"}'),
+    (5, 'Obsidian', 'can help manage knowledge with linked notes?', 69, 'Productivity', '2025-01-02T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://obsidian.md"}'),
+    (6, 'Figma', 'can design interfaces collaboratively?', 69, 'Design', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.figma.com"}'),
+    (7, 'Discord', 'can help me chat and hang out with my communities?', 69, 'Communication', '2024-12-30T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://discord.com"}'),
+    (8, 'OBS Studio', 'can record my screen and stream live?', 69, 'Media', '2024-12-28T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://obsproject.com"}')
+   
 INSERT INTO public.installation_instructions (software_id, windows, macos, linux) VALUES
     (1, 'Download from https://code.visualstudio.com and run the installer.', 'Install via Homebrew: brew install --cask visual-studio-code', 'Use Snap: sudo snap install code --classic'),
     (2, 'Download the installer from gimp.org.', 'Use Homebrew: brew install --cask gimp', 'Use apt: sudo apt install gimp'),

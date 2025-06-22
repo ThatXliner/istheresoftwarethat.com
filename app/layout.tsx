@@ -4,8 +4,7 @@ import "./globals.css";
 import Header from "./Header";
 import Footer from "./Footer";
 // import DataProviders from "./DataProviders";
-import { createClient } from "@/utils/supabase/server";
-import { cookies } from "next/headers";
+import { createClient } from "@/lib/supabase/server";
 import Providers from "./providers";
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,8 +26,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const client = createClient(cookieStore);
+  const client = await createClient();
   const { data, error } = await client.auth.getUser();
   return (
     <html lang="en">

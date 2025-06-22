@@ -11,11 +11,67 @@ import {
   Wrench,
   type LucideIcon,
 } from "lucide-react";
-interface Category {
-  name: string;
-  icon: LucideIcon;
-  color: string;
-}
+import * as z from "zod/v4";
+export const compatibilitySchema = z.object({
+  windows: z.boolean(),
+  macos: z.boolean(),
+  linux: z.boolean(),
+});
+
+export const linksSchema = z.object({
+  website: z.url(),
+  github: z.url().optional(),
+});
+
+export const installationInstructionsSchema = z.object({
+  windows: z.string(),
+  macos: z.string(),
+  linux: z.string(),
+});
+
+export const featureSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+});
+
+export const reviewSchema = z.object({
+  username: z.string(),
+  date: z.string(),
+  comment: z.string(),
+  helpful: z.number(),
+  isUpvote: z.boolean(),
+});
+
+export const categorySchema = z.enum([
+  "Development",
+  "Design",
+  "Communication",
+  "Productivity",
+  "Media",
+  "Security",
+  "Utilities",
+  "Education",
+]);
+
+export const softwareSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  description: z.string(),
+  upvotes: z.number(),
+  icon: z.any(), // LucideIcon type
+  category: categorySchema,
+  added_date: z.string().transform((date) => new Date(date)),
+  compatibility: compatibilitySchema,
+  links: linksSchema.optional(),
+  installationInstructions: installationInstructionsSchema.optional(),
+  features: z.array(featureSchema).optional(),
+  reviews: z.array(reviewSchema),
+});
+
+export type Category = { name: string; icon: LucideIcon; color: string };
+export type Compatibility = z.infer<typeof compatibilitySchema>;
+export type Software = z.infer<typeof softwareSchema>;
+
 export const categories: Category[] = [
   { name: "Development", icon: Code, color: "blue" },
   { name: "Design", icon: Palette, color: "purple" },
@@ -27,61 +83,6 @@ export const categories: Category[] = [
   { name: "Education", icon: GraduationCap, color: "emerald" },
 ];
 
-// Um there has to be a smarter, more dynamic way to do this
-export type Categories =
-  | "Development"
-  | "Design"
-  | "Communication"
-  | "Productivity"
-  | "Media"
-  | "Security"
-  | "Utilities"
-  | "Education";
-
-export interface Compatibility {
-  windows: boolean;
-  macos: boolean;
-  linux: boolean;
-}
-
-export interface Links {
-  website: string;
-  github?: string;
-}
-
-export interface InstallationInstructions {
-  windows: string;
-  macos: string;
-  linux: string;
-}
-export interface Feature {
-  title: string;
-  description: string;
-}
-
-export interface Review {
-  username: string;
-  date: string;
-  comment: string;
-  helpful: number;
-  isUpvote: boolean;
-}
-export interface Software {
-  id: number;
-  name: string;
-  description: string;
-  upvotes: number;
-  // downvotes: number;
-  icon: LucideIcon; // todo: image url but fall back to icon based on category
-  category: Categories;
-  addedDate: Date;
-  compatibility: Compatibility;
-  links?: Links;
-  installationInstructions?: InstallationInstructions;
-  features?: Feature[];
-  reviews: Review[];
-  // TODO: License, platform, readme link, download method, etc
-}
 export const ALL_PLATFORMS: Compatibility = {
   linux: true,
   macos: true,
@@ -97,7 +98,7 @@ export const featuredSoftware: Software[] = [
     category: "Development",
     upvotes: 1250,
     icon: Code,
-    addedDate: new Date("2025-01-01"),
+    added_date: new Date("2025-01-01"),
     compatibility: ALL_PLATFORMS,
     reviews: [],
   },
@@ -108,7 +109,7 @@ export const featuredSoftware: Software[] = [
     category: "Design",
     upvotes: 980,
     icon: Code,
-    addedDate: new Date("2025-01-01"),
+    added_date: new Date("2025-01-01"),
     compatibility: ALL_PLATFORMS,
     reviews: [],
   },
@@ -119,7 +120,7 @@ export const featuredSoftware: Software[] = [
     category: "Media",
     upvotes: 1420,
     icon: Code,
-    addedDate: new Date("2025-01-01"),
+    added_date: new Date("2025-01-01"),
     compatibility: ALL_PLATFORMS,
     reviews: [],
   },
@@ -131,7 +132,7 @@ export const featuredSoftware: Software[] = [
     category: "Productivity",
     upvotes: 890,
     icon: Code,
-    addedDate: new Date("2025-01-01"),
+    added_date: new Date("2025-01-01"),
     compatibility: ALL_PLATFORMS,
     reviews: [],
   },
@@ -145,7 +146,7 @@ export const recentAdditions: Software[] = [
     description:
       "Knowledge management app with powerful linking and note-taking features",
     category: "Productivity",
-    addedDate: new Date("2025-01-02"),
+    added_date: new Date("2025-01-02"),
     icon: Code,
     upvotes: 69,
     compatibility: ALL_PLATFORMS,
@@ -157,7 +158,7 @@ export const recentAdditions: Software[] = [
     description:
       "Collaborative interface design tool with real-time collaboration",
     category: "Design",
-    addedDate: new Date("2025-01-01"),
+    added_date: new Date("2025-01-01"),
     icon: Figma,
     upvotes: 69,
     compatibility: ALL_PLATFORMS,
@@ -168,7 +169,7 @@ export const recentAdditions: Software[] = [
     name: "Discord",
     description: "Voice, video and text communication platform for communities",
     category: "Communication",
-    addedDate: new Date("2024-12-30"),
+    added_date: new Date("2024-12-30"),
     icon: MessageSquare,
     upvotes: 69,
     compatibility: ALL_PLATFORMS,
@@ -180,7 +181,7 @@ export const recentAdditions: Software[] = [
     description:
       "Free and open source software for video recording and live streaming",
     category: "Media",
-    addedDate: new Date("2024-12-28"),
+    added_date: new Date("2024-12-28"),
     icon: Video,
     upvotes: 69,
     compatibility: ALL_PLATFORMS,
