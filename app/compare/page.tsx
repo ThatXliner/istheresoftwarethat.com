@@ -31,7 +31,8 @@ const mockCompareData = {
   "1": {
     id: "1",
     name: "VS Code",
-    shortDescription: "Powerful, lightweight code editor with extensive extension support",
+    shortDescription:
+      "Powerful, lightweight code editor with extensive extension support",
     category: "Development",
     rating: 4.8,
     upvotes: 1250,
@@ -49,17 +50,17 @@ const mockCompareData = {
       "Integrated Terminal",
       "Multi-cursor Editing",
       "Live Share",
-      "Code Refactoring"
+      "Code Refactoring",
     ],
     pros: [
       "Excellent extension ecosystem",
       "Fast and lightweight",
       "Great Git integration",
-      "Active development"
+      "Active development",
     ],
     cons: [
       "Can be resource-heavy with many extensions",
-      "Learning curve for advanced features"
+      "Learning curve for advanced features",
     ],
     pricing: "Free",
     website: "https://code.visualstudio.com",
@@ -69,12 +70,13 @@ const mockCompareData = {
     learningCurve: "Easy",
     performance: "Excellent",
     customization: "High",
-    support: "Excellent"
+    support: "Excellent",
   },
   "2": {
     id: "2",
     name: "GIMP",
-    shortDescription: "Professional image editing software with advanced features",
+    shortDescription:
+      "Professional image editing software with advanced features",
     category: "Design",
     rating: 4.2,
     upvotes: 980,
@@ -92,18 +94,18 @@ const mockCompareData = {
       "Color Management",
       "Digital Painting",
       "Batch Processing",
-      "RAW Support"
+      "RAW Support",
     ],
     pros: [
       "Completely free alternative to Photoshop",
       "Powerful editing capabilities",
       "Extensive plugin ecosystem",
-      "Cross-platform support"
+      "Cross-platform support",
     ],
     cons: [
       "Steep learning curve",
       "Interface can be overwhelming",
-      "Some advanced features missing"
+      "Some advanced features missing",
     ],
     pricing: "Free",
     website: "https://www.gimp.org",
@@ -113,12 +115,13 @@ const mockCompareData = {
     learningCurve: "Hard",
     performance: "Good",
     customization: "High",
-    support: "Good"
+    support: "Good",
   },
   "3": {
     id: "3",
     name: "Blender",
-    shortDescription: "3D creation suite for modeling, animation, and rendering",
+    shortDescription:
+      "3D creation suite for modeling, animation, and rendering",
     category: "Media",
     rating: 4.7,
     upvotes: 1420,
@@ -136,18 +139,18 @@ const mockCompareData = {
       "Video Editing",
       "Game Engine",
       "Python Scripting",
-      "VR Support"
+      "VR Support",
     ],
     pros: [
       "Industry-standard 3D software",
       "Completely free and open source",
       "Regular updates and improvements",
-      "Huge community and tutorials"
+      "Huge community and tutorials",
     ],
     cons: [
       "Very steep learning curve",
       "Resource intensive",
-      "Complex interface for beginners"
+      "Complex interface for beginners",
     ],
     pricing: "Free",
     website: "https://www.blender.org",
@@ -157,8 +160,8 @@ const mockCompareData = {
     learningCurve: "Very Hard",
     performance: "Excellent",
     customization: "Very High",
-    support: "Excellent"
-  }
+    support: "Excellent",
+  },
 };
 
 const allSoftwareOptions = [
@@ -185,7 +188,9 @@ const ComparePage = () => {
       const ids = searchParams.getAll("ids");
       if (ids.length === 0) return;
 
-      const items = ids.map(id => mockCompareData[id as keyof typeof mockCompareData]).filter(Boolean);
+      const items = ids
+        .map((id) => mockCompareData[id as keyof typeof mockCompareData])
+        .filter(Boolean);
       setCompareItems(items);
     };
 
@@ -199,12 +204,16 @@ const ComparePage = () => {
     setIsLoading(true);
     // Simulate search
     setTimeout(() => {
-      const results = allSoftwareOptions.filter(
-        item => 
-          item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchQuery.toLowerCase())
-      ).filter(item => !compareItems.some(compare => compare.id === item.id));
-      
+      const results = allSoftwareOptions
+        .filter(
+          (item) =>
+            item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.description.toLowerCase().includes(searchQuery.toLowerCase()),
+        )
+        .filter(
+          (item) => !compareItems.some((compare) => compare.id === item.id),
+        );
+
       setSearchResults(results);
       setShowSearchResults(true);
       setIsLoading(false);
@@ -214,7 +223,8 @@ const ComparePage = () => {
   const addToCompare = (softwareOption: any) => {
     if (compareItems.length >= 3) return;
 
-    const fullSoftware = mockCompareData[softwareOption.id as keyof typeof mockCompareData];
+    const fullSoftware =
+      mockCompareData[softwareOption.id as keyof typeof mockCompareData];
     if (fullSoftware) {
       setCompareItems([...compareItems, fullSoftware]);
     }
@@ -223,21 +233,31 @@ const ComparePage = () => {
   };
 
   const removeFromCompare = (softwareId: string) => {
-    setCompareItems(compareItems.filter(item => item.id !== softwareId));
+    setCompareItems(compareItems.filter((item) => item.id !== softwareId));
   };
 
   const getScoreColor = (score: string) => {
     switch (score) {
-      case "Excellent": return "text-green-600 bg-green-100";
-      case "Very High": return "text-green-600 bg-green-100";
-      case "Good": return "text-blue-600 bg-blue-100";
-      case "High": return "text-blue-600 bg-blue-100";
-      case "Medium": return "text-yellow-600 bg-yellow-100";
-      case "Easy": return "text-green-600 bg-green-100";
-      case "Hard": return "text-orange-600 bg-orange-100";
-      case "Very Hard": return "text-red-600 bg-red-100";
-      case "Large": return "text-green-600 bg-green-100";
-      default: return "text-slate-600 bg-slate-100";
+      case "Excellent":
+        return "text-green-600 bg-green-100";
+      case "Very High":
+        return "text-green-600 bg-green-100";
+      case "Good":
+        return "text-blue-600 bg-blue-100";
+      case "High":
+        return "text-blue-600 bg-blue-100";
+      case "Medium":
+        return "text-yellow-600 bg-yellow-100";
+      case "Easy":
+        return "text-green-600 bg-green-100";
+      case "Hard":
+        return "text-orange-600 bg-orange-100";
+      case "Very Hard":
+        return "text-red-600 bg-red-100";
+      case "Large":
+        return "text-green-600 bg-green-100";
+      default:
+        return "text-slate-600 bg-slate-100";
     }
   };
 
@@ -251,7 +271,8 @@ const ComparePage = () => {
               Compare Software
             </h1>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Make informed decisions by comparing features, performance, and user reviews side by side
+              Make informed decisions by comparing features, performance, and
+              user reviews side by side
             </p>
           </div>
 
@@ -299,8 +320,12 @@ const ComparePage = () => {
                         onClick={() => addToCompare(result)}
                       >
                         <div>
-                          <p className="font-medium text-slate-800">{result.name}</p>
-                          <p className="text-sm text-slate-600">{result.description}</p>
+                          <p className="font-medium text-slate-800">
+                            {result.name}
+                          </p>
+                          <p className="text-sm text-slate-600">
+                            {result.description}
+                          </p>
                         </div>
                         <Plus className="h-5 w-5 text-blue-500" />
                       </button>
@@ -312,7 +337,9 @@ const ComparePage = () => {
               {/* Currently Selected */}
               {compareItems.length > 0 && (
                 <div>
-                  <h3 className="text-lg font-medium text-slate-800 mb-4">Currently Comparing:</h3>
+                  <h3 className="text-lg font-medium text-slate-800 mb-4">
+                    Currently Comparing:
+                  </h3>
                   <div className="flex flex-wrap gap-3">
                     {compareItems.map((item) => (
                       <div
@@ -322,7 +349,9 @@ const ComparePage = () => {
                         <div className="bg-blue-100 p-2 rounded-lg mr-3">
                           <Code className="w-4 h-4 text-blue-600" />
                         </div>
-                        <span className="font-medium text-slate-800 mr-3">{item.name}</span>
+                        <span className="font-medium text-slate-800 mr-3">
+                          {item.name}
+                        </span>
                         <button
                           className="text-slate-400 hover:text-red-500 transition-colors"
                           onClick={() => removeFromCompare(item.id)}
@@ -346,7 +375,10 @@ const ComparePage = () => {
             {/* Overview Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {compareItems.map((item) => (
-                <div key={item.id} className="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden">
+                <div
+                  key={item.id}
+                  className="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden"
+                >
                   <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-6 text-white">
                     <div className="flex items-center justify-between mb-4">
                       <div className="bg-white/20 p-3 rounded-xl">
@@ -358,17 +390,23 @@ const ComparePage = () => {
                       </div>
                     </div>
                     <h3 className="text-2xl font-bold mb-2">{item.name}</h3>
-                    <p className="text-blue-100 text-sm">{item.shortDescription}</p>
+                    <p className="text-blue-100 text-sm">
+                      {item.shortDescription}
+                    </p>
                   </div>
 
                   <div className="p-6">
                     <div className="grid grid-cols-2 gap-4 mb-6">
                       <div className="text-center">
-                        <div className="text-2xl font-bold text-slate-800">{item.downloads}</div>
+                        <div className="text-2xl font-bold text-slate-800">
+                          {item.downloads}
+                        </div>
                         <div className="text-sm text-slate-600">Downloads</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-2xl font-bold text-green-600">{item.upvotes}</div>
+                        <div className="text-2xl font-bold text-green-600">
+                          {item.upvotes}
+                        </div>
                         <div className="text-sm text-slate-600">Upvotes</div>
                       </div>
                     </div>
@@ -403,7 +441,9 @@ const ComparePage = () => {
             {/* Detailed Comparison Table */}
             <div className="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden">
               <div className="bg-gradient-to-r from-slate-50 to-blue-50 p-6 border-b border-slate-200">
-                <h2 className="text-2xl font-bold text-slate-800">Detailed Comparison</h2>
+                <h2 className="text-2xl font-bold text-slate-800">
+                  Detailed Comparison
+                </h2>
               </div>
 
               <div className="overflow-x-auto">
@@ -414,12 +454,17 @@ const ComparePage = () => {
                         Feature
                       </th>
                       {compareItems.map((item) => (
-                        <th key={item.id} className="p-6 border-b border-slate-200 text-center min-w-64">
+                        <th
+                          key={item.id}
+                          className="p-6 border-b border-slate-200 text-center min-w-64"
+                        >
                           <div className="flex flex-col items-center">
                             <div className="bg-blue-100 p-2 rounded-lg mb-2">
                               <Code className="w-6 h-6 text-blue-600" />
                             </div>
-                            <span className="font-bold text-slate-800">{item.name}</span>
+                            <span className="font-bold text-slate-800">
+                              {item.name}
+                            </span>
                           </div>
                         </th>
                       ))}
@@ -428,15 +473,23 @@ const ComparePage = () => {
                   <tbody>
                     {/* Basic Info */}
                     <tr className="bg-blue-50">
-                      <td colSpan={compareItems.length + 1} className="p-4 font-bold text-slate-800 bg-blue-100">
+                      <td
+                        colSpan={compareItems.length + 1}
+                        className="p-4 font-bold text-slate-800 bg-blue-100"
+                      >
                         📊 Basic Information
                       </td>
                     </tr>
-                    
+
                     <tr>
-                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">Category</td>
+                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">
+                        Category
+                      </td>
                       {compareItems.map((item) => (
-                        <td key={item.id} className="p-6 border-b border-slate-200 text-center">
+                        <td
+                          key={item.id}
+                          className="p-6 border-b border-slate-200 text-center"
+                        >
                           <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
                             {item.category}
                           </span>
@@ -445,9 +498,14 @@ const ComparePage = () => {
                     </tr>
 
                     <tr>
-                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">Rating</td>
+                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">
+                        Rating
+                      </td>
                       {compareItems.map((item) => (
-                        <td key={item.id} className="p-6 border-b border-slate-200 text-center">
+                        <td
+                          key={item.id}
+                          className="p-6 border-b border-slate-200 text-center"
+                        >
                           <div className="flex items-center justify-center space-x-2">
                             <div className="flex items-center">
                               {[...Array(5)].map((_, i) => (
@@ -468,27 +526,41 @@ const ComparePage = () => {
                     </tr>
 
                     <tr>
-                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">Last Updated</td>
+                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">
+                        Last Updated
+                      </td>
                       {compareItems.map((item) => (
-                        <td key={item.id} className="p-6 border-b border-slate-200 text-center">
+                        <td
+                          key={item.id}
+                          className="p-6 border-b border-slate-200 text-center"
+                        >
                           {new Date(item.lastUpdated).toLocaleDateString()}
                         </td>
                       ))}
                     </tr>
 
                     <tr>
-                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">Active Development</td>
+                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">
+                        Active Development
+                      </td>
                       {compareItems.map((item) => (
-                        <td key={item.id} className="p-6 border-b border-slate-200 text-center">
+                        <td
+                          key={item.id}
+                          className="p-6 border-b border-slate-200 text-center"
+                        >
                           {item.isActive ? (
                             <div className="flex items-center justify-center">
                               <Check className="h-5 w-5 text-green-500" />
-                              <span className="ml-2 text-green-600 font-medium">Active</span>
+                              <span className="ml-2 text-green-600 font-medium">
+                                Active
+                              </span>
                             </div>
                           ) : (
                             <div className="flex items-center justify-center">
                               <X className="h-5 w-5 text-red-500" />
-                              <span className="ml-2 text-red-600 font-medium">Inactive</span>
+                              <span className="ml-2 text-red-600 font-medium">
+                                Inactive
+                              </span>
                             </div>
                           )}
                         </td>
@@ -497,24 +569,34 @@ const ComparePage = () => {
 
                     {/* Platform Support */}
                     <tr className="bg-green-50">
-                      <td colSpan={compareItems.length + 1} className="p-4 font-bold text-slate-800 bg-green-100">
+                      <td
+                        colSpan={compareItems.length + 1}
+                        className="p-4 font-bold text-slate-800 bg-green-100"
+                      >
                         💻 Platform Support
                       </td>
                     </tr>
 
                     <tr>
-                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">Supported Platforms</td>
+                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">
+                        Supported Platforms
+                      </td>
                       {compareItems.map((item) => (
-                        <td key={item.id} className="p-6 border-b border-slate-200">
+                        <td
+                          key={item.id}
+                          className="p-6 border-b border-slate-200"
+                        >
                           <div className="flex flex-wrap gap-1 justify-center">
-                            {item.platforms.map((platform: string, idx: number) => (
-                              <span
-                                key={idx}
-                                className="bg-slate-100 text-slate-700 px-2 py-1 rounded-full text-xs font-medium"
-                              >
-                                {platform}
-                              </span>
-                            ))}
+                            {item.platforms.map(
+                              (platform: string, idx: number) => (
+                                <span
+                                  key={idx}
+                                  className="bg-slate-100 text-slate-700 px-2 py-1 rounded-full text-xs font-medium"
+                                >
+                                  {platform}
+                                </span>
+                              ),
+                            )}
                           </div>
                         </td>
                       ))}
@@ -522,16 +604,26 @@ const ComparePage = () => {
 
                     {/* Performance & Usability */}
                     <tr className="bg-purple-50">
-                      <td colSpan={compareItems.length + 1} className="p-4 font-bold text-slate-800 bg-purple-100">
+                      <td
+                        colSpan={compareItems.length + 1}
+                        className="p-4 font-bold text-slate-800 bg-purple-100"
+                      >
                         ⚡ Performance & Usability
                       </td>
                     </tr>
 
                     <tr>
-                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">Performance</td>
+                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">
+                        Performance
+                      </td>
                       {compareItems.map((item) => (
-                        <td key={item.id} className="p-6 border-b border-slate-200 text-center">
-                          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreColor(item.performance)}`}>
+                        <td
+                          key={item.id}
+                          className="p-6 border-b border-slate-200 text-center"
+                        >
+                          <span
+                            className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreColor(item.performance)}`}
+                          >
                             {item.performance}
                           </span>
                         </td>
@@ -539,10 +631,17 @@ const ComparePage = () => {
                     </tr>
 
                     <tr>
-                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">Learning Curve</td>
+                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">
+                        Learning Curve
+                      </td>
                       {compareItems.map((item) => (
-                        <td key={item.id} className="p-6 border-b border-slate-200 text-center">
-                          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreColor(item.learningCurve)}`}>
+                        <td
+                          key={item.id}
+                          className="p-6 border-b border-slate-200 text-center"
+                        >
+                          <span
+                            className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreColor(item.learningCurve)}`}
+                          >
                             {item.learningCurve}
                           </span>
                         </td>
@@ -550,10 +649,17 @@ const ComparePage = () => {
                     </tr>
 
                     <tr>
-                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">Customization</td>
+                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">
+                        Customization
+                      </td>
                       {compareItems.map((item) => (
-                        <td key={item.id} className="p-6 border-b border-slate-200 text-center">
-                          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreColor(item.customization)}`}>
+                        <td
+                          key={item.id}
+                          className="p-6 border-b border-slate-200 text-center"
+                        >
+                          <span
+                            className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreColor(item.customization)}`}
+                          >
                             {item.customization}
                           </span>
                         </td>
@@ -561,10 +667,17 @@ const ComparePage = () => {
                     </tr>
 
                     <tr>
-                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">Community Size</td>
+                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">
+                        Community Size
+                      </td>
                       {compareItems.map((item) => (
-                        <td key={item.id} className="p-6 border-b border-slate-200 text-center">
-                          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreColor(item.communitySize)}`}>
+                        <td
+                          key={item.id}
+                          className="p-6 border-b border-slate-200 text-center"
+                        >
+                          <span
+                            className={`px-3 py-1 rounded-full text-sm font-medium ${getScoreColor(item.communitySize)}`}
+                          >
                             {item.communitySize}
                           </span>
                         </td>
@@ -573,25 +686,30 @@ const ComparePage = () => {
 
                     {/* Features */}
                     <tr className="bg-yellow-50">
-                      <td colSpan={compareItems.length + 1} className="p-4 font-bold text-slate-800 bg-yellow-100">
+                      <td
+                        colSpan={compareItems.length + 1}
+                        className="p-4 font-bold text-slate-800 bg-yellow-100"
+                      >
                         ✨ Key Features
                       </td>
                     </tr>
 
                     {/* Generate feature comparison rows */}
                     {Array.from(
-                      new Set(
-                        compareItems.flatMap((item) => item.features)
-                      )
+                      new Set(compareItems.flatMap((item) => item.features)),
                     ).map((featureTitle, index) => (
                       <tr key={index}>
                         <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">
                           {featureTitle}
                         </td>
                         {compareItems.map((item) => {
-                          const hasFeature = item.features.includes(featureTitle);
+                          const hasFeature =
+                            item.features.includes(featureTitle);
                           return (
-                            <td key={item.id} className="p-6 border-b border-slate-200 text-center">
+                            <td
+                              key={item.id}
+                              className="p-6 border-b border-slate-200 text-center"
+                            >
                               {hasFeature ? (
                                 <div className="flex items-center justify-center">
                                   <Check className="h-5 w-5 text-green-500" />
@@ -609,15 +727,23 @@ const ComparePage = () => {
 
                     {/* Pros & Cons */}
                     <tr className="bg-red-50">
-                      <td colSpan={compareItems.length + 1} className="p-4 font-bold text-slate-800 bg-red-100">
+                      <td
+                        colSpan={compareItems.length + 1}
+                        className="p-4 font-bold text-slate-800 bg-red-100"
+                      >
                         👍 Pros & Cons
                       </td>
                     </tr>
 
                     <tr>
-                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">Pros</td>
+                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">
+                        Pros
+                      </td>
                       {compareItems.map((item) => (
-                        <td key={item.id} className="p-6 border-b border-slate-200">
+                        <td
+                          key={item.id}
+                          className="p-6 border-b border-slate-200"
+                        >
                           <ul className="space-y-1 text-sm">
                             {item.pros.map((pro: string, idx: number) => (
                               <li key={idx} className="flex items-start">
@@ -631,9 +757,14 @@ const ComparePage = () => {
                     </tr>
 
                     <tr>
-                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">Cons</td>
+                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">
+                        Cons
+                      </td>
                       {compareItems.map((item) => (
-                        <td key={item.id} className="p-6 border-b border-slate-200">
+                        <td
+                          key={item.id}
+                          className="p-6 border-b border-slate-200"
+                        >
                           <ul className="space-y-1 text-sm">
                             {item.cons.map((con: string, idx: number) => (
                               <li key={idx} className="flex items-start">
@@ -648,15 +779,23 @@ const ComparePage = () => {
 
                     {/* Links */}
                     <tr className="bg-indigo-50">
-                      <td colSpan={compareItems.length + 1} className="p-4 font-bold text-slate-800 bg-indigo-100">
+                      <td
+                        colSpan={compareItems.length + 1}
+                        className="p-4 font-bold text-slate-800 bg-indigo-100"
+                      >
                         🔗 Links & Resources
                       </td>
                     </tr>
 
                     <tr>
-                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">Official Website</td>
+                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">
+                        Official Website
+                      </td>
                       {compareItems.map((item) => (
-                        <td key={item.id} className="p-6 border-b border-slate-200 text-center">
+                        <td
+                          key={item.id}
+                          className="p-6 border-b border-slate-200 text-center"
+                        >
                           <a
                             href={item.website}
                             target="_blank"
@@ -671,9 +810,14 @@ const ComparePage = () => {
                     </tr>
 
                     <tr>
-                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">Source Code</td>
+                      <td className="p-6 border-b border-slate-200 font-medium bg-slate-50">
+                        Source Code
+                      </td>
                       {compareItems.map((item) => (
-                        <td key={item.id} className="p-6 border-b border-slate-200 text-center">
+                        <td
+                          key={item.id}
+                          className="p-6 border-b border-slate-200 text-center"
+                        >
                           <a
                             href={item.githubUrl}
                             target="_blank"
@@ -695,7 +839,8 @@ const ComparePage = () => {
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white text-center">
               <h3 className="text-2xl font-bold mb-4">Ready to Choose?</h3>
               <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-                Based on your comparison, select the software that best fits your needs and start using it today.
+                Based on your comparison, select the software that best fits
+                your needs and start using it today.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 {compareItems.map((item) => (
@@ -722,7 +867,8 @@ const ComparePage = () => {
                   Start Your Comparison
                 </h3>
                 <p className="text-slate-600 mb-6">
-                  Add software to compare their features, performance, and user reviews side by side
+                  Add software to compare their features, performance, and user
+                  reviews side by side
                 </p>
                 <Link
                   href="/search"
