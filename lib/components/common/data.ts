@@ -63,6 +63,7 @@ export interface Review {
   username: string;
   date: string;
   comment: string;
+  helpful: number;
   isUpvote: boolean;
 }
 export interface Software {
