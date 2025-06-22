@@ -4,7 +4,11 @@ import { createClient } from "@/lib/supabase/server";
 
 export default async function Page() {
   const supabase = await createClient();
-  const { data: software, error } = await supabase.from("software").select("*");
+  const { data: software, error } = await supabase
+    .from("software")
+    .select(
+      "name, description, id, added_date, category, compatibility, reviews (username, date, comment, helpful_count, is_upvote, stars)",
+    );
   if (error) {
     throw error;
   }

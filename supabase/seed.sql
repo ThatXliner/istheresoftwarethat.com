@@ -1,12 +1,12 @@
-INSERT INTO public.software (id, name, description, upvotes, category, added_date, compatibility, icon, links) VALUES
-    (1, 'VS Code', 'can edit code with powerful extensions and Git integration?', 1250, 'Development', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://code.visualstudio.com"}'),
-    (2, 'GIMP', 'can edit images professionally?', 980, 'Design', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.gimp.org"}'),
-    (3, 'Blender', 'can create 3D models, animations, and renders?', 1420, 'Media', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.blender.org"}'),
-    (4, 'LibreOffice', 'can replace Microsoft Office?', 890, 'Productivity', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.libreoffice.org"}'),
-    (5, 'Obsidian', 'can help manage knowledge with linked notes?', 69, 'Productivity', '2025-01-02T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://obsidian.md"}'),
-    (6, 'Figma', 'can design interfaces collaboratively?', 69, 'Design', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.figma.com"}'),
-    (7, 'Discord', 'can help me chat and hang out with my communities?', 69, 'Communication', '2024-12-30T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://discord.com"}'),
-    (8, 'OBS Studio', 'can record my screen and stream live?', 69, 'Media', '2024-12-28T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://obsproject.com"}');
+INSERT INTO public.software (id, name, description, category, added_date, compatibility, icon, links) VALUES
+    (1, 'VS Code', 'can edit code with powerful extensions and Git integration?', 'Development', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://code.visualstudio.com"}'),
+    (2, 'GIMP', 'can edit images professionally?', 'Design', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.gimp.org"}'),
+    (3, 'Blender', 'can create 3D models, animations, and renders?', 'Media', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.blender.org"}'),
+    (4, 'LibreOffice', 'can replace Microsoft Office?', 'Productivity', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.libreoffice.org"}'),
+    (5, 'Obsidian', 'can help manage knowledge with linked notes?', 'Productivity', '2025-01-02T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://obsidian.md"}'),
+    (6, 'Figma', 'can design interfaces collaboratively?', 'Design', '2025-01-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://www.figma.com"}'),
+    (7, 'Discord', 'can help me chat and hang out with my communities?', 'Communication', '2024-12-30T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://discord.com"}'),
+    (8, 'OBS Studio', 'can record my screen and stream live?', 'Media', '2024-12-28T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', NULL, '{"website": "https://obsproject.com"}');
    
 INSERT INTO public.installation_instructions (software_id, windows, macos, linux) VALUES
     (1, 'Download from https://code.visualstudio.com and run the installer.', 'Install via Homebrew: brew install --cask visual-studio-code', 'Use Snap: sudo snap install code --classic'),
@@ -51,3 +51,46 @@ INSERT INTO public.features (software_id, title, description) VALUES
     (7, 'Bot Support', 'Custom automation and integrations.'),
     (8, 'Scene Composition', 'Mix audio, video, and images in scenes.'),
     (8, 'Streaming Integration', 'Stream to Twitch and YouTube with ease.');
+-- Drop the foreign key (only for dev)
+ALTER TABLE users DROP CONSTRAINT users_id_fkey;
+-- Create random users
+WITH RECURSIVE user_data AS (
+    SELECT 1 AS id, 'User1' AS username
+    UNION ALL
+    SELECT id + 1, 'User' || (id + 1)
+    FROM user_data
+    WHERE id < 300
+)
+INSERT INTO public.users (username)
+SELECT username
+FROM user_data;
+
+
+-- Generate random reviews for each software
+WITH random_reviews AS (
+    SELECT
+        s.id AS software_id,
+        u.username,
+        NOW() - (interval '1 day' * (random() * 365)) AS date,
+        CASE WHEN random() < 0.5 THEN NULL ELSE
+            (ARRAY['Great software!', 'Needs improvement.', 'Highly recommended!', 'Not user-friendly.', 'Excellent features!', 'Buggy at times.', 'Worth the price.', 'Free and amazing!'])[floor(random() * 8 + 1)] END AS comment,
+        CASE WHEN random() < 0.5 THEN NULL ELSE (random() < 0.7) END AS is_upvote,
+        CASE WHEN random() < 0.5 THEN NULL ELSE floor(random() * 5 + 1) END AS stars,
+        CASE WHEN random() < 0.5 THEN NULL ELSE floor(random() * 100) END AS helpful_count
+    FROM
+        public.software s,
+        public.users u
+    WHERE
+        random() < 0.2 -- Adjust probability to control the number of reviews per user/software
+)
+INSERT INTO public.reviews (software_id, username, date, comment, is_upvote, stars, helpful_count)
+SELECT
+    software_id,
+    username,
+    date,
+    comment,
+    is_upvote,
+    stars,
+    helpful_count
+FROM
+    random_reviews;

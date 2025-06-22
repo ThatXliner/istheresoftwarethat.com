@@ -33,14 +33,29 @@ export const featureSchema = z.object({
   title: z.string(),
   description: z.string(),
 });
+// XXX: Should use discriminated unions
+export const reviewSchema = z.union([
+  z.object({
+    is_upvote: z.boolean(),
 
-export const reviewSchema = z.object({
-  username: z.string(),
-  date: z.string(),
-  comment: z.string(),
-  helpful: z.number(),
-  isUpvote: z.boolean(),
-});
+    helpful_count: z.null(),
+    stars: z.null(),
+    comment: z.null(),
+
+    username: z.string(),
+    date: z.string(),
+  }),
+  z.object({
+    is_upvote: z.null(),
+
+    helpful_count: z.number(),
+    stars: z.number().min(1).max(5),
+    comment: z.string(),
+
+    username: z.string(),
+    date: z.string(),
+  }),
+]);
 
 export const categorySchema = z.enum([
   "Development",
@@ -57,7 +72,6 @@ export const softwareSchema = z.object({
   id: z.number(),
   name: z.string(),
   description: z.string(),
-  upvotes: z.number(),
   icon: z.any(), // LucideIcon type
   category: categorySchema,
   added_date: z.string().transform((date) => new Date(date)),
@@ -71,6 +85,8 @@ export const softwareSchema = z.object({
 export type Category = { name: string; icon: LucideIcon; color: string };
 export type Compatibility = z.infer<typeof compatibilitySchema>;
 export type Software = z.infer<typeof softwareSchema>;
+const reviewsSchema = reviewSchema.array();
+export type Reviews = z.infer<typeof reviewsSchema>;
 
 export const categories: Category[] = [
   { name: "Development", icon: Code, color: "blue" },
@@ -88,103 +104,3 @@ export const ALL_PLATFORMS: Compatibility = {
   macos: true,
   windows: true,
 };
-// Mock featured software data
-export const featuredSoftware: Software[] = [
-  {
-    id: 1,
-    name: "VS Code",
-    description:
-      "Powerful, lightweight code editor with extensive extension support",
-    category: "Development",
-    upvotes: 1250,
-    icon: Code,
-    added_date: new Date("2025-01-01"),
-    compatibility: ALL_PLATFORMS,
-    reviews: [],
-  },
-  {
-    id: 2,
-    name: "GIMP",
-    description: "Professional image editing software with advanced features",
-    category: "Design",
-    upvotes: 980,
-    icon: Code,
-    added_date: new Date("2025-01-01"),
-    compatibility: ALL_PLATFORMS,
-    reviews: [],
-  },
-  {
-    id: 3,
-    name: "Blender",
-    description: "3D creation suite for modeling, animation, and rendering",
-    category: "Media",
-    upvotes: 1420,
-    icon: Code,
-    added_date: new Date("2025-01-01"),
-    compatibility: ALL_PLATFORMS,
-    reviews: [],
-  },
-  {
-    id: 4,
-    name: "LibreOffice",
-    description:
-      "Complete office suite with word processing, spreadsheets, and presentations",
-    category: "Productivity",
-    upvotes: 890,
-    icon: Code,
-    added_date: new Date("2025-01-01"),
-    compatibility: ALL_PLATFORMS,
-    reviews: [],
-  },
-];
-export async function getRecentAdditions(amount = 5) {}
-// Mock recent additions data
-export const recentAdditions: Software[] = [
-  {
-    id: 5,
-    name: "Obsidian",
-    description:
-      "Knowledge management app with powerful linking and note-taking features",
-    category: "Productivity",
-    added_date: new Date("2025-01-02"),
-    icon: Code,
-    upvotes: 69,
-    compatibility: ALL_PLATFORMS,
-    reviews: [],
-  },
-  {
-    id: 6,
-    name: "Figma",
-    description:
-      "Collaborative interface design tool with real-time collaboration",
-    category: "Design",
-    added_date: new Date("2025-01-01"),
-    icon: Figma,
-    upvotes: 69,
-    compatibility: ALL_PLATFORMS,
-    reviews: [],
-  },
-  {
-    id: 7,
-    name: "Discord",
-    description: "Voice, video and text communication platform for communities",
-    category: "Communication",
-    added_date: new Date("2024-12-30"),
-    icon: MessageSquare,
-    upvotes: 69,
-    compatibility: ALL_PLATFORMS,
-    reviews: [],
-  },
-  {
-    id: 8,
-    name: "OBS Studio",
-    description:
-      "Free and open source software for video recording and live streaming",
-    category: "Media",
-    added_date: new Date("2024-12-28"),
-    icon: Video,
-    upvotes: 69,
-    compatibility: ALL_PLATFORMS,
-    reviews: [],
-  },
-];
