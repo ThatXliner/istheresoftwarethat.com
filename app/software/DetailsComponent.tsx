@@ -74,6 +74,12 @@ export default function DetailsComponent({ software }: { software: Software }) {
     );
   }
 
+  const averageStars =
+    software.reviews.reduce(
+      (acc, review: Review) => acc + (review?.stars ?? 0),
+      0,
+    ) / software.reviews.filter((review) => review.stars !== null).length;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Hero Section */}
@@ -118,7 +124,7 @@ export default function DetailsComponent({ software }: { software: Software }) {
                           <Star
                             key={i}
                             className={`w-5 h-5 ${
-                              i < Math.floor(software.rating)
+                              i < Math.floor(averageStars)
                                 ? "text-yellow-400 fill-current"
                                 : "text-slate-300"
                             }`}
@@ -126,16 +132,22 @@ export default function DetailsComponent({ software }: { software: Software }) {
                         ))}
                       </div>
                       <span className="text-slate-700 font-medium">
-                        {software.rating}
+                        {averageStars.toPrecision(2)}
                       </span>
                       <span className="text-slate-500">
-                        ({software.totalReviews} reviews)
+                        ({software.reviews.length} reviews)
                       </span>
                     </div>
 
                     <div className="flex items-center space-x-1 text-green-600">
                       <ThumbsUp className="w-5 h-5" />
-                      <span className="font-medium">{software.upvotes}</span>
+                      <span className="font-medium">
+                        {
+                          software.reviews.filter(
+                            (review) => review.is_upvote === true,
+                          ).length
+                        }
+                      </span>
                     </div>
                   </div>
 
@@ -148,114 +160,6 @@ export default function DetailsComponent({ software }: { software: Software }) {
                         {tag}
                       </span>
                     ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Action Panel */}
-            <div className="lg:col-span-1">
-              <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
-                <div className="space-y-4">
-                  <a
-                    href={software.downloadUrl}
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-                  >
-                    <Download className="w-5 h-5 mr-2" />
-                    Download Free
-                  </a>
-
-                  <div className="grid grid-cols-2 gap-3">
-                    <button
-                      onClick={() => setIsBookmarked(!isBookmarked)}
-                      className={`flex items-center justify-center py-3 px-4 rounded-lg font-medium transition-colors ${
-                        isBookmarked
-                          ? "bg-red-50 text-red-600 border border-red-200"
-                          : "bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100"
-                      }`}
-                    >
-                      <Heart
-                        className={`w-4 h-4 mr-2 ${isBookmarked ? "fill-current" : ""}`}
-                      />
-                      {isBookmarked ? "Saved" : "Save"}
-                    </button>
-
-                    <button
-                      onClick={handleShare}
-                      className="flex items-center justify-center py-3 px-4 rounded-lg font-medium bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100 transition-colors"
-                    >
-                      <Share2 className="w-4 h-4 mr-2" />
-                      Share
-                    </button>
-                  </div>
-                </div>
-
-                {/* Quick Stats */}
-                <div className="mt-6 pt-6 border-t border-slate-200">
-                  <h3 className="font-semibold text-slate-800 mb-4">
-                    Quick Stats
-                  </h3>
-                  <div className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className="text-slate-600">Downloads</span>
-                      <span className="font-medium text-slate-800">
-                        {software.stats.downloads}
-                      </span>
-                    </div>
-                    {software.stats.github_stars !== null && (
-                      <div className="flex justify-between">
-                        <span className="text-slate-600">GitHub Stars</span>
-                        <span className="font-medium text-slate-800">
-                          {millify(software.stats.github_stars)}
-                        </span>
-                      </div>
-                    )}
-                    <div className="flex justify-between">
-                      <span className="text-slate-600">License</span>
-                      <span className="font-medium text-slate-800">
-                        {software.license}
-                      </span>
-                    </div>
-                    {software.size !== null && (
-                      <div className="flex justify-between">
-                        <span className="text-slate-600">Size</span>
-                        <span className="font-medium text-slate-800">
-                          {prettyBytes(software.size)}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* Platform Support */}
-                <div className="mt-6 pt-6 border-t border-slate-200">
-                  <h3 className="font-semibold text-slate-800 mb-4">
-                    Supported Platforms
-                  </h3>
-                  <div className="grid grid-cols-2 gap-2">
-                    {Object.keys(software.compatibility).map(
-                      (platform: string) => (
-                        <div
-                          key={platform}
-                          className="flex items-center space-x-2 text-sm text-slate-700"
-                        >
-                          {platform === "Windows" && (
-                            <Monitor className="w-4 h-4" />
-                          )}
-                          {platform === "macOS" && (
-                            <Laptop className="w-4 h-4" />
-                          )}
-                          {platform === "Linux" && (
-                            <Terminal className="w-4 h-4" />
-                          )}
-                          {platform === "Web" && <Globe className="w-4 h-4" />}
-                          {platform === "Mobile" && (
-                            <Smartphone className="w-4 h-4" />
-                          )}
-                          <span>{platform}</span>
-                        </div>
-                      ),
-                    )}
                   </div>
                 </div>
               </div>
@@ -307,12 +211,12 @@ export default function DetailsComponent({ software }: { software: Software }) {
                         About {software.name}
                       </h2>
                       <p className="text-slate-700 leading-relaxed text-lg">
-                        {software.longDescription}
+                        {software.other_details.long_description}
                       </p>
                     </div>
 
-                    {software.screenshots &&
-                      software.screenshots.length > 0 && (
+                    {software.other_details.screenshots &&
+                      software.other_details.screenshots.length > 0 && (
                         <div>
                           <h3 className="text-xl font-semibold text-slate-800 mb-4">
                             Screenshots
@@ -320,14 +224,18 @@ export default function DetailsComponent({ software }: { software: Software }) {
                           <div className="space-y-4">
                             <div className="relative">
                               <img
-                                src={software.screenshots[activeScreenshot]}
+                                src={
+                                  software.other_details.screenshots[
+                                    activeScreenshot
+                                  ]
+                                }
                                 alt={`${software.name} screenshot ${activeScreenshot + 1}`}
                                 className="w-full h-96 object-cover rounded-xl shadow-lg"
                               />
                             </div>
-                            {software.screenshots.length > 1 && (
+                            {software.other_details.screenshots.length > 1 && (
                               <div className="flex space-x-2">
-                                {software.screenshots.map(
+                                {software.other_details.screenshots.map(
                                   (_: any, index: number) => (
                                     <button
                                       key={index}
@@ -339,7 +247,11 @@ export default function DetailsComponent({ software }: { software: Software }) {
                                       }`}
                                     >
                                       <img
-                                        src={software.screenshots[index]}
+                                        src={
+                                          software.other_details.screenshots[
+                                            index
+                                          ]
+                                        }
                                         alt={`Thumbnail ${index + 1}`}
                                         className="w-full h-full object-cover"
                                       />
@@ -530,6 +442,113 @@ export default function DetailsComponent({ software }: { software: Software }) {
 
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-6">
+            {/* Action Panel */}
+            <div className="lg:col-span-1">
+              <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
+                <div className="space-y-4">
+                  <a
+                    href={software.downloadUrl}
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                  >
+                    <Download className="w-5 h-5 mr-2" />
+                    Download Free
+                  </a>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <button
+                      onClick={() => setIsBookmarked(!isBookmarked)}
+                      className={`flex items-center justify-center py-3 px-4 rounded-lg font-medium transition-colors ${
+                        isBookmarked
+                          ? "bg-red-50 text-red-600 border border-red-200"
+                          : "bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100"
+                      }`}
+                    >
+                      <Heart
+                        className={`w-4 h-4 mr-2 ${isBookmarked ? "fill-current" : ""}`}
+                      />
+                      {isBookmarked ? "Saved" : "Save"}
+                    </button>
+
+                    <button
+                      onClick={handleShare}
+                      className="flex items-center justify-center py-3 px-4 rounded-lg font-medium bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100 transition-colors"
+                    >
+                      <Share2 className="w-4 h-4 mr-2" />
+                      Share
+                    </button>
+                  </div>
+                </div>
+
+                {/* Quick Stats */}
+                <div className="mt-6 pt-6 border-t border-slate-200">
+                  <h3 className="font-semibold text-slate-800 mb-4">
+                    Quick Stats
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-slate-600">Downloads</span>
+                      <span className="font-medium text-slate-800">
+                        {millify(software.stats.downloads)}
+                      </span>
+                    </div>
+                    {software.stats.github_stars !== null && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">GitHub Stars</span>
+                        <span className="font-medium text-slate-800">
+                          {millify(software.stats.github_stars)}
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex justify-between">
+                      <span className="text-slate-600">License</span>
+                      <span className="font-medium text-slate-800">
+                        {software.license}
+                      </span>
+                    </div>
+                    {software.size !== null && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">Size</span>
+                        <span className="font-medium text-slate-800">
+                          {prettyBytes(software.size)}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Platform Support */}
+                <div className="mt-6 pt-6 border-t border-slate-200">
+                  <h3 className="font-semibold text-slate-800 mb-4">
+                    Supported Platforms
+                  </h3>
+                  <div className="grid grid-cols-2 gap-2">
+                    {Object.keys(software.compatibility).map(
+                      (platform: string) => (
+                        <div
+                          key={platform}
+                          className="flex items-center space-x-2 text-sm text-slate-700"
+                        >
+                          {platform === "Windows" && (
+                            <Monitor className="w-4 h-4" />
+                          )}
+                          {platform === "macOS" && (
+                            <Laptop className="w-4 h-4" />
+                          )}
+                          {platform === "Linux" && (
+                            <Terminal className="w-4 h-4" />
+                          )}
+                          {platform === "Web" && <Globe className="w-4 h-4" />}
+                          {platform === "Mobile" && (
+                            <Smartphone className="w-4 h-4" />
+                          )}
+                          <span>{platform}</span>
+                        </div>
+                      ),
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
             {/* Links */}
             <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
               <h3 className="text-lg font-semibold text-slate-800 mb-4">

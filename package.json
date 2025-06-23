@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "update-types": "supabase gen types typescript --local --schema public > lib/supabase/types.ts",
-    "format": "bunx biome format --write"
+    "format": "bunx biome format --write",
+    "hyperformat": "bunx biome check --write && bunx biome format --write"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",
