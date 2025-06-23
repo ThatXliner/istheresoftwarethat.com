@@ -131,7 +131,25 @@ export const softwareSchema = z.object({
 
 export type Category = { name: string; icon: LucideIcon; color: string };
 export type Compatibility = z.infer<typeof compatibilitySchema>;
+export const catalogSummarySchema = softwareSchema
+  .pick({
+    category: true,
+    id: true,
+    name: true,
+    compatibility: true,
+    version: true,
+    license: true,
+    tags: true,
+    added_date: true,
+  })
+  .extend({
+    description: z.string(),
+    upvotes: z.number(),
+    icon: z.string().nullable(),
+  })
+  .array();
 export type Software = z.infer<typeof softwareSchema>;
+export type CatalogSummary = z.infer<typeof catalogSummarySchema>;
 
 export const categories: Category[] = [
   { name: "Development", icon: Code, color: "blue" },

@@ -1,6 +1,11 @@
 "use client";
 import { useState, useMemo } from "react";
-import { softwareSchema, type Software } from "@/lib/components/common/data";
+import {
+  CatalogSummary,
+  catalogSummarySchema,
+  softwareSchema,
+  type Software,
+} from "@/lib/components/common/data";
 import FilterPanel, { type Filters } from "@/lib/components/search/FilterPanel";
 import SearchBar from "@/lib/components/search/SearchBar";
 import { ExternalLink, SlidersHorizontal } from "lucide-react";
@@ -10,12 +15,16 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { createClient } from "@/lib/supabase/client";
 import { getSoftwareList } from "@/lib/queries";
 
-export default function Client({ initialData }: { initialData: Software[] }) {
-  const { data: software } = useSuspenseQuery<Software[]>({
+export default function Client({
+  initialData,
+}: {
+  initialData: CatalogSummary;
+}) {
+  const { data: software } = useSuspenseQuery<CatalogSummary>({
     queryKey: ["software"],
     queryFn: async () => {
       const client = await createClient();
-      return softwareSchema.array().parse(await getSoftwareList(client));
+      return catalogSummarySchema.parse(await getSoftwareList(client));
     },
     initialData,
   });
@@ -45,7 +54,7 @@ export default function Client({ initialData }: { initialData: Software[] }) {
       filtered = filtered.filter(
         (software) =>
           software.name.toLowerCase().includes(query) ||
-          software.description.toLowerCase().includes(query) ||
+          software.short_description.toLowerCase().includes(query) ||
           software.category.toLowerCase().includes(query),
       );
     }
@@ -68,7 +77,7 @@ export default function Client({ initialData }: { initialData: Software[] }) {
           return b.upvotes - a.upvotes;
         case "recent":
           return (
-            new Date(b.addedDate).getTime() - new Date(a.addedDate).getTime()
+            new Date(b.added_date).getTime() - new Date(a.added_date).getTime()
           );
         case "category":
           return a.category.localeCompare(b.category);

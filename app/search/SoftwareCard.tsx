@@ -1,7 +1,13 @@
-import type { Software } from "@/lib/components/common/data";
+import { CatalogSummary } from "@/lib/components/common/data";
 import { Star, ExternalLink, Calendar, Award, Code } from "lucide-react";
 import { DynamicIcon } from "lucide-react/dynamic";
-export default function SoftwareCard({ software }: { software: Software }) {
+type ArrayElement<ArrayType extends readonly unknown[]> =
+  ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
+export default function SoftwareCard({
+  software,
+}: {
+  software: ArrayElement<CatalogSummary>;
+}) {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-slate-100 overflow-hidden transition-all duration-300 hover:shadow-md hover:scale-[1.02] group">
       {/* Card Header */}

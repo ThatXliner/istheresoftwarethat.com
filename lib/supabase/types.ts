@@ -49,6 +49,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "fk_reviews_software"
+            columns: ["software_id"]
+            isOneToOne: false
+            referencedRelation: "software_summary"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "reviews_username_fkey"
             columns: ["username"]
             isOneToOne: false
@@ -129,6 +136,13 @@ export type Database = {
             referencedRelation: "software"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "fk_stats_software"
+            columns: ["software_id"]
+            isOneToOne: true
+            referencedRelation: "software_summary"
+            referencedColumns: ["id"]
+          },
         ]
       }
       software_tags: {
@@ -150,6 +164,13 @@ export type Database = {
             columns: ["software_id"]
             isOneToOne: false
             referencedRelation: "software"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "software_tags_software_id_fkey"
+            columns: ["software_id"]
+            isOneToOne: false
+            referencedRelation: "software_summary"
             referencedColumns: ["id"]
           },
           {
@@ -196,7 +217,22 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      software_summary: {
+        Row: {
+          added_date: string | null
+          category: string | null
+          compatibility: Json | null
+          description: string | null
+          icon: string | null
+          id: number | null
+          license: string | null
+          name: string | null
+          tags: string[] | null
+          upvotes: number | null
+          version: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
