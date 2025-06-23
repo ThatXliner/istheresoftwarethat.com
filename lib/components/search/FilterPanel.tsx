@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { useState } from "react";
 import { categories } from "@/lib/components/common/data";
 export type Filters = {
   platforms: string[];

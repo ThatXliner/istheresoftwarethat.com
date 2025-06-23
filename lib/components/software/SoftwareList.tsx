@@ -1,13 +1,12 @@
-import React from "react";
-
-import { Software } from "../../types/Software";
 import {
-  ExternalLink,
+  AlertCircle,
   Bookmark,
   CheckCircle,
-  AlertCircle,
+  ExternalLink,
   ThumbsUp,
 } from "lucide-react";
+import React from "react";
+import type { Software } from "../../types/Software";
 
 interface SoftwareListProps {
   software: Software[];

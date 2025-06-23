@@ -1,5 +1,5 @@
 "use client";
-import { Lock, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Lock } from "lucide-react";
 import { useState } from "react";
 
 export default function Password() {

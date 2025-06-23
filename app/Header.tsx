@@ -1,9 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
-import { Menu, X, User, LogIn, GitCompare, BookmarkCheck } from "lucide-react";
+import { BookmarkCheck, GitCompare, LogIn, Menu, User, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+
 const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

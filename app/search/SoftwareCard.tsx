@@ -1,6 +1,7 @@
-import { CatalogSummary } from "@/lib/components/common/data";
-import { Star, ExternalLink, Calendar, Award, Code } from "lucide-react";
+import { Award, Calendar, Code, ExternalLink, Star } from "lucide-react";
 import { DynamicIcon } from "lucide-react/dynamic";
+import type { CatalogSummary } from "@/lib/components/common/data";
+
 type ArrayElement<ArrayType extends readonly unknown[]> =
   ArrayType extends readonly (infer ElementType)[] ? ElementType : never;
 export default function SoftwareCard({

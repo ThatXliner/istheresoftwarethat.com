@@ -3,13 +3,13 @@ import {
   Code,
   Film,
   GraduationCap,
+  type LucideIcon,
   MessageSquare,
   Palette,
   Shield,
   Wrench,
-  type LucideIcon,
 } from "lucide-react";
-import { dynamicIconImports, IconName } from "lucide-react/dynamic";
+import { dynamicIconImports, type IconName } from "lucide-react/dynamic";
 import * as z from "zod/v4";
 
 // Schema for software compatibility (windows, macos, linux)
@@ -41,7 +41,7 @@ const installationInstructionsSchema = z.object({
 const featureSchema = z.object({
   title: z.string(),
   description: z.string(),
-  category: z.string().optional(), // Added category as it's part of the migrated features
+  category: z.string().nullable(), // Added category as it's part of the migrated features
 });
 
 // Schema for screenshots (array of URLs)
@@ -105,7 +105,12 @@ const otherDetailsSchema = z.object({
   features: z.array(featureSchema).optional(), // Now an array of feature objects within other_details
   installation_instructions: installationInstructionsSchema.optional(), // Now an object within other_details
 });
-
+export const statsSchema = z.object({
+  downloads: z.number(),
+  github_stars: z.number().nullable(),
+  contributors: z.number().nullable(),
+  issues: z.number().nullable(),
+});
 // Main software schema, reflecting the consolidated data
 export const softwareSchema = z.object({
   id: z.number(),
@@ -115,17 +120,18 @@ export const softwareSchema = z.object({
   last_updated: z
     .string()
     .transform((date) => new Date(date))
-    .optional(), // last_updated is nullable in SQL
+    .nullable(), // last_updated is nullable in SQL
   compatibility: compatibilitySchema,
-  tags: z.array(z.string()).optional(), // tags is an ARRAY in SQL
-  version: z.string().optional(),
-  license: z.string().optional(),
-  size: z.number().optional(), // size is bigint in SQL
+  tags: z.array(z.string()).nullable(), // tags is an ARRAY in SQL
+  version: z.string().nullable(),
+  license: z.string().nullable(),
+  size: z.number().nullable(), // size is bigint in SQL
   is_active: z.boolean().default(true),
 
   // All previously separate fields are now nested under other_details
   other_details: otherDetailsSchema,
 
+  stats: statsSchema,
   reviews: z.array(reviewSchema),
 });
 
@@ -149,6 +155,7 @@ export const catalogSummarySchema = softwareSchema
   })
   .array();
 export type Software = z.infer<typeof softwareSchema>;
+export type Review = z.infer<typeof reviewSchema>;
 export type CatalogSummary = z.infer<typeof catalogSummarySchema>;
 
 export const categories: Category[] = [

@@ -1,6 +1,6 @@
-import React from "react";
 import { Plus, Sparkles } from "lucide-react";
 import Link from "next/link";
+import React from "react";
 
 const SubmitBanner = () => {
   return (

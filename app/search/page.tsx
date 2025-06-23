@@ -1,7 +1,7 @@
 import { catalogSummarySchema } from "@/lib/components/common/data";
-import Client from "./Client";
-import { createClient } from "@/lib/supabase/server";
 import { getSoftwareList } from "@/lib/queries";
+import { createClient } from "@/lib/supabase/server";
+import Client from "./Client";
 
 export default async function Page() {
   const client = await createClient();
