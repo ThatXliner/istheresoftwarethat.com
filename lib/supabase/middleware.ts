@@ -38,7 +38,7 @@ export async function updateSession(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  const PUBLIC = ["/search", "/compare", "/submit"];
+  const PUBLIC = ["/search", "/compare", "/submit", "/about", "/faq", "/blog", "/terms", "/privacy", "/cookies", "/contact", "/license"];
   if (
     request.nextUrl.pathname !== "/" &&
     !user &&
