@@ -1,7 +1,9 @@
 import { ExternalLink, Star } from "lucide-react";
+import { DynamicIcon, type IconName } from "lucide-react/dynamic";
 import Link from "next/link";
+import type { Software } from "../common/data";
 
-const featuredSoftware = [];
+const featuredSoftware: Software[] = [];
 
 // Mock featured software data
 
@@ -15,11 +17,19 @@ const FeaturedSoftware = () => {
         >
           <div className="flex items-center justify-between mb-4">
             <div className="bg-blue-100 p-3 rounded-lg group-hover:scale-110 transition-transform">
-              <software.icon className="w-6 h-6 text-blue-600" />
+              <DynamicIcon
+                name={software.other_details.icon as IconName}
+                className="w-6 h-6 text-blue-600"
+              />
             </div>
             <div className="flex items-center text-amber-500">
               <Star className="w-4 h-4 mr-1" />
-              <span className="text-sm font-medium">{software.upvotes}</span>
+              <span className="text-sm font-medium">
+                {
+                  software.reviews.filter((review) => review.is_upvote == true)
+                    .length
+                }
+              </span>
             </div>
           </div>
 
@@ -27,7 +37,7 @@ const FeaturedSoftware = () => {
             {software.name}
           </h3>
           <p className="text-slate-600 text-sm mb-4 line-clamp-2">
-            {software.description}
+            {software.other_details.short_description}
           </p>
 
           <div className="flex items-center justify-between">

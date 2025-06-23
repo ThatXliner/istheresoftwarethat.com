@@ -1,5 +1,5 @@
 import { Award, Calendar, Code, ExternalLink, Star } from "lucide-react";
-import { DynamicIcon } from "lucide-react/dynamic";
+import { DynamicIcon, type IconName } from "lucide-react/dynamic";
 import type { CatalogSummary } from "@/lib/components/common/data";
 
 type ArrayElement<ArrayType extends readonly unknown[]> =
@@ -20,7 +20,7 @@ export default function SoftwareCard({
               <Code className="w-6 h-6" />
             ) : (
               <DynamicIcon
-                name={software.icon}
+                name={software.icon as IconName}
                 className="w-6 h-6 text-blue-600"
               />
             )}
@@ -52,7 +52,7 @@ export default function SoftwareCard({
           <div className="flex items-center text-slate-500">
             <Calendar className="w-4 h-4 mr-1" />
             <span className="text-xs">
-              {new Date(software.addedDate).toLocaleDateString()}
+              {new Date(software.added_date).toLocaleDateString()}
             </span>
           </div>
         </div>

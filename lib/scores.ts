@@ -84,50 +84,54 @@ function computeNormalizedNetVotes(
   const netVotes = upvotes - downvotes;
   return normalize(netVotes, maxNetVotesInCatalog);
 }
-
+function sum(x: number[]) {
+  return x.reduce((acc, val) => acc + val, 0);
+}
 /**
  * Compute final aggregated score for one software entry
- * @param {Object} software - software data object
- * @param {number} software.upvotes_count
- * @param {number} software.downvotes_count
+ * @param {Software} software - software data object
  * @param {Array<{star: number, karma: number}>} software.star_reviews
  * @param {number} maxNetVotesInCatalog - maximum absolute net votes of any software entry in the catalog
  * @param {number} upvoteWeight - weight multiplier for votes (e.g., 1)
  * @param {number} starWeight - weight multiplier for star ratings (e.g., 4)
  * @returns {number} final aggregated score (can be outside [-1,1] depending on weights)
  */
-function computeFinalScore(
+export function computeFinalScore(
   software: Software,
   maxNetVotesInCatalog: number,
   upvoteWeight = 1,
   starWeight = 4,
 ) {
   const votesComponent = computeNormalizedNetVotes(
-    software.upvotes,
-    software.downvotes,
+    sum(software.reviews.map((review) => (review.is_upvote === true ? 1 : 0))),
+    sum(software.reviews.map((review) => (review.is_upvote === false ? 1 : 0))),
     maxNetVotesInCatalog,
   );
 
-  const starComponent = computeWeightedStarScore(software.star_reviews);
+  const starComponent = computeWeightedStarScore(
+    software.reviews
+      .filter((review) => review.stars !== null)
+      .map((review) => ({ star: review.stars, karma: 1 })),
+  );
 
   return upvoteWeight * votesComponent + starWeight * starComponent;
 }
 
-// Example usage:
+// // Example usage:
 
-// Assume this is max absolute net votes across your catalog, precomputed:
-const maxNetVotesInCatalog = 150; // example number
+// // Assume this is max absolute net votes across your catalog, precomputed:
+// const maxNetVotesInCatalog = 150; // example number
 
-const softwareExample = {
-  upvotes_count: 120,
-  downvotes_count: 30,
-  star_reviews: [
-    { star: 5, karma: 10 },
-    { star: 3, karma: 2 },
-    { star: 1, karma: 1 },
-    { star: 4, karma: 5 },
-  ],
-};
+// const softwareExample = {
+//   upvotes_count: 120,
+//   downvotes_count: 30,
+//   star_reviews: [
+//     { star: 5, karma: 10 },
+//     { star: 3, karma: 2 },
+//     { star: 1, karma: 1 },
+//     { star: 4, karma: 5 },
+//   ],
+// };
 
-const finalScore = computeFinalScore(softwareExample, maxNetVotesInCatalog);
-console.log("Final aggregated score:", finalScore);
+// const finalScore = computeFinalScore(softwareExample, maxNetVotesInCatalog);
+// console.log("Final aggregated score:", finalScore);

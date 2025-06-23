@@ -151,9 +151,9 @@ export default function DetailsComponent({
                   </div>
 
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {software.tags.map((tag: string, index: number) => (
+                    {software.tags?.map((tag: string) => (
                       <span
-                        key={index}
+                        key={tag}
                         className="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-sm"
                       >
                         {tag}
@@ -334,40 +334,44 @@ export default function DetailsComponent({
                       Installation Instructions
                     </h2>
                     <div className="space-y-6">
-                      {Object.entries(
-                        software.other_details.installation_instructions[
-                          navigator.platform.toLowerCase().includes("mac")
-                            ? "macos"
-                            : navigator.platform.toLowerCase().includes("win")
-                              ? "windows"
-                              : "linux"
-                        ],
-                      ).map(([platform, instructions]) => (
-                        <div
-                          key={platform}
-                          className="bg-slate-50 rounded-xl p-6 border border-slate-100"
-                        >
-                          <div className="flex items-center space-x-3 mb-4">
-                            {platform === "windows" && (
-                              <Monitor className="w-6 h-6 text-blue-600" />
-                            )}
-                            {platform === "macos" && (
-                              <Laptop className="w-6 h-6 text-slate-600" />
-                            )}
-                            {platform === "linux" && (
-                              <Terminal className="w-6 h-6 text-orange-600" />
-                            )}
-                            <h3 className="text-lg font-semibold text-slate-800 capitalize">
-                              {platform}
-                            </h3>
-                          </div>
-                          <div className="bg-slate-800 rounded-lg p-4">
-                            <code className="text-green-400 text-sm font-mono">
-                              {instructions}
-                            </code>
-                          </div>
-                        </div>
-                      ))}
+                      {software.other_details.installation_instructions
+                        ? Object.entries(
+                            software.other_details.installation_instructions[
+                              navigator.platform.toLowerCase().includes("mac")
+                                ? "macos"
+                                : navigator.platform
+                                      .toLowerCase()
+                                      .includes("win")
+                                  ? "windows"
+                                  : "linux"
+                            ],
+                          ).map(([platform, instructions]) => (
+                            <div
+                              key={platform}
+                              className="bg-slate-50 rounded-xl p-6 border border-slate-100"
+                            >
+                              <div className="flex items-center space-x-3 mb-4">
+                                {platform === "windows" && (
+                                  <Monitor className="w-6 h-6 text-blue-600" />
+                                )}
+                                {platform === "macos" && (
+                                  <Laptop className="w-6 h-6 text-slate-600" />
+                                )}
+                                {platform === "linux" && (
+                                  <Terminal className="w-6 h-6 text-orange-600" />
+                                )}
+                                <h3 className="text-lg font-semibold text-slate-800 capitalize">
+                                  {platform}
+                                </h3>
+                              </div>
+                              <div className="bg-slate-800 rounded-lg p-4">
+                                <code className="text-green-400 text-sm font-mono">
+                                  {instructions}
+                                </code>
+                              </div>
+                            </div>
+                          ))
+                        : "None found"}
                     </div>
                   </div>
                 )}
@@ -454,7 +458,7 @@ export default function DetailsComponent({
               <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
                 <div className="space-y-4">
                   <a
-                    href={software.downloadUrl}
+                    href={software.other_details.links?.download}
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 flex items-center justify-center shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                   >
                     <Download className="w-5 h-5 mr-2" />
@@ -463,6 +467,7 @@ export default function DetailsComponent({
 
                   <div className="grid grid-cols-2 gap-3">
                     <button
+                      type="button"
                       onClick={() => setIsBookmarked(!isBookmarked)}
                       className={`flex items-center justify-center py-3 px-4 rounded-lg font-medium transition-colors ${
                         isBookmarked
@@ -477,6 +482,7 @@ export default function DetailsComponent({
                     </button>
 
                     <button
+                      type="button"
                       onClick={handleShare}
                       className="flex items-center justify-center py-3 px-4 rounded-lg font-medium bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100 transition-colors"
                     >

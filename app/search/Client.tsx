@@ -52,7 +52,7 @@ export default function Client({
       filtered = filtered.filter(
         (software) =>
           software.name.toLowerCase().includes(query) ||
-          software.short_description.toLowerCase().includes(query) ||
+          software.description.toLowerCase().includes(query) ||
           software.category.toLowerCase().includes(query),
       );
     }

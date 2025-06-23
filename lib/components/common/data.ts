@@ -67,6 +67,7 @@ export const reviewSchema = z.preprocess(
       comment: z.null(),
 
       username: z.string(),
+      avatar: z.string().optional(),
       date: z.string(),
     }),
     z.object({
@@ -78,6 +79,7 @@ export const reviewSchema = z.preprocess(
       comment: z.string(),
 
       username: z.string(),
+      avatar: z.string().optional(),
       date: z.string(),
     }),
   ]),
