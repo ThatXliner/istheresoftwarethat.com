@@ -156,6 +156,7 @@ export const catalogSummarySchema = softwareSchema
   .array();
 export type Software = z.infer<typeof softwareSchema>;
 export type Review = z.infer<typeof reviewSchema>;
+export type Feature = z.infer<typeof featureSchema>;
 export type CatalogSummary = z.infer<typeof catalogSummarySchema>;
 
 export const categories: Category[] = [

@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { softwareSchema } from "@/lib/components/common/data";
 import { createClient } from "@/lib/supabase/server";
 import DetailsComponent from "../DetailsComponent";
 import { fetchSoftwareById } from "./wrangler";

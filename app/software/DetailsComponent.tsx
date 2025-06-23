@@ -31,9 +31,13 @@ import millify from "millify";
 import Link from "next/link";
 import prettyBytes from "pretty-bytes";
 import { useState } from "react";
-import type { Review, Software } from "@/lib/components/common/data";
+import type { Feature, Review, Software } from "@/lib/components/common/data";
 
-export default function DetailsComponent({ software }: { software: Software }) {
+export default function DetailsComponent({
+  software,
+}: {
+  software: Software | null;
+}) {
   const [activeTab, setActiveTab] = useState("overview");
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
@@ -59,8 +63,8 @@ export default function DetailsComponent({ software }: { software: Software }) {
             Software Not Found
           </h2>
           <p className="text-slate-600 mb-8">
-            The software you're looking for doesn't exist or has been removed
-            from our catalog.
+            The software you're looking for doesn&apos;t exist or has been
+            removed from our catalog.
           </p>
           <Link
             href="/search"
@@ -114,7 +118,7 @@ export default function DetailsComponent({ software }: { software: Software }) {
                   </div>
 
                   <p className="text-xl text-slate-600 mb-4">
-                    {software.shortDescription}
+                    {software.other_details.short_description}
                   </p>
 
                   <div className="flex items-center space-x-6 mb-4">
@@ -238,7 +242,7 @@ export default function DetailsComponent({ software }: { software: Software }) {
                                 {software.other_details.screenshots.map(
                                   (_: any, index: number) => (
                                     <button
-                                      key={index}
+                                      type="button"
                                       onClick={() => setActiveScreenshot(index)}
                                       className={`w-20 h-12 rounded-lg overflow-hidden border-2 transition-colors ${
                                         activeScreenshot === index
@@ -292,9 +296,9 @@ export default function DetailsComponent({ software }: { software: Software }) {
                     </h2>
                     <div className="grid gap-6">
                       {software.other_details.features?.map(
-                        (feature: any, index: number) => (
+                        (feature: Feature) => (
                           <div
-                            key={index}
+                            key={feature.title}
                             className="bg-slate-50 rounded-xl p-6 border border-slate-100"
                           >
                             <div className="flex items-start space-x-4">
@@ -528,17 +532,17 @@ export default function DetailsComponent({ software }: { software: Software }) {
                           key={platform}
                           className="flex items-center space-x-2 text-sm text-slate-700"
                         >
-                          {platform === "Windows" && (
+                          {platform === "windows" && (
                             <Monitor className="w-4 h-4" />
                           )}
-                          {platform === "macOS" && (
+                          {platform === "macos" && (
                             <Laptop className="w-4 h-4" />
                           )}
-                          {platform === "Linux" && (
+                          {platform === "linux" && (
                             <Terminal className="w-4 h-4" />
                           )}
-                          {platform === "Web" && <Globe className="w-4 h-4" />}
-                          {platform === "Mobile" && (
+                          {platform === "web" && <Globe className="w-4 h-4" />}
+                          {platform === "mobile" && (
                             <Smartphone className="w-4 h-4" />
                           )}
                           <span>{platform}</span>
@@ -556,7 +560,7 @@ export default function DetailsComponent({ software }: { software: Software }) {
               </h3>
               <div className="space-y-3">
                 <a
-                  href={software.website}
+                  href={software.other_details.links?.website}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-3 text-slate-700 hover:text-blue-600 transition-colors"
@@ -565,30 +569,34 @@ export default function DetailsComponent({ software }: { software: Software }) {
                   <span>Official Website</span>
                   <ExternalLink className="w-4 h-4" />
                 </a>
-                <a
-                  href={software.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-3 text-slate-700 hover:text-blue-600 transition-colors"
-                >
-                  <Github className="w-5 h-5" />
-                  <span>Source Code</span>
-                  <ExternalLink className="w-4 h-4" />
-                </a>
-                <a
-                  href={software.documentationUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-3 text-slate-700 hover:text-blue-600 transition-colors"
-                >
-                  <BookOpen className="w-5 h-5" />
-                  <span>Documentation</span>
-                  <ExternalLink className="w-4 h-4" />
-                </a>
+                {software.other_details.links?.github && (
+                  <a
+                    href={software.other_details.links?.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-3 text-slate-700 hover:text-blue-600 transition-colors"
+                  >
+                    <Github className="w-5 h-5" />
+                    <span>Source Code</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                )}
+                {software.other_details.links?.documentation && (
+                  <a
+                    href={software.other_details.links?.documentation}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center space-x-3 text-slate-700 hover:text-blue-600 transition-colors"
+                  >
+                    <BookOpen className="w-5 h-5" />
+                    <span>Documentation</span>
+                    <ExternalLink className="w-4 h-4" />
+                  </a>
+                )}
               </div>
             </div>
 
-            {/* Alternatives */}
+            {/* Alternatives
             {software.alternatives && software.alternatives.length > 0 && (
               <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
                 <h3 className="text-lg font-semibold text-slate-800 mb-4">
@@ -616,7 +624,7 @@ export default function DetailsComponent({ software }: { software: Software }) {
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </div>
       </div>
