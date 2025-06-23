@@ -8,7 +8,7 @@ const ContactPage = () => {
     email: "",
     subject: "",
     category: "",
-    message: ""
+    message: "",
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -21,14 +21,18 @@ const ContactPage = () => {
     "Partnership",
     "Press Inquiry",
     "Legal/Privacy",
-    "Technical Support"
+    "Technical Support",
   ];
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
@@ -51,7 +55,7 @@ const ContactPage = () => {
               Message Sent!
             </h2>
             <p className="text-slate-600 mb-6 leading-relaxed">
-              Thank you for contacting us! We've received your message and will 
+              Thank you for contacting us! We've received your message and will
               get back to you within 24-48 hours.
             </p>
             <button
@@ -62,7 +66,7 @@ const ContactPage = () => {
                   email: "",
                   subject: "",
                   category: "",
-                  message: ""
+                  message: "",
                 });
               }}
               className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-xl transition-colors"
@@ -83,23 +87,24 @@ const ContactPage = () => {
           <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-4 rounded-2xl w-20 h-20 mx-auto mb-8 flex items-center justify-center">
             <MessageSquare className="w-10 h-10 text-white" />
           </div>
-          <h1 className="text-4xl font-bold text-slate-800 mb-6">
-            Contact Us
-          </h1>
+          <h1 className="text-4xl font-bold text-slate-800 mb-6">Contact Us</h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Have a question, suggestion, or want to contribute to our catalog? 
-            We'd love to hear from you. Get in touch and we'll respond as soon as possible.
+            Have a question, suggestion, or want to contribute to our catalog?
+            We'd love to hear from you. Get in touch and we'll respond as soon
+            as possible.
           </p>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
+      <div className="max-w-8xl mx-auto px-4 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Contact Information */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-100">
-              <h2 className="text-2xl font-bold text-slate-800 mb-6">Get in Touch</h2>
-              
+              <h2 className="text-2xl font-bold text-slate-800 mb-6">
+                Get in Touch
+              </h2>
+
               <div className="space-y-6">
                 <div className="flex items-start">
                   <div className="bg-blue-100 p-3 rounded-xl mr-4">
@@ -107,9 +112,12 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-slate-800 mb-1">Email</h3>
-                    <p className="text-slate-600">hello@istheresoftwarethat.com</p>
-                    <p className="text-sm text-slate-500 mt-1">We typically respond within 24 hours</p>
-                
+                    <p className="text-slate-600">
+                      hello@istheresoftwarethat.com
+                    </p>
+                    <p className="text-sm text-slate-500 mt-1">
+                      We typically respond within 24 hours
+                    </p>
                   </div>
                 </div>
 
@@ -118,9 +126,15 @@ const ContactPage = () => {
                     <MessageSquare className="w-6 h-6 text-green-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-slate-800 mb-1">Support</h3>
-                    <p className="text-slate-600">support@istheresoftwarethat.com</p>
-                    <p className="text-sm text-slate-500 mt-1">For technical issues and bug reports</p>
+                    <h3 className="font-semibold text-slate-800 mb-1">
+                      Support
+                    </h3>
+                    <p className="text-slate-600">
+                      support@istheresoftwarethat.com
+                    </p>
+                    <p className="text-sm text-slate-500 mt-1">
+                      For technical issues and bug reports
+                    </p>
                   </div>
                 </div>
 
@@ -129,9 +143,15 @@ const ContactPage = () => {
                     <Phone className="w-6 h-6 text-purple-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-slate-800 mb-1">Business</h3>
-                    <p className="text-slate-600">business@istheresoftwarethat.com</p>
-                    <p className="text-sm text-slate-500 mt-1">Partnerships and press inquiries</p>
+                    <h3 className="font-semibold text-slate-800 mb-1">
+                      Business
+                    </h3>
+                    <p className="text-slate-600">
+                      business@istheresoftwarethat.com
+                    </p>
+                    <p className="text-sm text-slate-500 mt-1">
+                      Partnerships and press inquiries
+                    </p>
                   </div>
                 </div>
 
@@ -140,16 +160,22 @@ const ContactPage = () => {
                     <MapPin className="w-6 h-6 text-orange-600" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-slate-800 mb-1">Location</h3>
+                    <h3 className="font-semibold text-slate-800 mb-1">
+                      Location
+                    </h3>
                     <p className="text-slate-600">Remote Team</p>
-                    <p className="text-sm text-slate-500 mt-1">Distributed across the globe</p>
+                    <p className="text-sm text-slate-500 mt-1">
+                      Distributed across the globe
+                    </p>
                   </div>
                 </div>
               </div>
 
               {/* Response Time */}
               <div className="mt-8 p-4 bg-blue-50 rounded-xl border border-blue-100">
-                <h3 className="font-semibold text-slate-800 mb-2">Response Times</h3>
+                <h3 className="font-semibold text-slate-800 mb-2">
+                  Response Times
+                </h3>
                 <ul className="text-sm text-slate-600 space-y-1">
                   <li>• General inquiries: 24-48 hours</li>
                   <li>• Technical support: 12-24 hours</li>
@@ -163,13 +189,18 @@ const ContactPage = () => {
           {/* Contact Form */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-100">
-              <h2 className="text-2xl font-bold text-slate-800 mb-6">Send us a Message</h2>
-              
+              <h2 className="text-2xl font-bold text-slate-800 mb-6">
+                Send us a Message
+              </h2>
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name and Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium text-slate-700 mb-2"
+                    >
                       Your Name *
                     </label>
                     <input
@@ -183,9 +214,12 @@ const ContactPage = () => {
                       placeholder="John Doe"
                     />
                   </div>
-                  
+
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-slate-700 mb-2"
+                    >
                       Email Address *
                     </label>
                     <input
@@ -204,7 +238,10 @@ const ContactPage = () => {
                 {/* Category and Subject */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="category" className="block text-sm font-medium text-slate-700 mb-2">
+                    <label
+                      htmlFor="category"
+                      className="block text-sm font-medium text-slate-700 mb-2"
+                    >
                       Category *
                     </label>
                     <select
@@ -216,14 +253,19 @@ const ContactPage = () => {
                       className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
                       <option value="">Select a category</option>
-                      {categories.map(category => (
-                        <option key={category} value={category}>{category}</option>
+                      {categories.map((category) => (
+                        <option key={category} value={category}>
+                          {category}
+                        </option>
                       ))}
                     </select>
                   </div>
-                  
+
                   <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-slate-700 mb-2">
+                    <label
+                      htmlFor="subject"
+                      className="block text-sm font-medium text-slate-700 mb-2"
+                    >
                       Subject *
                     </label>
                     <input
@@ -241,7 +283,10 @@ const ContactPage = () => {
 
                 {/* Message */}
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-2">
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium text-slate-700 mb-2"
+                  >
                     Message *
                   </label>
                   <textarea
@@ -276,44 +321,62 @@ const ContactPage = () => {
 
         {/* FAQ Section */}
         <div className="mt-16 bg-white rounded-2xl shadow-lg p-8 border border-slate-100">
-          <h2 className="text-2xl font-bold text-slate-800 mb-6 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-2xl font-bold text-slate-800 mb-6 text-center">
+            Frequently Asked Questions
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <h3 className="text-lg font-semibold text-slate-800 mb-3">How do I submit new software?</h3>
+              <h3 className="text-lg font-semibold text-slate-800 mb-3">
+                How do I submit new software?
+              </h3>
               <p className="text-slate-600 mb-4">
-                Visit our <a href="/submit" className="text-blue-600 hover:underline">Submit Software</a> page 
-                to recommend new free and open-source software for our catalog.
+                Visit our{" "}
+                <a href="/submit" className="text-blue-600 hover:underline">
+                  Submit Software
+                </a>{" "}
+                page to recommend new free and open-source software for our
+                catalog.
               </p>
-              
-              <h3 className="text-lg font-semibold text-slate-800 mb-3">Can I report incorrect information?</h3>
+
+              <h3 className="text-lg font-semibold text-slate-800 mb-3">
+                Can I report incorrect information?
+              </h3>
               <p className="text-slate-600">
-                Yes! Please use the contact form above with the category "Bug Report" to let us know 
-                about any incorrect or outdated information.
+                Yes! Please use the contact form above with the category "Bug
+                Report" to let us know about any incorrect or outdated
+                information.
               </p>
             </div>
-            
+
             <div>
-              <h3 className="text-lg font-semibold text-slate-800 mb-3">Do you accept partnerships?</h3>
+              <h3 className="text-lg font-semibold text-slate-800 mb-3">
+                Do you accept partnerships?
+              </h3>
               <p className="text-slate-600 mb-4">
-                We're open to partnerships that align with our mission of promoting free and 
-                open-source software. Contact us with "Partnership" category.
+                We're open to partnerships that align with our mission of
+                promoting free and open-source software. Contact us with
+                "Partnership" category.
               </p>
-              
-              <h3 className="text-lg font-semibold text-slate-800 mb-3">How can I contribute to the project?</h3>
+
+              <h3 className="text-lg font-semibold text-slate-800 mb-3">
+                How can I contribute to the project?
+              </h3>
               <p className="text-slate-600">
-                There are many ways to contribute! You can submit software, write reviews, 
-                report bugs, or help with translations. Contact us to learn more.
+                There are many ways to contribute! You can submit software,
+                write reviews, report bugs, or help with translations. Contact
+                us to learn more.
               </p>
             </div>
           </div>
         </div>
 
         {/* Alternative Contact Methods */}
-        <div className="mt-12 text-center">
+        <div className="mt-12 text-center w-fit mx-auto">
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white">
             <h2 className="text-2xl font-bold mb-4">Other Ways to Connect</h2>
             <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-              Follow us on social media for updates, or check out our FAQ section for quick answers.
+              Follow us on social media for updates, or check out our FAQ
+              section for quick answers.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a

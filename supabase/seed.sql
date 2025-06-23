@@ -26,7 +26,7 @@ INSERT INTO public.software (id, name, category, added_date, last_updated, compa
         ),
         'installation_instructions', jsonb_build_object('windows', '', 'macos', '', 'linux', '')
     )),
-    (2, 'GIMP', 'Design', '2025-01-01T00:00:00Z', '2024-11-20T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', ARRAY['Image Editor', 'Graphics', 'Photo Editing', 'Design', 'Open Source'], '2.10.36', 'GPL v3', 209715200,
+    (2, 'GIMP', 'Design', '2025-01-01T00:00:00Z', '2024-11-20T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', ARRAY['Image Editor', 'Graphics', 'Photo Editing', 'Design', 'Open Source'], '2.10.36', 'GPL-3.0-or-later', 209715200,
      jsonb_build_object(
         'long_description', 'GIMP is a cross-platform image editor available for GNU/Linux, macOS, and Windows. It is free software, you can change its source code and distribute your changes. Whether you are a graphic designer, photographer, illustrator, or scientist, GIMP provides you with sophisticated tools to get your job done.',
         'short_description', 'Professional image editing software with advanced features',
@@ -49,7 +49,7 @@ INSERT INTO public.software (id, name, category, added_date, last_updated, compa
         ),
         'installation_instructions', jsonb_build_object('windows', '', 'macos', '', 'linux', '')
     )),
-    (3, 'Blender', 'Media', '2025-01-01T00:00:00Z', '2024-12-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', ARRAY['3D Modeling', 'Animation', 'Rendering', 'VFX', 'Game Development'], '4.0.2', 'GPL v3', 209715200,
+    (3, 'Blender', 'Media', '2025-01-01T00:00:00Z', '2024-12-01T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', ARRAY['3D Modeling', 'Animation', 'Rendering', 'VFX', 'Game Development'], '4.0.2', 'GPL-3.0-or-later', 209715200,
      jsonb_build_object(
         'long_description', 'Blender is the free and open source 3D creation suite. It supports the entirety of the 3D pipeline—modeling, rigging, animation, simulation, rendering, compositing and motion tracking, video editing and 2D animation pipeline. Blender is a public project, made by hundreds of people from around the world; by studios and individual artists, professionals and hobbyists, scientists and students.',
         'short_description', 'Professional 3D creation suite for modeling, animation, and rendering',
@@ -73,7 +73,7 @@ INSERT INTO public.software (id, name, category, added_date, last_updated, compa
         ),
         'installation_instructions', jsonb_build_object('windows', '', 'macos', '', 'linux', '')
     )),
-    (4, 'LibreOffice', 'Productivity', '2025-01-01T00:00:00Z', '2024-11-15T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', ARRAY['Office Suite', 'Word Processor', 'Spreadsheet', 'Presentation', 'Database'], '7.6.4', 'Mozilla Public License v2.0', 367001600,
+    (4, 'LibreOffice', 'Productivity', '2025-01-01T00:00:00Z', '2024-11-15T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', ARRAY['Office Suite', 'Word Processor', 'Spreadsheet', 'Presentation', 'Database'], '7.6.4', 'MPL-2.0', 367001600,
      jsonb_build_object(
         'long_description', 'LibreOffice is a powerful and free office suite, used by millions of people around the world. Its clean interface and feature-rich tools help you unleash your creativity and enhance your productivity. LibreOffice includes several applications that make it the most versatile Free and Open Source office suite on the market.',
         'short_description', 'Free and open source office suite alternative to Microsoft Office',
@@ -162,7 +162,7 @@ INSERT INTO public.software (id, name, category, added_date, last_updated, compa
         ),
         'installation_instructions', jsonb_build_object('windows', '', 'macos', '', 'linux', '')
     )),
-    (8, 'OBS Studio', 'Media', '2024-12-28T00:00:00Z', '2024-12-05T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', ARRAY['Streaming', 'Recording', 'Broadcasting', 'Video Production', 'Live Streaming'], '30.0.2', 'GPL v2', 157286400,
+    (8, 'OBS Studio', 'Media', '2024-12-28T00:00:00Z', '2024-12-05T00:00:00Z', '{"windows": true, "macos": true, "linux": true}', ARRAY['Streaming', 'Recording', 'Broadcasting', 'Video Production', 'Live Streaming'], '30.0.2', 'GPL-2.0-only', 157286400,
      jsonb_build_object(
         'long_description', 'OBS Studio is a free and open-source, cross-platform screencasting and streaming app. It is available for Windows, macOS and Linux distributions. OBS Project raises funds on Open Collective and Patreon. The software is also used for virtual webcam, recording, and live streaming.',
         'short_description', 'Free and open source software for video recording and live streaming',

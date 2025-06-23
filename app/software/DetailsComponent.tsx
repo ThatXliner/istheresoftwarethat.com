@@ -15,6 +15,7 @@ import {
   Github,
   Globe,
   Heart,
+  InfoIcon,
   Laptop,
   Monitor,
   Share2,
@@ -378,7 +379,10 @@ export default function DetailsComponent({
                       <h2 className="text-2xl font-bold text-slate-800">
                         User Reviews
                       </h2>
-                      <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+                      <button
+                        type="button"
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+                      >
                         Write Review
                       </button>
                     </div>
@@ -503,6 +507,35 @@ export default function DetailsComponent({
                         </span>
                       </div>
                     )}
+                    <div className="flex justify-between group relative">
+                      <span className="text-slate-600">License</span>
+                      <div className="flex items-center">
+                        <span className="font-medium text-slate-800">
+                          {software.license}
+                        </span>
+                        <div className="relative">
+                          <InfoIcon className="w-4 h-4 ml-2 text-slate-400 cursor-help" />
+                          <div className="absolute bottom-full right-0 mb-2 w-48 p-2 bg-slate-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
+                            <p className="mb-2">
+                              Click to learn more about this license's:
+                            </p>
+                            <ul className="list-disc pl-4">
+                              <li>Permissions</li>
+                              <li>Conditions</li>
+                              <li>Limitations</li>
+                            </ul>
+                            <a
+                              href={`https://opensource.org/licenses/${software.license}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-blue-300 hover:text-blue-200 mt-2 inline-block"
+                            >
+                              View OSI License Details →
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <div className="flex justify-between">
                       <span className="text-slate-600">License</span>
                       <span className="font-medium text-slate-800">
