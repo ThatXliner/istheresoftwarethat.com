@@ -1,10 +1,10 @@
 "use client";
-import { useId, useState } from "react";
-import { LogIn, User, Mail } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { LogIn, Mail, User } from "lucide-react";
 import Link from "next/link";
-import Password from "./Password";
+import { useSearchParams } from "next/navigation";
+import { useId, useState } from "react";
 import { signIn, signUp } from "./actions";
+import Password from "./Password";
 
 const LoginPage = () => {
   const params = useSearchParams();
@@ -181,6 +181,7 @@ const LoginPage = () => {
                 className="w-full inline-flex justify-center py-2 px-4 border border-slate-300 rounded-md shadow-sm bg-white text-sm font-medium text-slate-500 hover:bg-slate-50 transition-colors"
               >
                 <svg
+                  aria-label="Github Icon"
                   className="w-5 h-5"
                   fill="currentColor"
                   viewBox="0 0 24 24"

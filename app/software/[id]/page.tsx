@@ -1,23 +1,18 @@
 import { Suspense } from "react";
-import DetailsComponent from "../DetailsComponent";
-import { createClient } from "@/lib/supabase/server";
 import { softwareSchema } from "@/lib/components/common/data";
+import { createClient } from "@/lib/supabase/server";
+import DetailsComponent from "../DetailsComponent";
+import { fetchSoftwareById } from "./wrangler";
 
 export default async function SoftwareDetailsPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: number }>;
 }) {
   const { id } = await params;
   const client = await createClient();
-  const { data: software, error } = client
-    .from("software")
-    .select("*")
-    .eq("id", id)
-    .single();
-  if (error) {
-    throw error;
-  }
+  const software = await fetchSoftwareById(client, id);
+
   return (
     <Suspense
       fallback={
@@ -31,7 +26,7 @@ export default async function SoftwareDetailsPage({
         </div>
       }
     >
-      <DetailsComponent software={softwareSchema.parse(software)} />
+      <DetailsComponent software={software} />
     </Suspense>
   );
 }

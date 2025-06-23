@@ -5,7 +5,12 @@ INSERT INTO public.software (id, name, category, added_date, last_updated, compa
         'long_description', 'Visual Studio Code is a streamlined code editor with support for development operations like debugging, task running, and version control. It aims to provide just the tools a developer needs for a quick code-build-debug cycle and leaves more complex workflows to fuller featured IDEs, such as Visual Studio IDE.',
         'short_description', 'Powerful, lightweight code editor with extensive extension support',
         'icon', NULL,
-        'links', '{"website": "https://code.visualstudio.com", "github": "https://github.com/microsoft/vscode", "download": "https://code.visualstudio.com/download", "documentation": "https://code.visualstudio.com/docs"}',
+        'links', jsonb_build_object(
+            'website', 'https://code.visualstudio.com',
+            'github', 'https://github.com/microsoft/vscode',
+            'download', 'https://code.visualstudio.com/download',
+            'documentation', 'https://code.visualstudio.com/docs'
+        ),
         'screenshots', jsonb_build_array(
             'https://images.pexels.com/photos/11035380/pexels-photo-11035380.jpeg?auto=compress&cs=tinysrgb&w=800',
             'https://images.pexels.com/photos/4164418/pexels-photo-4164418.jpeg?auto=compress&cs=tinysrgb&w=800',
@@ -26,7 +31,12 @@ INSERT INTO public.software (id, name, category, added_date, last_updated, compa
         'long_description', 'GIMP is a cross-platform image editor available for GNU/Linux, macOS, and Windows. It is free software, you can change its source code and distribute your changes. Whether you are a graphic designer, photographer, illustrator, or scientist, GIMP provides you with sophisticated tools to get your job done.',
         'short_description', 'Professional image editing software with advanced features',
         'icon', NULL,
-        'links', '{"website": "https://www.gimp.org", "github": "https://gitlab.gnome.org/GNOME/gimp", "download": "https://www.gimp.org/downloads/", "documentation": "https://docs.gimp.org/"}',
+        'links', jsonb_build_object(
+            'website', 'https://www.gimp.org',
+            'github', 'https://gitlab.gnome.org/GNOME/gimp',
+            'download', 'https://www.gimp.org/downloads/',
+            'documentation', 'https://docs.gimp.org/'
+        ),
         'screenshots', jsonb_build_array(
             'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800',
             'https://images.pexels.com/photos/3584994/pexels-photo-3584994.jpeg?auto=compress&cs=tinysrgb&w=800'
@@ -44,7 +54,12 @@ INSERT INTO public.software (id, name, category, added_date, last_updated, compa
         'long_description', 'Blender is the free and open source 3D creation suite. It supports the entirety of the 3D pipeline—modeling, rigging, animation, simulation, rendering, compositing and motion tracking, video editing and 2D animation pipeline. Blender is a public project, made by hundreds of people from around the world; by studios and individual artists, professionals and hobbyists, scientists and students.',
         'short_description', 'Professional 3D creation suite for modeling, animation, and rendering',
         'icon', NULL,
-        'links', '{"website": "https://www.blender.org", "github": "https://github.com/blender/blender", "download": "https://www.blender.org/download/", "documentation": "https://docs.blender.org/"}',
+        'links', jsonb_build_object(
+            'website', 'https://www.blender.org',
+            'github', 'https://github.com/blender/blender',
+            'download', 'https://www.blender.org/download/',
+            'documentation', 'https://docs.blender.org/'
+        ),
         'screenshots', jsonb_build_array(
             'https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=800',
             'https://images.pexels.com/photos/3721941/pexels-photo-3721941.jpeg?auto=compress&cs=tinysrgb&w=800'
@@ -63,7 +78,12 @@ INSERT INTO public.software (id, name, category, added_date, last_updated, compa
         'long_description', 'LibreOffice is a powerful and free office suite, used by millions of people around the world. Its clean interface and feature-rich tools help you unleash your creativity and enhance your productivity. LibreOffice includes several applications that make it the most versatile Free and Open Source office suite on the market.',
         'short_description', 'Free and open source office suite alternative to Microsoft Office',
         'icon', NULL,
-        'links', '{"website": "https://www.libreoffice.org", "github": "https://github.com/LibreOffice/core", "download": "https://www.libreoffice.org/download/", "documentation": "https://documentation.libreoffice.org/"}',
+        'links', jsonb_build_object(
+            'website', 'https://www.libreoffice.org',
+            'github', 'https://github.com/LibreOffice/core',
+            'download', 'https://www.libreoffice.org/download/',
+            'documentation', 'https://documentation.libreoffice.org/'
+        ),
         'screenshots', jsonb_build_array(
             'https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=800'
         ),
@@ -81,7 +101,11 @@ INSERT INTO public.software (id, name, category, added_date, last_updated, compa
         'long_description', 'Obsidian is a powerful and extensible knowledge base that works on top of your local folder of plain text files. It lets you turn a collection of plain text files into a rich network of linked thought. Obsidian is designed to be your second brain - a place where you can store, link, and retrieve your thoughts and ideas.',
         'short_description', 'Powerful knowledge management tool with linked notes and graph view',
         'icon', NULL,
-        'links', '{"website": "https://obsidian.md", "download": "https://obsidian.md/download", "documentation": "https://help.obsidian.md/"}',
+        'links', jsonb_build_object(
+            'website', 'https://obsidian.md',
+            'download', 'https://obsidian.md/download',
+            'documentation', 'https://help.obsidian.md/'
+        ),
         'screenshots', jsonb_build_array(
             'https://images.pexels.com/photos/6224/hands-people-woman-working.jpg?auto=compress&cs=tinysrgb&w=800'
         ),
@@ -99,7 +123,11 @@ INSERT INTO public.software (id, name, category, added_date, last_updated, compa
         'long_description', 'Figma is a collaborative web application for interface design, with additional offline features enabled by desktop applications for macOS and Windows. The feature set of Figma focuses on user interface and user experience design, with an emphasis on real-time collaboration, utilizing a variety of vector graphics editor and prototyping tools.',
         'short_description', 'Collaborative interface design tool with real-time collaboration',
         'icon', NULL,
-        'links', '{"website": "https://www.figma.com", "download": "https://www.figma.com/downloads/", "documentation": "https://help.figma.com/"}',
+        'links', jsonb_build_object(
+            'website', 'https://www.figma.com',
+            'download', 'https://www.figma.com/downloads/',
+            'documentation', 'https://help.figma.com/'
+        ),
         'screenshots', jsonb_build_array(
             'https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=800'
         ),
@@ -117,7 +145,11 @@ INSERT INTO public.software (id, name, category, added_date, last_updated, compa
         'long_description', 'Discord is a VoIP and instant messaging social platform. Users have the ability to communicate with voice calls, video calls, text messaging, media and files in private chats or as part of communities called "servers". A server is a collection of persistent chat rooms and voice channels accessible via invite links.',
         'short_description', 'Voice, video and text communication platform for communities',
         'icon', NULL,
-        'links', '{"website": "https://discord.com", "download": "https://discord.com/download", "documentation": "https://support.discord.com/"}',
+        'links', jsonb_build_object(
+            'website', 'https://discord.com',
+            'download', 'https://discord.com/download',
+            'documentation', 'https://support.discord.com/'
+        ),
         'screenshots', jsonb_build_array(
             'https://images.pexels.com/photos/4050315/pexels-photo-4050315.jpeg?auto=compress&cs=tinysrgb&w=800'
         ),
@@ -135,7 +167,12 @@ INSERT INTO public.software (id, name, category, added_date, last_updated, compa
         'long_description', 'OBS Studio is a free and open-source, cross-platform screencasting and streaming app. It is available for Windows, macOS and Linux distributions. OBS Project raises funds on Open Collective and Patreon. The software is also used for virtual webcam, recording, and live streaming.',
         'short_description', 'Free and open source software for video recording and live streaming',
         'icon', NULL,
-        'links', '{"website": "https://obsproject.com", "github": "https://github.com/obsproject/obs-studio", "download": "https://obsproject.com/download", "documentation": "https://obsproject.com/wiki/"}',
+        'links', jsonb_build_object(
+            'website', 'https://obsproject.com',
+            'github', 'https://github.com/obsproject/obs-studio',
+            'download', 'https://obsproject.com/download',
+            'documentation', 'https://obsproject.com/wiki/'
+        ),
         'screenshots', jsonb_build_array(
             'https://images.pexels.com/photos/4050315/pexels-photo-4050315.jpeg?auto=compress&cs=tinysrgb&w=800'
         ),

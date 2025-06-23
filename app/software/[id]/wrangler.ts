@@ -1,10 +1,11 @@
-import { SupabaseClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import * as z from "zod/v4";
 import {
-  softwareSchema,
   reviewSchema,
   type Software,
+  softwareSchema,
+  statsSchema,
 } from "@/lib/components/common/data";
-import * as z from "zod/v4";
 /**
  * Fetches software data from Supabase by ID, including its associated reviews,
  * and validates the combined data against the softwareSchema.
@@ -20,7 +21,7 @@ export async function fetchSoftwareById(
     const { data: softwareData, error: softwareError } = await supabase
       .from("software")
       .select(
-        "id, name, category, added_date, last_updated, compatibility, tags, version, license, size, is_active, other_details",
+        "id, name, category, added_date, last_updated, compatibility, tags, version, license, size, other_details",
       )
       .eq("id", softwareId)
       .single();
@@ -49,6 +50,16 @@ export async function fetchSoftwareById(
       return null;
     }
 
+    const { data: statsData, error: statsError } = await supabase
+      .from("software_stats")
+      .select("*")
+      .eq("software_id", softwareId)
+      .single();
+    if (statsError) {
+      console.error("Supabase software stats fetch error:", statsError.message);
+      return null;
+    }
+
     // 3. Combine fetched data into a single object conforming to softwareSchema's expected input
     // First, validate each review individually to ensure proper type inference for the discriminated union
     const parsedReviews = reviewsData
@@ -70,11 +81,13 @@ export async function fetchSoftwareById(
           .filter(Boolean)
       : []; // Filter out any nulls if review parsing failed for some
 
+    const parsedStats = statsSchema.parse(statsData);
+
     const combinedData = {
       ...softwareData,
+      stats: parsedStats,
       reviews: parsedReviews, // Attach the fetched and parsed reviews
     };
-
     // 4. Validate and transform the combined data using the main software schema
     const parsedSoftware = softwareSchema.parse(combinedData);
 
