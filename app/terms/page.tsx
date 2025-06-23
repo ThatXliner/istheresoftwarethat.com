@@ -193,7 +193,7 @@ const TermsPage = () => {
               <div className="bg-slate-50 rounded-lg p-4">
                 <p className="text-slate-700">
                   <strong>Email:</strong> legal@istheresoftwarethat.com<br />
-                  <strong>Website:</strong> <Link href="/contact" className="text-blue-600 hover:underline">Contact Form</Link>
+                  <strong>Website:</strong> <Link href="/contact" className=\"text-blue-600 hover:underline">Contact Form</Link>
                 </p>
               </div>
             </section>
