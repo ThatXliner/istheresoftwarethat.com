@@ -8,10 +8,8 @@ const FAQPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const toggleItem = (index: number) => {
-    setOpenItems(prev => 
-      prev.includes(index) 
-        ? prev.filter(i => i !== index)
-        : [...prev, index]
+    setOpenItems((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index],
     );
   };
 
@@ -21,116 +19,140 @@ const FAQPage = () => {
       questions: [
         {
           question: "What is IsThereSoftwareThat.com?",
-          answer: "IsThereSoftwareThat.com is a curated catalog of free and open-source software. We help you discover alternatives to expensive commercial software by providing detailed information, user reviews, and comparison tools."
+          answer:
+            "IsThereSoftwareThat.com is a curated catalog of free and open-source software. We help you discover alternatives to expensive commercial software by providing detailed information, user reviews, and comparison tools.",
         },
         {
           question: "Is all software on your site completely free?",
-          answer: "Yes! We focus exclusively on free and open-source software (FOSS). While some software may offer premium features or support, the core functionality is always available at no cost."
+          answer:
+            "Yes! We focus exclusively on free and open-source software (FOSS). While some software may offer premium features or support, the core functionality is always available at no cost.",
         },
         {
           question: "How do you choose which software to include?",
-          answer: "We carefully curate our catalog based on several criteria: active development, community support, reliability, user feedback, and overall quality. We prioritize software that's well-maintained and has a strong user base."
+          answer:
+            "We carefully curate our catalog based on several criteria: active development, community support, reliability, user feedback, and overall quality. We prioritize software that's well-maintained and has a strong user base.",
         },
         {
           question: "Can I trust the software recommendations?",
-          answer: "Absolutely. All software in our catalog is vetted for security and reliability. We only include projects that are actively maintained, have good community support, and positive user feedback. However, we always recommend reviewing the software yourself before installation."
-        }
-      ]
+          answer:
+            "Absolutely. All software in our catalog is vetted for security and reliability. We only include projects that are actively maintained, have good community support, and positive user feedback. However, we always recommend reviewing the software yourself before installation.",
+        },
+      ],
     },
     {
       category: "Using the Site",
       questions: [
         {
           question: "How does the semantic search work?",
-          answer: "Our semantic search understands the intent behind your query, not just keywords. You can describe what you want to do in plain English, like 'edit videos for YouTube' or 'manage my finances,' and we'll find relevant software."
+          answer:
+            "Our semantic search understands the intent behind your query, not just keywords. You can describe what you want to do in plain English, like 'edit videos for YouTube' or 'manage my finances,' and we'll find relevant software.",
         },
         {
           question: "How do I compare different software options?",
-          answer: "Use our comparison tool by visiting the /compare page or clicking 'Compare' in the navigation. You can add up to 3 software packages and see their features, pros, cons, and user ratings side by side."
+          answer:
+            "Use our comparison tool by visiting the /compare page or clicking 'Compare' in the navigation. You can add up to 3 software packages and see their features, pros, cons, and user ratings side by side.",
         },
         {
           question: "Can I filter search results?",
-          answer: "Yes! Our search page includes filters for platforms (Windows, macOS, Linux), categories, licenses, and more. This helps you narrow down results to find exactly what you need."
+          answer:
+            "Yes! Our search page includes filters for platforms (Windows, macOS, Linux), categories, licenses, and more. This helps you narrow down results to find exactly what you need.",
         },
         {
           question: "How are software ratings calculated?",
-          answer: "Our rating system combines user upvotes/downvotes with detailed star ratings and reviews. We use a sophisticated algorithm that weighs both the quantity and quality of feedback to provide accurate scores."
-        }
-      ]
+          answer:
+            "Our rating system combines user upvotes/downvotes with detailed star ratings and reviews. We use a sophisticated algorithm that weighs both the quantity and quality of feedback to provide accurate scores.",
+        },
+      ],
     },
     {
       category: "Contributing",
       questions: [
         {
           question: "How can I submit new software?",
-          answer: "Visit our Submit page (/submit) to recommend new software. You'll need to provide basic information about the software, including its name, description, category, and links. Our team reviews all submissions before adding them to the catalog."
+          answer:
+            "Visit our Submit page (/submit) to recommend new software. You'll need to provide basic information about the software, including its name, description, category, and links. Our team reviews all submissions before adding them to the catalog.",
         },
         {
           question: "Can I write reviews for software?",
-          answer: "Yes! User reviews are essential to our community. You can write detailed reviews with star ratings or simply upvote/downvote software you've used. Creating an account allows you to manage your reviews and bookmarks."
+          answer:
+            "Yes! User reviews are essential to our community. You can write detailed reviews with star ratings or simply upvote/downvote software you've used. Creating an account allows you to manage your reviews and bookmarks.",
         },
         {
           question: "What makes a good software submission?",
-          answer: "Good submissions include: accurate descriptions, proper categorization, working download links, clear licensing information, and evidence that the software is actively maintained. Include screenshots if possible!"
+          answer:
+            "Good submissions include: accurate descriptions, proper categorization, working download links, clear licensing information, and evidence that the software is actively maintained. Include screenshots if possible!",
         },
         {
           question: "Do you accept commercial software?",
-          answer: "No, we focus exclusively on free and open-source software. However, we do include freemium software where the core functionality is available for free, clearly marking any premium features."
-        }
-      ]
+          answer:
+            "No, we focus exclusively on free and open-source software. However, we do include freemium software where the core functionality is available for free, clearly marking any premium features.",
+        },
+      ],
     },
     {
       category: "Technical",
       questions: [
         {
           question: "Do I need to create an account?",
-          answer: "An account isn't required to browse and search our catalog. However, creating an account allows you to bookmark software, write reviews, submit new software, and get personalized recommendations."
+          answer:
+            "An account isn&apos;t required to browse and search our catalog. However, creating an account allows you to bookmark software, write reviews, submit new software, and get personalized recommendations.",
         },
         {
           question: "Is my data safe?",
-          answer: "Yes. We take privacy seriously and only collect essential information. We don't sell user data, and our platform is built with privacy-first principles. Check our Privacy Policy for detailed information."
+          answer:
+            "Yes. We take privacy seriously and only collect essential information. We don&apos;t sell user data, and our platform is built with privacy-first principles. Check our Privacy Policy for detailed information.",
         },
         {
           question: "Can I use your data via an API?",
-          answer: "We're working on a public API for developers. If you're interested in accessing our software catalog programmatically, please contact us through our Contact page."
+          answer:
+            "We're working on a public API for developers. If you're interested in accessing our software catalog programmatically, please contact us through our Contact page.",
         },
         {
           question: "What browsers do you support?",
-          answer: "Our site works on all modern browsers including Chrome, Firefox, Safari, and Edge. We also ensure full mobile compatibility for browsing on phones and tablets."
-        }
-      ]
+          answer:
+            "Our site works on all modern browsers including Chrome, Firefox, Safari, and Edge. We also ensure full mobile compatibility for browsing on phones and tablets.",
+        },
+      ],
     },
     {
       category: "Troubleshooting",
       questions: [
         {
-          question: "I found incorrect information about software. How do I report it?",
-          answer: "Please contact us through our Contact page with details about the incorrect information. We take accuracy seriously and will investigate and correct any issues promptly."
+          question:
+            "I found incorrect information about software. How do I report it?",
+          answer:
+            "Please contact us through our Contact page with details about the incorrect information. We take accuracy seriously and will investigate and correct any issues promptly.",
         },
         {
-          question: "A download link isn't working. What should I do?",
-          answer: "Report broken links through our Contact page. We regularly check our links, but with thousands of software packages, some may occasionally break. We'll fix them as soon as possible."
+          question: "A download link isn&apos;t working. What should I do?",
+          answer:
+            "Report broken links through our Contact page. We regularly check our links, but with thousands of software packages, some may occasionally break. We'll fix them as soon as possible.",
         },
         {
-          question: "Why isn't my submitted software appearing?",
-          answer: "All submissions go through a review process that typically takes 2-5 business days. We verify the software meets our criteria and ensure all information is accurate before publishing."
+          question: "Why isn&apos;t my submitted software appearing?",
+          answer:
+            "All submissions go through a review process that typically takes 2-5 business days. We verify the software meets our criteria and ensure all information is accurate before publishing.",
         },
         {
-          question: "The search isn't finding what I'm looking for. Any tips?",
-          answer: "Try different keywords or describe your need differently. Use our category filters to narrow results. If you still can't find what you need, try our 'Submit Software' page to request it!"
-        }
-      ]
-    }
+          question:
+            "The search isn&apos;t finding what I'm looking for. Any tips?",
+          answer:
+            "Try different keywords or describe your need differently. Use our category filters to narrow results. If you still can&apos;t find what you need, try our 'Submit Software' page to request it!",
+        },
+      ],
+    },
   ];
 
-  const filteredFAQs = faqs.map(category => ({
-    ...category,
-    questions: category.questions.filter(
-      faq => 
-        faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        faq.answer.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  })).filter(category => category.questions.length > 0);
+  const filteredFAQs = faqs
+    .map((category) => ({
+      ...category,
+      questions: category.questions.filter(
+        (faq) =>
+          faq.question.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          faq.answer.toLowerCase().includes(searchQuery.toLowerCase()),
+      ),
+    }))
+    .filter((category) => category.questions.length > 0);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -144,8 +166,9 @@ const FAQPage = () => {
             Frequently Asked Questions
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Find answers to common questions about using IsThereSoftwareThat.com, 
-            contributing to our catalog, and discovering great free software.
+            Find answers to common questions about using
+            IsThereSoftwareThat.com, contributing to our catalog, and
+            discovering great free software.
           </p>
         </div>
       </div>
@@ -176,18 +199,19 @@ const FAQPage = () => {
               </div>
               {category.category}
             </h2>
-            
+
             <div className="space-y-4">
               {category.questions.map((faq, questionIndex) => {
                 const globalIndex = categoryIndex * 100 + questionIndex;
                 const isOpen = openItems.includes(globalIndex);
-                
+
                 return (
                   <div
                     key={questionIndex}
                     className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden"
                   >
                     <button
+                      type="button"
                       onClick={() => toggleItem(globalIndex)}
                       className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-slate-50 transition-colors"
                     >
@@ -200,7 +224,7 @@ const FAQPage = () => {
                         <ChevronDown className="w-5 h-5 text-slate-500 flex-shrink-0" />
                       )}
                     </button>
-                    
+
                     {isOpen && (
                       <div className="px-6 pb-4">
                         <div className="border-t border-slate-100 pt-4">
@@ -243,8 +267,9 @@ const FAQPage = () => {
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 text-white text-center">
             <h2 className="text-2xl font-bold mb-4">Still Need Help?</h2>
             <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-              Can't find the answer you're looking for? Our team is here to help. 
-              Reach out and we'll get back to you as soon as possible.
+              Can&apos;t find the answer you&apos;re looking for? Our team is
+              here to help. Reach out and we&apos;ll get back to you as soon as
+              possible.
             </p>
             <Link
               href="/contact"

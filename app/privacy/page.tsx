@@ -1,4 +1,4 @@
-import { Shield, Eye, Lock, Database } from "lucide-react";
+import { Database, Eye, Lock, Shield } from "lucide-react";
 import Link from "next/link";
 
 const PrivacyPage = () => {
@@ -35,7 +35,7 @@ const PrivacyPage = () => {
               Transparency
             </h3>
             <p className="text-slate-600 text-sm">
-              We're clear about what data we collect and how we use it.
+              We&apos;re clear about what data we collect and how we use it.
             </p>
           </div>
 
@@ -59,7 +59,7 @@ const PrivacyPage = () => {
               Minimal Data
             </h3>
             <p className="text-slate-600 text-sm">
-              We only collect what's necessary to provide our service.
+              We only collect what&apos;s necessary to provide our service.
             </p>
           </div>
         </div>
@@ -262,7 +262,7 @@ const PrivacyPage = () => {
                 Data Rights (GDPR/CCPA)
               </h3>
               <p className="text-slate-700 leading-relaxed mb-2">
-                If you're in the EU or California, you may have additional
+                If you&apos;re in the EU or California, you may have additional
                 rights:
               </p>
               <ul className="list-disc list-inside text-slate-700 space-y-2 mb-4">
@@ -328,7 +328,7 @@ const PrivacyPage = () => {
 
             <section className="mb-8">
               <h2 className="text-2xl font-bold text-slate-800 mb-4">
-                8. Children's Privacy
+                8. Children&apos;s Privacy
               </h2>
               <p className="text-slate-700 leading-relaxed mb-4">
                 Our service is not intended for children under 13 years of age.

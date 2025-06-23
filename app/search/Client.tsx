@@ -6,8 +6,6 @@ import { useId, useMemo, useState } from "react";
 import {
   type CatalogSummary,
   catalogSummarySchema,
-  type Software,
-  softwareSchema,
 } from "@/lib/components/common/data";
 import FilterPanel, { type Filters } from "@/lib/components/search/FilterPanel";
 import SearchBar from "@/lib/components/search/SearchBar";

@@ -33,10 +33,10 @@ const TermsPage = () => {
                 1. Acceptance of Terms
               </h2>
               <p className="text-slate-700 leading-relaxed mb-4">
-                By accessing and using IsThereSoftwareThat.com (the "Service"),
-                you accept and agree to be bound by the terms and provision of
-                this agreement. If you do not agree to abide by the above,
-                please do not use this service.
+                By accessing and using IsThereSoftwareThat.com (the
+                &quot;Service&quot;), you accept and agree to be bound by the
+                terms and provision of this agreement. If you do not agree to
+                abide by the above, please do not use this service.
               </p>
               <p className="text-slate-700 leading-relaxed">
                 These Terms of Service may be updated from time to time without
@@ -61,9 +61,9 @@ const TermsPage = () => {
                 <li>Educational content about open-source software</li>
               </ul>
               <p className="text-slate-700 leading-relaxed">
-                The Service is provided "as is" and we make no warranties about
-                the accuracy, reliability, or availability of the information
-                provided.
+                The Service is provided &quot;as is&quot; and we make no
+                warranties about the accuracy, reliability, or availability of
+                the information provided.
               </p>
             </section>
 
@@ -206,10 +206,10 @@ const TermsPage = () => {
                 8. Disclaimers and Limitation of Liability
               </h2>
               <p className="text-slate-700 leading-relaxed mb-4">
-                <strong>Disclaimer:</strong> The Service is provided "as is"
-                without warranties of any kind, either express or implied. We
-                disclaim all warranties, including but not limited to
-                merchantability, fitness for a particular purpose, and
+                <strong>Disclaimer:</strong> The Service is provided &quot;as
+                is&quot; without warranties of any kind, either express or
+                implied. We disclaim all warranties, including but not limited
+                to merchantability, fitness for a particular purpose, and
                 non-infringement.
               </p>
               <p className="text-slate-700 leading-relaxed mb-4">

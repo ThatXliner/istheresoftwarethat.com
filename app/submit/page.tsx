@@ -15,45 +15,42 @@ const SubmitPage = () => {
     tags: "",
     submitterName: "",
     submitterEmail: "",
-    additionalNotes: ""
+    additionalNotes: "",
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const categories = [
     "Development",
-    "Design", 
+    "Design",
     "Communication",
     "Productivity",
     "Media",
     "Security",
     "Utilities",
-    "Education"
+    "Education",
   ];
 
-  const platforms = [
-    "Windows",
-    "macOS", 
-    "Linux",
-    "Web",
-    "Android",
-    "iOS"
-  ];
+  const platforms = ["Windows", "macOS", "Linux", "Web", "Android", "iOS"];
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handlePlatformChange = (platform: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       platforms: prev.platforms.includes(platform)
-        ? prev.platforms.filter(p => p !== platform)
-        : [...prev.platforms, platform]
+        ? prev.platforms.filter((p) => p !== platform)
+        : [...prev.platforms, platform],
     }));
   };
 
@@ -76,8 +73,8 @@ const SubmitPage = () => {
               Submission Received!
             </h2>
             <p className="text-slate-600 mb-6 leading-relaxed">
-              Thank you for contributing to our catalog! We'll review your submission 
-              and add it to our database within 2-5 business days.
+              Thank you for contributing to our catalog! We&apos;ll review your
+              submission and add it to our database within 2-5 business days.
             </p>
             <button
               onClick={() => {
@@ -94,7 +91,7 @@ const SubmitPage = () => {
                   tags: "",
                   submitterName: "",
                   submitterEmail: "",
-                  additionalNotes: ""
+                  additionalNotes: "",
                 });
               }}
               className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-xl transition-colors"
@@ -119,8 +116,9 @@ const SubmitPage = () => {
             Submit Software
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Help grow our catalog by recommending amazing free and open-source software. 
-            Share the tools that have made a difference in your workflow.
+            Help grow our catalog by recommending amazing free and open-source
+            software. Share the tools that have made a difference in your
+            workflow.
           </p>
         </div>
       </div>
@@ -134,7 +132,9 @@ const SubmitPage = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h3 className="font-semibold text-slate-800 mb-2">✅ We Accept:</h3>
+              <h3 className="font-semibold text-slate-800 mb-2">
+                ✅ We Accept:
+              </h3>
               <ul className="text-slate-600 space-y-1">
                 <li>• Free and open-source software</li>
                 <li>• Actively maintained projects</li>
@@ -144,7 +144,9 @@ const SubmitPage = () => {
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold text-slate-800 mb-2">❌ We Don't Accept:</h3>
+              <h3 className="font-semibold text-slate-800 mb-2">
+                ❌ We Don&apos;t Accept:
+              </h3>
               <ul className="text-slate-600 space-y-1">
                 <li>• Paid or commercial software</li>
                 <li>• Abandoned or unmaintained projects</li>
@@ -157,13 +159,21 @@ const SubmitPage = () => {
         </div>
 
         {/* Submission Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-lg p-8 border border-slate-100">
-          <h2 className="text-2xl font-bold text-slate-800 mb-8">Software Information</h2>
-          
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white rounded-2xl shadow-lg p-8 border border-slate-100"
+        >
+          <h2 className="text-2xl font-bold text-slate-800 mb-8">
+            Software Information
+          </h2>
+
           {/* Basic Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-slate-700 mb-2"
+              >
                 Software Name *
               </label>
               <input
@@ -177,9 +187,12 @@ const SubmitPage = () => {
                 placeholder="e.g., VS Code"
               />
             </div>
-            
+
             <div>
-              <label htmlFor="category" className="block text-sm font-medium text-slate-700 mb-2">
+              <label
+                htmlFor="category"
+                className="block text-sm font-medium text-slate-700 mb-2"
+              >
                 Category *
               </label>
               <select
@@ -191,8 +204,10 @@ const SubmitPage = () => {
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Select a category</option>
-                {categories.map(category => (
-                  <option key={category} value={category}>{category}</option>
+                {categories.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
                 ))}
               </select>
             </div>
@@ -200,7 +215,10 @@ const SubmitPage = () => {
 
           {/* Descriptions */}
           <div className="mb-8">
-            <label htmlFor="shortDescription" className="block text-sm font-medium text-slate-700 mb-2">
+            <label
+              htmlFor="shortDescription"
+              className="block text-sm font-medium text-slate-700 mb-2"
+            >
               Short Description *
             </label>
             <input
@@ -214,11 +232,16 @@ const SubmitPage = () => {
               placeholder="Brief one-line description of the software"
               maxLength={150}
             />
-            <p className="text-sm text-slate-500 mt-1">{formData.shortDescription.length}/150 characters</p>
+            <p className="text-sm text-slate-500 mt-1">
+              {formData.shortDescription.length}/150 characters
+            </p>
           </div>
 
           <div className="mb-8">
-            <label htmlFor="longDescription" className="block text-sm font-medium text-slate-700 mb-2">
+            <label
+              htmlFor="longDescription"
+              className="block text-sm font-medium text-slate-700 mb-2"
+            >
               Detailed Description *
             </label>
             <textarea
@@ -236,7 +259,10 @@ const SubmitPage = () => {
           {/* Links */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
-              <label htmlFor="website" className="block text-sm font-medium text-slate-700 mb-2">
+              <label
+                htmlFor="website"
+                className="block text-sm font-medium text-slate-700 mb-2"
+              >
                 Official Website *
               </label>
               <input
@@ -250,9 +276,12 @@ const SubmitPage = () => {
                 placeholder="https://example.com"
               />
             </div>
-            
+
             <div>
-              <label htmlFor="github" className="block text-sm font-medium text-slate-700 mb-2">
+              <label
+                htmlFor="github"
+                className="block text-sm font-medium text-slate-700 mb-2"
+              >
                 GitHub/Source Repository
               </label>
               <input
@@ -270,7 +299,10 @@ const SubmitPage = () => {
           {/* License and Tags */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
-              <label htmlFor="license" className="block text-sm font-medium text-slate-700 mb-2">
+              <label
+                htmlFor="license"
+                className="block text-sm font-medium text-slate-700 mb-2"
+              >
                 License *
               </label>
               <input
@@ -284,9 +316,12 @@ const SubmitPage = () => {
                 placeholder="e.g., MIT, GPL v3, Apache 2.0"
               />
             </div>
-            
+
             <div>
-              <label htmlFor="tags" className="block text-sm font-medium text-slate-700 mb-2">
+              <label
+                htmlFor="tags"
+                className="block text-sm font-medium text-slate-700 mb-2"
+              >
                 Tags
               </label>
               <input
@@ -307,8 +342,11 @@ const SubmitPage = () => {
               Supported Platforms *
             </label>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              {platforms.map(platform => (
-                <label key={platform} className="flex items-center cursor-pointer">
+              {platforms.map((platform) => (
+                <label
+                  key={platform}
+                  className="flex items-center cursor-pointer"
+                >
                   <input
                     type="checkbox"
                     checked={formData.platforms.includes(platform)}
@@ -323,10 +361,15 @@ const SubmitPage = () => {
 
           {/* Submitter Information */}
           <div className="border-t border-slate-200 pt-8 mb-8">
-            <h3 className="text-xl font-semibold text-slate-800 mb-6">Your Information</h3>
+            <h3 className="text-xl font-semibold text-slate-800 mb-6">
+              Your Information
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="submitterName" className="block text-sm font-medium text-slate-700 mb-2">
+                <label
+                  htmlFor="submitterName"
+                  className="block text-sm font-medium text-slate-700 mb-2"
+                >
                   Your Name
                 </label>
                 <input
@@ -339,9 +382,12 @@ const SubmitPage = () => {
                   placeholder="Optional - for attribution"
                 />
               </div>
-              
+
               <div>
-                <label htmlFor="submitterEmail" className="block text-sm font-medium text-slate-700 mb-2">
+                <label
+                  htmlFor="submitterEmail"
+                  className="block text-sm font-medium text-slate-700 mb-2"
+                >
                   Email Address
                 </label>
                 <input
@@ -359,7 +405,10 @@ const SubmitPage = () => {
 
           {/* Additional Notes */}
           <div className="mb-8">
-            <label htmlFor="additionalNotes" className="block text-sm font-medium text-slate-700 mb-2">
+            <label
+              htmlFor="additionalNotes"
+              className="block text-sm font-medium text-slate-700 mb-2"
+            >
               Additional Notes
             </label>
             <textarea

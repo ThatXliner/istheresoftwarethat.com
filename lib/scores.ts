@@ -7,7 +7,7 @@
  * user feedback to produce a single, meaningful score per software:
  * 1) Upvotes/Downvotes: Simple binary feedback allowing quick, low-friction interaction.
  *    - Each upvote counts +1, each downvote counts -1.
- *    - Scores are normalized (up over down) across the catalog to keep results comparable (that way we aren't comparing the amount of votes but instead the ratio).
+ *    - Scores are normalized (up over down) across the catalog to keep results comparable (that way we aren&apos;t comparing the amount of votes but instead the ratio).
  * 2) Star Ratings + Written Reviews: Higher-effort, nuanced feedback.
  *    - Stars range from 1 to 5, but we map them to a zero-centered scale [-1, +1] so low stars decrease the score,
  *      3 stars are neutral, and high stars increase it.
@@ -31,7 +31,7 @@
  * This design balances volume and quality, letting casual users influence via votes and invested users influence more through reviews.
  */
 
-// TODO: before using this, refactor the app so "upvotes" don't exist on the table but instead all user feedback are are in the review table thing
+// TODO: before using this, refactor the app so "upvotes" don&apos;t exist on the table but instead all user feedback are are in the review table thing
 
 import type { Software } from "./components/common/data";
 

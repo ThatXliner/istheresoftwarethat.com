@@ -55,8 +55,8 @@ const ContactPage = () => {
               Message Sent!
             </h2>
             <p className="text-slate-600 mb-6 leading-relaxed">
-              Thank you for contacting us! We've received your message and will
-              get back to you within 24-48 hours.
+              Thank you for contacting us! We&apos;ve received your message and
+              will get back to you within 24-48 hours.
             </p>
             <button
               onClick={() => {
@@ -90,8 +90,8 @@ const ContactPage = () => {
           <h1 className="text-4xl font-bold text-slate-800 mb-6">Contact Us</h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
             Have a question, suggestion, or want to contribute to our catalog?
-            We'd love to hear from you. Get in touch and we'll respond as soon
-            as possible.
+            We&apos;d love to hear from you. Get in touch and we&apos;ll respond
+            as soon as possible.
           </p>
         </div>
       </div>
@@ -342,9 +342,9 @@ const ContactPage = () => {
                 Can I report incorrect information?
               </h3>
               <p className="text-slate-600">
-                Yes! Please use the contact form above with the category "Bug
-                Report" to let us know about any incorrect or outdated
-                information.
+                Yes! Please use the contact form above with the category
+                &quot;Bug Report&quot; to let us know about any incorrect or
+                outdated information.
               </p>
             </div>
 
@@ -353,9 +353,9 @@ const ContactPage = () => {
                 Do you accept partnerships?
               </h3>
               <p className="text-slate-600 mb-4">
-                We're open to partnerships that align with our mission of
+                We&apos;re open to partnerships that align with our mission of
                 promoting free and open-source software. Contact us with
-                "Partnership" category.
+                &quot;Partnership&quot; category.
               </p>
 
               <h3 className="text-lg font-semibold text-slate-800 mb-3">

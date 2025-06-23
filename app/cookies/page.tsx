@@ -205,10 +205,11 @@ const CookiesPage = () => {
                 more efficiently and provide information to website owners.
               </p>
               <p className="text-slate-700 leading-relaxed">
-                Cookies can be "persistent" (remain on your device until
-                deleted) or "session" cookies (deleted when you close your
-                browser). They can also be "first-party" (set by our website) or
-                "third-party" (set by other websites).
+                Cookies can be &quot;persistent&quot; (remain on your device
+                until deleted) or &quot;session&quot; cookies (deleted when you
+                close your browser). They can also be &quot;first-party&quot;
+                (set by our website) or &quot;third-party&quot; (set by other
+                websites).
               </p>
             </section>
 
@@ -425,7 +426,7 @@ const CookiesPage = () => {
                   function properly
                 </li>
                 <li>
-                  <strong>Analytics Cookies:</strong> We won't be able to
+                  <strong>Analytics Cookies:</strong> We won&apos;t be able to
                   improve our service based on usage data
                 </li>
                 <li>
@@ -478,9 +479,9 @@ const CookiesPage = () => {
                 regulatory reasons.
               </p>
               <p className="text-slate-700 leading-relaxed">
-                When we make changes, we will update the "Last updated" date at
-                the top of this policy and notify you through our website or
-                other appropriate means.
+                When we make changes, we will update the &quot;Last
+                updated&quot; date at the top of this policy and notify you
+                through our website or other appropriate means.
               </p>
             </section>
 

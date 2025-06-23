@@ -241,7 +241,7 @@ ALTER TABLE users DROP CONSTRAINT users_id_fkey;
 -- SELECT username
 -- FROM user_data;
 
--- Create sample users (if users table doesn't exist, this will be ignored)
+-- Create sample users (if users table doesn&apos;t exist, this will be ignored)
 INSERT INTO public.users (username) VALUES
     ('DevMaster2024'), ('CodeNinja'), ('WebDevPro'), ('DesignGuru'), ('BlenderArtist'),
     ('OfficeUser'), ('NoteGuru'), ('UIDesigner'), ('Gamer123'), ('Streamer2024'),

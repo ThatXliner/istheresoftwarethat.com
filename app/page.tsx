@@ -29,8 +29,8 @@ const HomePage = () => {
             buttonText="Find Software"
           />
           <div className="mt-6 text-sm text-slate-500">
-            Try: "helps me edit videos" or "lets me design websites without
-            coding"
+            Try: &quot;helps me edit videos&quot; or &quot;lets me design
+            websites without coding&quot;
           </div>
         </div>
       </section>

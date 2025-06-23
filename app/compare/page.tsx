@@ -1,26 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/** biome-ignore-all lint/suspicious/noExplicitAny: for now */
 "use client";
 import {
   ArrowRight,
-  Award,
-  BookOpen,
-  Calendar,
   Check,
   Code,
-  Download,
   ExternalLink,
   Github,
   Globe,
-  Heart,
   Plus,
   Search,
-  Shield,
   Sparkles,
   Star,
   Trash2,
   TrendingUp,
-  Users,
   X,
-  Zap,
 } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";

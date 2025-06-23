@@ -1,5 +1,6 @@
 "use client";
 import { Calendar, Clock, User } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 const BlogPage = () => {
@@ -163,7 +164,7 @@ const BlogPage = () => {
                 </Link>
               </div>
               <div className="relative h-64 lg:h-auto">
-                <img
+                <Image
                   src={featuredPost.image}
                   alt={featuredPost.title}
                   className="w-full h-full object-cover"
@@ -183,6 +184,7 @@ const BlogPage = () => {
           <div className="flex flex-wrap gap-3">
             {categories.map((category) => (
               <button
+                type="button"
                 key={category}
                 className="bg-white hover:bg-blue-50 text-slate-700 hover:text-blue-600 font-medium py-2 px-4 rounded-lg border border-slate-200 transition-colors"
               >
@@ -200,7 +202,7 @@ const BlogPage = () => {
               className="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
             >
               <div className="relative h-48">
-                <img
+                <Image
                   src={post.image}
                   alt={post.title}
                   className="w-full h-full object-cover"

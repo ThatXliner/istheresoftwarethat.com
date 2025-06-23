@@ -2,12 +2,7 @@
 import {
   AlertCircle,
   ArrowLeft,
-  Award,
-  Bookmark,
   BookOpen,
-  Calendar,
-  Check,
-  CheckCircle,
   Code,
   Copy,
   Download,
@@ -19,16 +14,15 @@ import {
   Laptop,
   Monitor,
   Share2,
-  Shield,
   Smartphone,
   Star,
   Terminal,
-  ThumbsDown,
   ThumbsUp,
   Users,
   Zap,
 } from "lucide-react";
 import millify from "millify";
+import Image from "next/image";
 import Link from "next/link";
 import prettyBytes from "pretty-bytes";
 import { useState } from "react";
@@ -64,7 +58,7 @@ export default function DetailsComponent({
             Software Not Found
           </h2>
           <p className="text-slate-600 mb-8">
-            The software you're looking for doesn&apos;t exist or has been
+            The software you&apos;re looking for doesn&apos;t exist or has been
             removed from our catalog.
           </p>
           <Link
@@ -228,7 +222,7 @@ export default function DetailsComponent({
                           </h3>
                           <div className="space-y-4">
                             <div className="relative">
-                              <img
+                              <Image
                                 src={
                                   software.other_details.screenshots[
                                     activeScreenshot
@@ -238,33 +232,38 @@ export default function DetailsComponent({
                                 className="w-full h-96 object-cover rounded-xl shadow-lg"
                               />
                             </div>
-                            {software.other_details.screenshots.length > 1 && (
-                              <div className="flex space-x-2">
-                                {software.other_details.screenshots.map(
-                                  (_: any, index: number) => (
-                                    <button
-                                      type="button"
-                                      onClick={() => setActiveScreenshot(index)}
-                                      className={`w-20 h-12 rounded-lg overflow-hidden border-2 transition-colors ${
-                                        activeScreenshot === index
-                                          ? "border-blue-500"
-                                          : "border-slate-200 hover:border-slate-300"
-                                      }`}
-                                    >
-                                      <img
-                                        src={
-                                          software.other_details.screenshots[
-                                            index
-                                          ]
+                            {software.other_details.screenshots &&
+                              software.other_details.screenshots.length > 1 && (
+                                <div className="flex space-x-2">
+                                  {software.other_details.screenshots.map(
+                                    (screenshot, index) => (
+                                      <button
+                                        key={screenshot}
+                                        type="button"
+                                        onClick={() =>
+                                          setActiveScreenshot(index)
                                         }
-                                        alt={`Thumbnail ${index + 1}`}
-                                        className="w-full h-full object-cover"
-                                      />
-                                    </button>
-                                  ),
-                                )}
-                              </div>
-                            )}
+                                        className={`w-20 h-12 rounded-lg overflow-hidden border-2 transition-colors ${
+                                          activeScreenshot === index
+                                            ? "border-blue-500"
+                                            : "border-slate-200 hover:border-slate-300"
+                                        }`}
+                                      >
+                                        <Image
+                                          src={
+                                            (
+                                              software.other_details
+                                                .screenshots as string[]
+                                            )[index]
+                                          }
+                                          alt={`Thumbnail ${index + 1}`}
+                                          className="w-full h-full object-cover"
+                                        />
+                                      </button>
+                                    ),
+                                  )}
+                                </div>
+                              )}
                           </div>
                         </div>
                       )}
@@ -517,7 +516,7 @@ export default function DetailsComponent({
                           <InfoIcon className="w-4 h-4 ml-2 text-slate-400 cursor-help" />
                           <div className="absolute bottom-full right-0 mb-2 w-48 p-2 bg-slate-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity">
                             <p className="mb-2">
-                              Click to learn more about this license's:
+                              Click to learn more about this license&apos;s:
                             </p>
                             <ul className="list-disc pl-4">
                               <li>Permissions</li>
