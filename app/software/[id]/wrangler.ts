@@ -6,6 +6,7 @@ import {
   softwareSchema,
   statsSchema,
 } from "@/lib/components/common/data";
+// Lowk this is some bad, AI-generated slop code but it works
 /**
  * Fetches software data from Supabase by ID, including its associated reviews,
  * and validates the combined data against the softwareSchema.
