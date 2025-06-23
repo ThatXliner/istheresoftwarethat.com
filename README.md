@@ -5,14 +5,13 @@ What sets us apart is that we have a very complex score mechanism, designed with
 
 When online, ask the AI to
 
-- Change mock descriptions
+- create the other links
+- mock submit page
 - Implement AI semantic search
 
 
 hook up
 
-- software list from supabase
-- the software cards
 - being able to add software
 - fix recently added and Featured Software
 - "compare"
