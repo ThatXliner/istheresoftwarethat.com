@@ -1,11 +1,11 @@
 "use client";
-import { Search, Sparkles, Database, GitCompare } from "lucide-react";
-import SearchBar from "@/lib/components/search/SearchBar";
+import { Database, GitCompare, Search, Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
 import CategoryList from "@/lib/components/categories/CategoryList";
+import SubmitBanner from "@/lib/components/common/SubmitBanner";
+import SearchBar from "@/lib/components/search/SearchBar";
 import FeaturedSoftware from "@/lib/components/software/FeaturedSoftware";
 import RecentAdditions from "@/lib/components/software/RecentAdditions";
-import SubmitBanner from "@/lib/components/common/SubmitBanner";
-import { useRouter } from "next/navigation";
 
 const HomePage = () => {
   const router = useRouter();

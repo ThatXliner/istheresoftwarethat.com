@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "./Header";
-import Footer from "./Footer";
 // import DataProviders from "./DataProviders";
 import { createClient } from "@/lib/supabase/server";
+import Footer from "./Footer";
+import Header from "./Header";
 import Providers from "./providers";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

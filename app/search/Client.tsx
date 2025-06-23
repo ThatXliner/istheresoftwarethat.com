@@ -1,21 +1,30 @@
 "use client";
-import { useState, useMemo } from "react";
-import { softwareSchema, type Software } from "@/lib/components/common/data";
-import FilterPanel, { type Filters } from "@/lib/components/search/FilterPanel";
-import SearchBar from "@/lib/components/search/SearchBar";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { ExternalLink, SlidersHorizontal } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import SoftwareCard from "./SoftwareCard";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { createClient } from "@/lib/supabase/client";
+import { useId, useMemo, useState } from "react";
+import {
+  type CatalogSummary,
+  catalogSummarySchema,
+  type Software,
+  softwareSchema,
+} from "@/lib/components/common/data";
+import FilterPanel, { type Filters } from "@/lib/components/search/FilterPanel";
+import SearchBar from "@/lib/components/search/SearchBar";
 import { getSoftwareList } from "@/lib/queries";
+import { createClient } from "@/lib/supabase/client";
+import SoftwareCard from "./SoftwareCard";
 
-export default function Client({ initialData }: { initialData: Software[] }) {
-  const { data: software } = useSuspenseQuery<Software[]>({
+export default function Client({
+  initialData,
+}: {
+  initialData: CatalogSummary;
+}) {
+  const { data: software } = useSuspenseQuery<CatalogSummary>({
     queryKey: ["software"],
     queryFn: async () => {
       const client = await createClient();
-      return softwareSchema.array().parse(await getSoftwareList(client));
+      return catalogSummarySchema.parse(await getSoftwareList(client));
     },
     initialData,
   });
@@ -45,7 +54,7 @@ export default function Client({ initialData }: { initialData: Software[] }) {
       filtered = filtered.filter(
         (software) =>
           software.name.toLowerCase().includes(query) ||
-          software.description.toLowerCase().includes(query) ||
+          software.short_description.toLowerCase().includes(query) ||
           software.category.toLowerCase().includes(query),
       );
     }
@@ -68,7 +77,7 @@ export default function Client({ initialData }: { initialData: Software[] }) {
           return b.upvotes - a.upvotes;
         case "recent":
           return (
-            new Date(b.addedDate).getTime() - new Date(a.addedDate).getTime()
+            new Date(b.added_date).getTime() - new Date(a.added_date).getTime()
           );
         case "category":
           return a.category.localeCompare(b.category);
@@ -93,6 +102,8 @@ export default function Client({ initialData }: { initialData: Software[] }) {
     filters.categories.length > 0 ||
     // !filters.activeStatus ||
     searchQuery.trim().length > 0;
+
+  const sortId = useId();
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -170,13 +181,13 @@ export default function Client({ initialData }: { initialData: Software[] }) {
 
             <div className="flex items-center gap-2">
               <label
-                htmlFor="sort"
+                htmlFor={sortId}
                 className="text-sm font-medium text-slate-700"
               >
                 Sort by:
               </label>
               <select
-                id="sort"
+                id={sortId}
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
                 className="border border-slate-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"

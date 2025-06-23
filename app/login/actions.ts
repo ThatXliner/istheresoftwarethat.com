@@ -1,9 +1,8 @@
 "use server";
 
-import { createClient } from "@/lib/supabase/server";
-
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { createClient } from "@/lib/supabase/server";
 
 export async function signIn(redirectTo: string | null, formData: FormData) {
   const email = formData.get("email") as string;

@@ -1,5 +1,6 @@
+import { ExternalLink, Star } from "lucide-react";
 import Link from "next/link";
-import { Star, ExternalLink } from "lucide-react";
+
 const featuredSoftware = [];
 
 // Mock featured software data

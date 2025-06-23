@@ -1,7 +1,7 @@
-import { softwareSchema } from "@/lib/components/common/data";
-import Client from "./Client";
-import { createClient } from "@/lib/supabase/server";
+import { catalogSummarySchema } from "@/lib/components/common/data";
 import { getSoftwareList } from "@/lib/queries";
+import { createClient } from "@/lib/supabase/server";
+import Client from "./Client";
 
 export default async function Page() {
   const client = await createClient();
@@ -11,5 +11,5 @@ export default async function Page() {
   }
 
   // Awaiting here would implicitly suspend the component (so we don't need create our own <Suspense> wrapper)
-  return <Client initialData={softwareSchema.array().parse(software)} />;
+  return <Client initialData={catalogSummarySchema.parse(software)} />;
 }
