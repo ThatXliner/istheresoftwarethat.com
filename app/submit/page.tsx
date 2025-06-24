@@ -349,6 +349,7 @@ const SubmitPage = () => {
                 >
                   <input
                     type="checkbox"
+                    value={platform}
                     checked={formData.platforms.includes(platform)}
                     onChange={() => handlePlatformChange(platform)}
                     className="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out mr-3"
