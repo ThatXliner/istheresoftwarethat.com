@@ -1,108 +1,51 @@
 "use client";
-import { Check, Plus, Upload, Zap } from "lucide-react";
-import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus, Upload, Zap } from "lucide-react";
+import { type SubmitHandler, useForm } from "react-hook-form";
+import spdxLicenseList from "spdx-license-list";
+import { z } from "zod/v4";
+import { categories, categoriesEnum } from "@/lib/components/common/data";
 
+const schema = z.object({
+  name: z.string(),
+  category: categoriesEnum,
+  shortDescription: z.string(),
+  longDescription: z.string(),
+  website: z.url(),
+  github: z.string().regex(/^\w+\/\w+$/),
+  license: z.enum([...Object.keys(spdxLicenseList)]),
+  platforms: z.string().array(),
+  tags: z.string().transform((val) => val.split(",").map((tag) => tag.trim())),
+  submitterName: z.string(),
+  submitterEmail: z.email(),
+  additionalNotes: z.string(),
+});
+type FormData = z.infer<typeof schema>;
 const SubmitPage = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    category: "",
-    shortDescription: "",
-    longDescription: "",
-    website: "",
-    github: "",
-    license: "",
-    platforms: [] as string[],
-    tags: "",
-    submitterName: "",
-    submitterEmail: "",
-    additionalNotes: "",
+  const {
+    register,
+    handleSubmit,
+    watch,
+    // TODO: Show errors
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(schema),
   });
+  const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
+  const shortDescription = watch("shortDescription");
+  // return (
+  //   <form onSubmit={handleSubmit(onSubmit)}>
+  //     <input {...register("firstName")} />
+  //     <p>{errors.firstName?.message}</p>
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  //     <input {...register("age")} />
+  //     <p>{errors.age?.message}</p>
 
-  const categories = [
-    "Development",
-    "Design",
-    "Communication",
-    "Productivity",
-    "Media",
-    "Security",
-    "Utilities",
-    "Education",
-  ];
+  //     <input type="submit" />
+  //   </form>
+  // );
 
   const platforms = ["Windows", "macOS", "Linux", "Web", "Android", "iOS"];
-
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handlePlatformChange = (platform: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      platforms: prev.platforms.includes(platform)
-        ? prev.platforms.filter((p) => p !== platform)
-        : [...prev.platforms, platform],
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would typically send the data to your backend
-    console.log("Form submitted:", formData);
-    setIsSubmitted(true);
-  };
-
-  if (isSubmitted) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
-        <div className="max-w-md mx-auto px-4 text-center">
-          <div className="bg-white rounded-2xl shadow-lg p-8 border border-slate-100">
-            <div className="bg-green-100 p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-              <Check className="w-10 h-10 text-green-600" />
-            </div>
-            <h2 className="text-2xl font-bold text-slate-800 mb-4">
-              Submission Received!
-            </h2>
-            <p className="text-slate-600 mb-6 leading-relaxed">
-              Thank you for contributing to our catalog! We&apos;ll review your
-              submission and add it to our database within 2-5 business days.
-            </p>
-            <button
-              onClick={() => {
-                setIsSubmitted(false);
-                setFormData({
-                  name: "",
-                  category: "",
-                  shortDescription: "",
-                  longDescription: "",
-                  website: "",
-                  github: "",
-                  license: "",
-                  platforms: [],
-                  tags: "",
-                  submitterName: "",
-                  submitterEmail: "",
-                  additionalNotes: "",
-                });
-              }}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-xl transition-colors"
-            >
-              Submit Another
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -160,7 +103,7 @@ const SubmitPage = () => {
 
         {/* Submission Form */}
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit(onSubmit)}
           className="bg-white rounded-2xl shadow-lg p-8 border border-slate-100"
         >
           <h2 className="text-2xl font-bold text-slate-800 mb-8">
@@ -177,12 +120,8 @@ const SubmitPage = () => {
                 Software Name *
               </label>
               <input
-                type="text"
-                id="name"
-                name="name"
                 required
-                value={formData.name}
-                onChange={handleInputChange}
+                {...register("name")}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="e.g., VS Code"
               />
@@ -196,17 +135,14 @@ const SubmitPage = () => {
                 Category *
               </label>
               <select
-                id="category"
-                name="category"
                 required
-                value={formData.category}
-                onChange={handleInputChange}
+                {...register("category")}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">Select a category</option>
                 {categories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
+                  <option key={category.name} value={category.name}>
+                    {category.name}
                   </option>
                 ))}
               </select>
@@ -222,18 +158,14 @@ const SubmitPage = () => {
               Short Description *
             </label>
             <input
-              type="text"
-              id="shortDescription"
-              name="shortDescription"
               required
-              value={formData.shortDescription}
-              onChange={handleInputChange}
+              {...register("shortDescription")}
               className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Brief one-line description of the software"
               maxLength={150}
             />
             <p className="text-sm text-slate-500 mt-1">
-              {formData.shortDescription.length}/150 characters
+              {shortDescription?.length || 0}/150 characters
             </p>
           </div>
 
@@ -245,11 +177,7 @@ const SubmitPage = () => {
               Detailed Description *
             </label>
             <textarea
-              id="longDescription"
-              name="longDescription"
-              required
-              value={formData.longDescription}
-              onChange={handleInputChange}
+              {...register("longDescription")}
               rows={4}
               className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Detailed description of features, use cases, and benefits"
@@ -265,13 +193,11 @@ const SubmitPage = () => {
               >
                 Official Website *
               </label>
+              {errors.website && <p role="alert">{errors.website.message}</p>}
               <input
-                type="url"
-                id="website"
-                name="website"
                 required
-                value={formData.website}
-                onChange={handleInputChange}
+                type="url"
+                {...register("website")}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="https://example.com"
               />
@@ -284,14 +210,10 @@ const SubmitPage = () => {
               >
                 GitHub/Source Repository
               </label>
-              <input
-                type="url"
-                id="github"
-                name="github"
-                value={formData.github}
-                onChange={handleInputChange}
+              <input pattern="^\w+\/\w+$"
+                {...register("github")}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="https://github.com/user/repo"
+                placeholder="user/repo"
               />
             </div>
           </div>
@@ -306,12 +228,8 @@ const SubmitPage = () => {
                 License *
               </label>
               <input
-                type="text"
-                id="license"
-                name="license"
                 required
-                value={formData.license}
-                onChange={handleInputChange}
+                {...register("license")}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="e.g., MIT, GPL v3, Apache 2.0"
               />
@@ -325,11 +243,7 @@ const SubmitPage = () => {
                 Tags
               </label>
               <input
-                type="text"
-                id="tags"
-                name="tags"
-                value={formData.tags}
-                onChange={handleInputChange}
+                {...register("tags")}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="editor, ide, typescript, git (comma-separated)"
               />
@@ -338,9 +252,9 @@ const SubmitPage = () => {
 
           {/* Platform Support */}
           <div className="mb-8">
-            <label className="block text-sm font-medium text-slate-700 mb-4">
+            <div className="block text-sm font-medium text-slate-700 mb-4">
               Supported Platforms *
-            </label>
+            </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {platforms.map((platform) => (
                 <label
@@ -349,9 +263,8 @@ const SubmitPage = () => {
                 >
                   <input
                     type="checkbox"
+                    {...register("platforms")}
                     value={platform}
-                    checked={formData.platforms.includes(platform)}
-                    onChange={() => handlePlatformChange(platform)}
                     className="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out mr-3"
                   />
                   <span className="text-slate-700">{platform}</span>
@@ -374,11 +287,7 @@ const SubmitPage = () => {
                   Your Name
                 </label>
                 <input
-                  type="text"
-                  id="submitterName"
-                  name="submitterName"
-                  value={formData.submitterName}
-                  onChange={handleInputChange}
+                  {...register("submitterName")}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Optional - for attribution"
                 />
@@ -393,10 +302,7 @@ const SubmitPage = () => {
                 </label>
                 <input
                   type="email"
-                  id="submitterEmail"
-                  name="submitterEmail"
-                  value={formData.submitterEmail}
-                  onChange={handleInputChange}
+                  {...register("submitterEmail")}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Optional - for follow-up questions"
                 />
@@ -413,10 +319,7 @@ const SubmitPage = () => {
               Additional Notes
             </label>
             <textarea
-              id="additionalNotes"
-              name="additionalNotes"
-              value={formData.additionalNotes}
-              onChange={handleInputChange}
+              {...register("additionalNotes")}
               rows={3}
               className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Any additional information about the software or special considerations"

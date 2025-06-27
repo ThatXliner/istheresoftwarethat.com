@@ -5,8 +5,6 @@ What sets us apart is that we have a very complex score mechanism, designed with
 
 When online, ask the AI to
 
-- create the other links
-- mock submit page
 - Implement AI semantic search
 
 
@@ -23,3 +21,7 @@ hook up
 
 - Database for all things searchable (includes tags)
 - metadata json for other thigns
+
+
+
+todo: better compatibility filters

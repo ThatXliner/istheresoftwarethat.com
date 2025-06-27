@@ -2,8 +2,16 @@
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
 import { categories } from "@/lib/components/common/data";
+// I'll need filters for
+// - Tags (text thing similar to the "add tag" component)
+// - Platforms (checkboxes, but eventually maybe we
+// should have more advanced checks for version compatibility)
+// - Licenses
+// - Size
+// - last updated
 export type Filters = {
   platforms: string[];
+  tags: string[];
   licenses: string[];
   categories: string[];
   // activeStatus: boolean;
@@ -87,6 +95,7 @@ const FilterPanel = ({ filters, setFilters }: FilterPanelProps) => {
           <button
             className="text-sm text-blue-600 hover:underline"
             onClick={clearAllFilters}
+            type="reset"
           >
             Clear All
           </button>
@@ -190,6 +199,7 @@ const FilterSection = ({
       <button
         className="flex justify-between items-center w-full text-left font-medium text-slate-800"
         onClick={onToggle}
+        type="button"
       >
         {title}
         {isExpanded ? (

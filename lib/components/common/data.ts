@@ -171,7 +171,7 @@ export const categories: Category[] = [
   { name: "Utilities", icon: Wrench, color: "amber" },
   { name: "Education", icon: GraduationCap, color: "emerald" },
 ];
-
+export const categoriesEnum = z.enum(categories.map((c) => c.name));
 export const ALL_PLATFORMS: Compatibility = {
   linux: true,
   macos: true,
