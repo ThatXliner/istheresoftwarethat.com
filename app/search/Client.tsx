@@ -7,10 +7,10 @@ import {
   type CatalogSummary,
   catalogSummarySchema,
 } from "@/lib/components/common/data";
-import FilterPanel, { type Filters } from "@/lib/components/search/FilterPanel";
 import SearchBar from "@/lib/components/search/SearchBar";
 import { getSoftwareList } from "@/lib/queries";
 import { createClient } from "@/lib/supabase/client";
+import FilterPanel, { type Filters } from "./FilterPanel";
 import SoftwareCard from "./SoftwareCard";
 
 export default function Client({

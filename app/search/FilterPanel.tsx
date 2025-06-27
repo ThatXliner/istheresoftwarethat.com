@@ -19,19 +19,6 @@ const PLATFORMS = ["Windows", "macOS", "Linux", "Web", "Android", "iOS"];
 const LICENSES = ["MIT", "GPL", "Apache", "BSD", "LGPL", "MPL"];
 
 const FilterPanel = ({ filters, setFilters }: FilterPanelProps) => {
-  const [expandedSections, setExpandedSections] = useState({
-    platforms: true,
-    licenses: true,
-    categories: true,
-  });
-
-  const toggleSection = (section: keyof typeof expandedSections) => {
-    setExpandedSections({
-      ...expandedSections,
-      [section]: !expandedSections[section],
-    });
-  };
-
   const handlePlatformChange = (platform: string) => {
     let newPlatforms;
     if (filters.platforms.includes(platform)) {
@@ -85,6 +72,7 @@ const FilterPanel = ({ filters, setFilters }: FilterPanelProps) => {
         <h2 className="text-lg font-semibold text-slate-800">Filters</h2>
         {hasActiveFilters && (
           <button
+            type="reset"
             className="text-sm text-blue-600 hover:underline"
             onClick={clearAllFilters}
           >
@@ -109,8 +97,6 @@ const FilterPanel = ({ filters, setFilters }: FilterPanelProps) => {
       {/* Platforms Filter */}
       <FilterSection
         title="Platforms"
-        isExpanded={expandedSections.platforms}
-        onToggle={() => toggleSection("platforms")}
       >
         <div className="space-y-2">
           {PLATFORMS.map((platform) => (
@@ -130,8 +116,6 @@ const FilterPanel = ({ filters, setFilters }: FilterPanelProps) => {
       {/* Licenses Filter */}
       <FilterSection
         title="Licenses"
-        isExpanded={expandedSections.licenses}
-        onToggle={() => toggleSection("licenses")}
       >
         <div className="space-y-2">
           {LICENSES.map((license) => (
@@ -151,8 +135,6 @@ const FilterPanel = ({ filters, setFilters }: FilterPanelProps) => {
       {/* Categories Filter */}
       <FilterSection
         title="Categories"
-        isExpanded={expandedSections.categories}
-        onToggle={() => toggleSection("categories")}
       >
         <div className="space-y-2">
           {categories.map(({ name: category }) => (
@@ -174,22 +156,20 @@ const FilterPanel = ({ filters, setFilters }: FilterPanelProps) => {
 
 interface FilterSectionProps {
   title: string;
-  isExpanded: boolean;
-  onToggle: () => void;
   children: React.ReactNode;
 }
 
 const FilterSection = ({
   title,
-  isExpanded,
-  onToggle,
   children,
 }: FilterSectionProps) => {
+  const [isExpanded, setIsExpanded] = useState(true);
   return (
     <div className="border-t border-slate-200 py-4">
       <button
+        type="button"
         className="flex justify-between items-center w-full text-left font-medium text-slate-800"
-        onClick={onToggle}
+        onClick={() => setIsExpanded(!isExpanded)}
       >
         {title}
         {isExpanded ? (
