@@ -31,19 +31,28 @@ const SubmitPage = () => {
   } = useForm({
     resolver: zodResolver(schema),
   });
-  const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
+  // const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
+  const onSubmit = async (data: FormData) => {
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    console.log("Submitting data:", data);
+
+    const result = await submit(formData);
+
+    // if (!result.success && result.errors) {
+    //    for (const [field, messages] of Object.entries(result.errors)) {
+    //       setError(field as keyof FormInput, {
+    //          type: "server",
+    //           message: messages[0],
+    //         });
+    //       }
+    //     } else {
+    //       alert("Submitted successfully!");
+    //     }
+  };
   const shortDescription = watch("shortDescription");
-  // return (
-  //   <form onSubmit={handleSubmit(onSubmit)}>
-  //     <input {...register("firstName")} />
-  //     <p>{errors.firstName?.message}</p>
-
-  //     <input {...register("age")} />
-  //     <p>{errors.age?.message}</p>
-
-  //     <input type="submit" />
-  //   </form>
-  // );
 
   const platforms = ["Windows", "macOS", "Linux", "Web", "Android", "iOS"];
 
@@ -210,7 +219,8 @@ const SubmitPage = () => {
               >
                 GitHub/Source Repository
               </label>
-              <input pattern="^\w+\/\w+$"
+              <input
+                pattern="^\w+\/\w+$"
                 {...register("github")}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="user/repo"
