@@ -188,7 +188,7 @@ export default function DetailsComponent({
                     { id: "reviews", label: "Reviews", icon: Users },
                   ].map((tab) => (
                     <button
-                      type="Button"
+                      type="button"
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
                       className={`flex items-center space-x-2 py-4 font-medium transition-colors border-b-2 ${
