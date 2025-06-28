@@ -222,7 +222,7 @@ export default function DetailsComponent({
                           </h3>
                           <div className="space-y-4">
                             <div className="relative">
-                              <Image
+                              <img
                                 src={
                                   software.other_details.screenshots[
                                     activeScreenshot
@@ -249,7 +249,7 @@ export default function DetailsComponent({
                                             : "border-slate-200 hover:border-slate-300"
                                         }`}
                                       >
-                                        <Image
+                                        <img
                                           src={
                                             (
                                               software.other_details

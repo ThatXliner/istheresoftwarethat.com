@@ -95,16 +95,14 @@ const FilterPanel = ({ filters, setFilters }: FilterPanelProps) => {
       </div> */}
 
       {/* Platforms Filter */}
-      <FilterSection
-        title="Platforms"
-      >
+      <FilterSection title="Platforms">
         <div className="space-y-2">
           {PLATFORMS.map((platform) => (
             <label key={platform} className="flex items-center cursor-pointer">
               <input
                 type="checkbox"
-                checked={filters.platforms.includes(platform)}
-                onChange={() => handlePlatformChange(platform)}
+                checked={filters.platforms.includes(platform.toLowerCase())}
+                onChange={() => handlePlatformChange(platform.toLowerCase())}
                 className="form-checkbox h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
               />
               <span className="ml-2 text-slate-700">{platform}</span>
@@ -114,9 +112,7 @@ const FilterPanel = ({ filters, setFilters }: FilterPanelProps) => {
       </FilterSection>
 
       {/* Licenses Filter */}
-      <FilterSection
-        title="Licenses"
-      >
+      <FilterSection title="Licenses">
         <div className="space-y-2">
           {LICENSES.map((license) => (
             <label key={license} className="flex items-center cursor-pointer">
@@ -131,11 +127,7 @@ const FilterPanel = ({ filters, setFilters }: FilterPanelProps) => {
           ))}
         </div>
       </FilterSection>
-
-      {/* Categories Filter */}
-      <FilterSection
-        title="Categories"
-      >
+      <FilterSection title="Categories">
         <div className="space-y-2">
           {categories.map(({ name: category }) => (
             <label key={category} className="flex items-center cursor-pointer">
@@ -159,10 +151,7 @@ interface FilterSectionProps {
   children: React.ReactNode;
 }
 
-const FilterSection = ({
-  title,
-  children,
-}: FilterSectionProps) => {
+const FilterSection = ({ title, children }: FilterSectionProps) => {
   const [isExpanded, setIsExpanded] = useState(true);
   return (
     <div className="border-t border-slate-200 py-4">

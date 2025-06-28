@@ -144,7 +144,6 @@ export const catalogSummarySchema = softwareSchema
     category: true,
     id: true,
     name: true,
-    compatibility: true,
     version: true,
     license: true,
     tags: true,
@@ -154,6 +153,7 @@ export const catalogSummarySchema = softwareSchema
     description: z.string(),
     upvotes: z.number(),
     icon: z.string().nullable(),
+    compatibility: z.string().array(),
   })
   .array();
 export type Software = z.infer<typeof softwareSchema>;
