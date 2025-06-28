@@ -105,6 +105,7 @@ const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
           {/* Mobile Navigation Toggle */}
           <div className="flex items-center md:hidden">
             <button
+              type="button"
               className="p-2 text-slate-700 hover:bg-slate-100 rounded-md transition-colors"
               onClick={toggleMobileMenu}
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
@@ -141,6 +142,7 @@ const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
               />
             )}
             <button
+              type="button"
               className={`flex items-center p-3 rounded-md text-left ${
                 isLoggedIn
                   ? "bg-slate-100 text-slate-800"

@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, SlidersHorizontal } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useId, useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import {
   type CatalogSummary,
   catalogSummarySchema,
@@ -42,7 +42,9 @@ export default function Client({
       if (searchQuery.trim() !== "") {
         query = query
           .textSearch("name", `%${searchQuery}%`)
-          .or(`description.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`);
+          .or(
+            `description.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`,
+          );
       }
       if (filters.licenses.length > 0) {
         query = query.in("license", filters.licenses);
