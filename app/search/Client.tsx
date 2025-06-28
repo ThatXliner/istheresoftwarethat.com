@@ -41,14 +41,16 @@ export default function Client({
       // Convert filters to an SQL query
       const client = await createClient();
       let query = getSoftwareList(client);
-      // Not doing that for now
-      // .textSearch('name', `%${searchQuery}%`)
-      // .or(`description.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`)
+      if (searchQuery.trim() !== "") {
+        query = query
+          .textSearch("name", `%${searchQuery}%`)
+          .or(`description.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`);
+      }
       if (filters.licenses.length > 0) {
         query = query.in("license", filters.licenses);
       }
       if (filters.categories.length > 0) {
-        query = query.eq("category", filters.categories[0]);
+        query = query.in("category", filters.categories);
       }
       if (filters.platforms.length > 0) {
         // XXX: I don't know whether I want this to be overlaps (checks if intersection > 0)
