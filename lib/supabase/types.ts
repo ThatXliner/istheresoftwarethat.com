@@ -221,7 +221,7 @@ export type Database = {
         Row: {
           added_date: string | null;
           category: string | null;
-          compatibility: Json | null;
+          compatibility: string[] | null;
           description: string | null;
           icon: string | null;
           id: number | null;

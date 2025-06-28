@@ -1,5 +1,5 @@
 "use client";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, SlidersHorizontal } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useId, useMemo, useState } from "react";
@@ -7,10 +7,10 @@ import {
   type CatalogSummary,
   catalogSummarySchema,
 } from "@/lib/components/common/data";
-import FilterPanel, { type Filters } from "@/lib/components/search/FilterPanel";
 import SearchBar from "@/lib/components/search/SearchBar";
 import { getSoftwareList } from "@/lib/queries";
 import { createClient } from "@/lib/supabase/client";
+import FilterPanel, { type Filters } from "./FilterPanel";
 import SoftwareCard from "./SoftwareCard";
 
 export default function Client({
@@ -18,14 +18,6 @@ export default function Client({
 }: {
   initialData: CatalogSummary;
 }) {
-  const { data: software } = useSuspenseQuery<CatalogSummary>({
-    queryKey: ["software"],
-    queryFn: async () => {
-      const client = await createClient();
-      return catalogSummarySchema.parse(await getSoftwareList(client));
-    },
-    initialData,
-  });
   const searchParams = useSearchParams();
   const [sortBy, setSortBy] = useState("name");
   const [showFilters, setShowFilters] = useState(false);
@@ -40,34 +32,44 @@ export default function Client({
     // activeStatus: true,
   });
 
+  const { data: software } = useQuery<CatalogSummary>({
+    queryKey: ["software", searchQuery, filters],
+    staleTime: 0,
+    queryFn: async () => {
+      // Convert filters to an SQL query
+      const client = await createClient();
+      let query = getSoftwareList(client);
+      if (searchQuery.trim() !== "") {
+        query = query
+          .textSearch("name", `%${searchQuery}%`)
+          .or(
+            `description.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`,
+          );
+      }
+      if (filters.licenses.length > 0) {
+        query = query.in("license", filters.licenses);
+      }
+      if (filters.categories.length > 0) {
+        query = query.in("category", filters.categories);
+      }
+      if (filters.platforms.length > 0) {
+        // XXX: I don't know whether I want this to be overlaps (checks if intersection > 0)
+        // Or "contains" (checks if all elements in the array are present)
+        // Maybe I should make the user decide
+        query = query.contains("compatibility", [...filters.platforms]);
+      }
+      const { data, error } = await query;
+      // console.log(data)
+      if (error) {
+        throw error;
+      }
+      return catalogSummarySchema.parse(data);
+    },
+    initialData,
+  });
   const filteredSoftware = useMemo(() => {
-    // TODO: better filter code. Right now we don't consider platforms or other things
-    // hard coding each filter is not scalable
-    // Apply filters and sorting
-    let filtered = [...software];
-
-    // Apply search query filter
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(
-        (software) =>
-          software.name.toLowerCase().includes(query) ||
-          software.description.toLowerCase().includes(query) ||
-          software.category.toLowerCase().includes(query),
-      );
-    }
-
-    // Apply category filter from URL params
-
-    // Apply other filters
-    if (filters.categories.length > 0) {
-      filtered = filtered.filter((software) =>
-        filters.categories.includes(software.category),
-      );
-    }
-
-    // Apply sorting
-    filtered.sort((a, b) => {
+    // XXX: it would be better to also have a loading state
+    return (software ?? []).sort((a, b) => {
       switch (sortBy) {
         case "name":
           return a.name.localeCompare(b.name);
@@ -83,9 +85,7 @@ export default function Client({
           return 0;
       }
     });
-    return filtered;
-  }, [software, filters, sortBy, searchQuery]);
-
+  }, [software, sortBy]);
   const handleSearch = (query: string) => {
     setSearchQuery(query);
   };
