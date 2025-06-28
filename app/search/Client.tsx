@@ -31,9 +31,7 @@ export default function Client({
         : ([] as string[]),
     // activeStatus: true,
   });
-  useEffect(() => {
-    console.log(filters);
-  }, [filters]);
+
   const { data: software } = useQuery<CatalogSummary>({
     queryKey: ["software", searchQuery, filters],
     staleTime: 0,
