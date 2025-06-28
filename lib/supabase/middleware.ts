@@ -41,7 +41,6 @@ export async function updateSession(request: NextRequest) {
   const PUBLIC = [
     "/search",
     "/compare",
-    "/submit",
     "/about",
     "/faq",
     "/terms",
@@ -57,6 +56,7 @@ export async function updateSession(request: NextRequest) {
     !request.nextUrl.pathname.startsWith("/auth") &&
     !request.nextUrl.pathname.startsWith("/blog") &&
     !request.nextUrl.pathname.startsWith("/software") &&
+    !request.nextUrl.pathname.startsWith("/submit") &&
     !PUBLIC.includes(request.nextUrl.pathname)
   ) {
     // no user, potentially respond by redirecting the user to the login page

@@ -1,24 +1,37 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus, Upload, Zap } from "lucide-react";
-import { type SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import spdxLicenseList from "spdx-license-list";
 import { z } from "zod/v4";
 import { categories, categoriesEnum } from "@/lib/components/common/data";
+import { submit } from "./actions";
 
+// For some reason if I have any sort of string validation
+// Which invalidates an empty string, I cannot make the field
+// not required...
 const schema = z.object({
+  // Required component
   name: z.string(),
   category: categoriesEnum,
   shortDescription: z.string(),
   longDescription: z.string(),
   website: z.url(),
-  github: z.string().regex(/^\w+\/\w+$/),
+  github: z
+    .string()
+    // This essentially allows for either an empty string or a valid
+    // GitHub repository identifier. See the comment above
+    .regex(/^(\w+\/\w+)|$/)
+    .optional(),
   license: z.enum([...Object.keys(spdxLicenseList)]),
   platforms: z.string().array(),
-  tags: z.string().transform((val) => val.split(",").map((tag) => tag.trim())),
-  submitterName: z.string(),
-  submitterEmail: z.email(),
-  additionalNotes: z.string(),
+  tags: z
+    .string()
+    .transform((val) => val.split(",").map((tag) => tag.trim()))
+    .optional(),
+  submitterName: z.string().optional(),
+  submitterEmail: z.string().optional(),
+  additionalNotes: z.string().optional(),
 });
 type FormData = z.infer<typeof schema>;
 const SubmitPage = () => {
@@ -33,6 +46,7 @@ const SubmitPage = () => {
   });
   // const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
   const onSubmit = async (data: FormData) => {
+    console.log("onsubtmit");
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value);
@@ -220,7 +234,7 @@ const SubmitPage = () => {
                 GitHub/Source Repository
               </label>
               <input
-                pattern="^\w+\/\w+$"
+                pattern="^(\w+\/\w+)|$"
                 {...register("github")}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="user/repo"
@@ -310,8 +324,11 @@ const SubmitPage = () => {
                 >
                   Email Address
                 </label>
+                {/* I'm pretty sure adding type="email" is unnecessary because Zod
+                can validate it for us? However if we do that
+                either we need to include a .message in the schema or pass it in the
+                register as an argument?? idk i'll check this when i have wifi*/}
                 <input
-                  type="email"
                   {...register("submitterEmail")}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="Optional - for follow-up questions"
