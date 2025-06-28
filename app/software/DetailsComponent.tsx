@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+/** biome-ignore-all lint/performance/noImgElement: can't deal with it for now */
 "use client";
 import {
   AlertCircle,
@@ -22,7 +24,6 @@ import {
   Zap,
 } from "lucide-react";
 import millify from "millify";
-import Image from "next/image";
 import Link from "next/link";
 import prettyBytes from "pretty-bytes";
 import { useState } from "react";
@@ -187,6 +188,7 @@ export default function DetailsComponent({
                     { id: "reviews", label: "Reviews", icon: Users },
                   ].map((tab) => (
                     <button
+                      type="Button"
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
                       className={`flex items-center space-x-2 py-4 font-medium transition-colors border-b-2 ${
