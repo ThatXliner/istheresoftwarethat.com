@@ -41,6 +41,7 @@ export default function Client({
       let query = getSoftwareList(client);
       if (searchQuery.trim() !== "") {
         query = query.textSearch("fts", searchQuery, {
+          type: "phrase",
           config: "english",
         });
         // .or(
@@ -229,6 +230,7 @@ export default function Client({
                       licenses: [] as string[],
                       categories: [],
                     });
+                    setSearchQuery("");
                   }}
                   className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors"
                 >
