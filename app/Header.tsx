@@ -31,18 +31,18 @@ const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const handleAuth = async () => {
-    if (isLoggedIn) {
-      // TODO: Since the button says "account"
-      // we should create a proper account page
-      const client = await createClient();
-      client.auth.signOut().then(() => {
-        router.push("/");
-      });
-    } else {
-      navigate("/login");
-    }
-  };
+  // const handleAuth = async () => {
+  //   if (isLoggedIn) {
+  //     // TODO: Since the button says "account"
+  //     // we should create a proper account page
+  //     const client = await createClient();
+  //     client.auth.signOut().then(() => {
+  //       router.push("/");
+  //     });
+  //   } else {
+  //     navigate("/login");
+  //   }
+  // };
 
   return (
     <header
