@@ -2,15 +2,17 @@
 // import { BookmarkCheck, GitCompare, LogIn, Menu, User, X } from "lucide-react";
 import { GitCompare, Menu, X } from "lucide-react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 
-const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+// import { createClient } from "@/lib/supabase/client";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const Header = ({ isLoggedIn: _ }: { isLoggedIn: boolean }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const router = useRouter();
-  const navigate = router.push;
+  // const router = useRouter();
+  // const navigate = router.push;
 
   // Hide mobile menu when changing routes
   useEffect(() => {
