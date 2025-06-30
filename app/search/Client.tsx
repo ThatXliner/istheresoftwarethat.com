@@ -40,11 +40,12 @@ export default function Client({
       const client = await createClient();
       let query = getSoftwareList(client);
       if (searchQuery.trim() !== "") {
-        query = query
-          .textSearch("name", `%${searchQuery}%`)
-          .or(
-            `description.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`,
-          );
+        query = query.textSearch("fts", searchQuery, {
+          config: "english",
+        });
+        // .or(
+        //   `description.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`,
+        // );
       }
       if (filters.licenses.length > 0) {
         query = query.in("license", filters.licenses);
