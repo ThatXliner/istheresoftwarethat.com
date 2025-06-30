@@ -1,5 +1,6 @@
 "use client";
-import { BookmarkCheck, GitCompare, LogIn, Menu, User, X } from "lucide-react";
+// import { BookmarkCheck, GitCompare, LogIn, Menu, User, X } from "lucide-react";
+import { GitCompare, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
