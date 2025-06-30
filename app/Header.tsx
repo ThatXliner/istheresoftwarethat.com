@@ -66,20 +66,20 @@ const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
               icon={<GitCompare className="w-4 h-4" />}
               label="Browse"
             />
-            <NavLink
+            {/* <NavLink
               to="/compare"
               icon={<GitCompare className="w-4 h-4" />}
               label="Compare"
-            />
-            {isLoggedIn && (
+            /> */}
+            {/* {isLoggedIn && (
               <NavLink
                 to="/bookmarks"
                 icon={<BookmarkCheck className="w-4 h-4" />}
                 label="Bookmarks"
               />
-            )}
+            )} */}
 
-            <button
+            {/* <button
               type="button"
               className={`flex items-center py-2 px-3 rounded-md transition-colors ${
                 isLoggedIn
@@ -99,7 +99,7 @@ const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
                   <span>Log In</span>
                 </>
               )}
-            </button>
+            </button> */}
           </nav>
 
           {/* Mobile Navigation Toggle */}
