@@ -1,3 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
+/** biome-ignore-all lint/performance/noImgElement: L */
+
 "use client";
 import "./BoltBadge.css";
 export default function BoltBadge() {
