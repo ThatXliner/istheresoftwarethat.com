@@ -1,8 +1,3 @@
-create extension vector
-with
-  schema extensions;
-
-alter table "public"."software" add column "embeddings" vector;
 -- alter table "public"."software" add column "fts" tsvector generated always as (
 --   to_tsvector('english', coalesce(name, '')||coalesce(other_details->>'short_description', ''))
 -- ) stored;
@@ -17,7 +12,8 @@ BEGIN
   NEW.fts := to_tsvector('english',
     coalesce(NEW.name, '') || ' ' ||
     coalesce(array_to_string(NEW.tags, ' '), '') || ' ' ||
-    coalesce(NEW.other_details->>'short_description', '')
+    coalesce(NEW.other_details->>'short_description', '') ||
+    coalesce(NEW.other_details->>'long_description', '')
   );
   RETURN NEW;
 END
