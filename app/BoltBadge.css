@@ -2,8 +2,14 @@
   transition: all 0.3s ease;
 }
 @keyframes badgeIntro {
-  0% { transform: scale(0); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 .bolt-badge-intro {
   animation: badgeIntro 0.5s ease-out 1s both;
@@ -12,9 +18,15 @@
   animation: none;
 }
 @keyframes badgeHover {
-  0% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.1) rotate(22deg); }
-  100% { transform: scale(1) rotate(0deg); }
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(22deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
 }
 .bolt-badge:hover {
   animation: badgeHover 0.6s ease-in-out;
