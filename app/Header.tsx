@@ -129,19 +129,19 @@ const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
               icon={<GitCompare className="w-5 h-5" />}
               label="Browse Software"
             />
-            <MobileNavLink
+            {/* <MobileNavLink
               to="/compare"
               icon={<GitCompare className="w-5 h-5" />}
               label="Compare Software"
-            />
-            {isLoggedIn && (
+            /> */}
+            {/* {isLoggedIn && (
               <MobileNavLink
-                to="/bookmarks\"
+                to="/bookmarks"
                 icon={<BookmarkCheck className="w-5 h-5" />}
                 label="Your Bookmarks"
               />
-            )}
-            <button
+            )} */}
+            {/* <button
               type="button"
               className={`flex items-center p-3 rounded-md text-left ${
                 isLoggedIn
@@ -161,7 +161,7 @@ const Header = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
                   <span>Log In / Sign Up</span>
                 </>
               )}
-            </button>
+            </button> */}
           </nav>
         </div>
       )}

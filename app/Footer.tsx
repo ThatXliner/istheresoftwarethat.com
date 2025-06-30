@@ -71,9 +71,9 @@ const Footer = () => {
             <ul className="space-y-2">
               <FooterLink to="/about" label="About Us" />
               <FooterLink to="/faq" label="FAQ" />
-              <FooterLink to="/blog" label="Blog" />
-              <FooterLink to="/submit" label="Submit Software" />
-              <FooterLink to="/compare" label="Compare Tools" />
+              {/* <FooterLink to="/blog" label="Blog" /> */}
+              {/* <FooterLink to="/submit" label="Submit Software" /> */}
+              {/* <FooterLink to="/compare" label="Compare Tools" /> */}
             </ul>
           </div>
 
