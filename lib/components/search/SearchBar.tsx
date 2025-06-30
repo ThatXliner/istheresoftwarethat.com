@@ -40,7 +40,8 @@ const SearchBar = ({
       </div>
       <button
         type="submit"
-        className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-r-md transition-colors"
+        disabled={!query.trim()}
+        className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:opacity-60 text-white font-medium py-3 px-6 rounded-r-md transition-colors"
       >
         {buttonText}
       </button>
