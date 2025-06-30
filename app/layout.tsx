@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 // import DataProviders from "./DataProviders";
 import { createClient } from "@/lib/supabase/server";
+import BoltBadge from "./BoltBadge";
 import Footer from "./Footer";
 import Header from "./Header";
 import Providers from "./providers";
@@ -34,6 +35,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <BoltBadge />
         <div className="flex flex-col min-h-screen bg-slate-50">
           <Providers>
             <Header isLoggedIn={!(error || !data?.user)} />
