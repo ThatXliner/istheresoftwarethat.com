@@ -312,3 +312,7 @@ INSERT INTO public.reviews (software_id, username, date, is_upvote, stars, comme
     (7, 'NoteGuru', '2024-12-01T20:15:00Z', false, NULL, NULL, NULL),
     (8, 'UIDesigner', '2024-12-02T09:45:00Z', true, NULL, NULL, NULL),
     (8, '3DArtist', '2024-11-30T14:20:00Z', true, NULL, NULL, NULL);
+
+
+select
+  vault.create_secret('http://api.supabase.internal:8000', 'project_url');

@@ -2,12 +2,13 @@ create extension vector
 with
   schema extensions;
 alter table "public"."software"
--- Halved size from OpenAI's original 1536 to reduce storage and improve performance
-add column embedding vector(768);
+add column embedding halfvec(1536);
+
+create index on "public"."software" using hnsw (embedding halfvec_ip_ops);
 
 create or replace function hybrid_search(
   query_text text,
-  query_embedding vector(768),  
+  query_embedding halfvec(1536),
   match_count int,
   full_text_weight float = 1,
   semantic_weight float = 1,
