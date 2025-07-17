@@ -1,5 +1,7 @@
 "use client";
+import { createOpenAI } from "@ai-sdk/openai";
 import { useQuery } from "@tanstack/react-query";
+import { embed } from "ai";
 import { ExternalLink, SlidersHorizontal } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useId, useMemo, useState } from "react";
@@ -13,13 +15,14 @@ import { createClient } from "@/lib/supabase/client";
 import FilterPanel, { type Filters } from "./FilterPanel";
 import SoftwareCard from "./SoftwareCard";
 
+const openai = createOpenAI({ apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY });
 export default function Client({
   initialData,
 }: {
   initialData: CatalogSummary;
 }) {
   const searchParams = useSearchParams();
-  const [sortBy, setSortBy] = useState("name");
+  const [sortBy, setSortBy] = useState("relevance");
   const [showFilters, setShowFilters] = useState(false);
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") ?? "");
   const [filters, setFilters] = useState<Filters>({
@@ -38,38 +41,45 @@ export default function Client({
     queryFn: async () => {
       // Convert filters to an SQL query
       const client = await createClient();
-      let query = getSoftwareList(client);
+      console.log("New query:", searchQuery);
+      // let query = getSoftwareList(client);
       if (searchQuery.trim() !== "") {
-        query = query.textSearch("fts", searchQuery, {
-          type: "phrase",
-          config: "english",
+        // SECURITY: definitely make this into an endpoint/edge function??
+        // Generate a one-time embedding for the user's query
+        const { embedding } = await embed({
+          model: openai.embedding("text-embedding-3-small"),
+          value: searchQuery,
         });
-        // .or(
-        //   `description.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`,
-        // );
+        console.log("Generated embedding for query:", embedding);
+        // Call hybrid_search Postgres function via RPC
+        const { data, error } = await client.rpc("hybrid_search", {
+          query_text: searchQuery,
+          query_embedding: embedding,
+          licenses: filters.licenses.length > 0 ? filters.licenses : undefined,
+          categories:
+            filters.categories.length > 0 ? filters.categories : undefined,
+          platforms:
+            filters.platforms.length > 0 ? filters.platforms : undefined,
+          offset_amount: 0, // TODO: implement pagination
+          match_count: 10,
+        });
+        if (error) {
+          throw error;
+        }
+        return catalogSummarySchema.parse(data);
+      } else {
+        const { data, error } = await getSoftwareList(client);
+        if (error) {
+          throw error;
+        }
+        return catalogSummarySchema.parse(data);
       }
-      if (filters.licenses.length > 0) {
-        query = query.in("license", filters.licenses);
-      }
-      if (filters.categories.length > 0) {
-        query = query.in("category", filters.categories);
-      }
-      if (filters.platforms.length > 0) {
-        // XXX: I don't know whether I want this to be overlaps (checks if intersection > 0)
-        // Or "contains" (checks if all elements in the array are present)
-        // Maybe I should make the user decide
-        query = query.contains("compatibility", [...filters.platforms]);
-      }
-      const { data, error } = await query;
-      // console.log(data)
-      if (error) {
-        throw error;
-      }
-      return catalogSummarySchema.parse(data);
     },
     initialData,
   });
   const filteredSoftware = useMemo(() => {
+    console.log("Filtering software with sortBy:", sortBy, software);
+    if (sortBy === "relevance") return software ?? [];
     // XXX: it would be better to also have a loading state
     return (software ?? []).sort((a, b) => {
       switch (sortBy) {
@@ -192,6 +202,7 @@ export default function Client({
                 onChange={(e) => setSortBy(e.target.value)}
                 className="border border-slate-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
+                <option value="relevance">Relevance</option>
                 <option value="name">Name (A-Z)</option>
                 <option value="upvotes">Most Popular</option>
                 <option value="recent">Recently Added</option>
