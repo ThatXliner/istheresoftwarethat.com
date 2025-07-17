@@ -1,6 +1,6 @@
 import { openai } from "@ai-sdk/openai";
 import { createClient } from "@supabase/supabase-js";
-import { type Embedding, embedMany } from "ai";
+import { type Embedding, embed, embedMany } from "ai";
 import dotenv from "dotenv";
 import fs from "fs";
 import { z } from "zod";
@@ -70,6 +70,40 @@ async function generateEmbeddings() {
     ).embeddings,
   );
 }
+async function sanityCheck() {
+  const QUERY = "I want to text my friends";
+  const CACHE_FILE = ".test-cache.json";
+  let embedding: Embedding;
+  try {
+    if (fs.existsSync(CACHE_FILE)) {
+      console.log(`Loading embeddings from cache: ${CACHE_FILE}`);
+      embedding = JSON.parse(fs.readFileSync(CACHE_FILE, "utf8"));
+    } else {
+      embedding = (
+        await embed({
+          model: openai.embedding("text-embedding-3-small"),
+          value: QUERY,
+        })
+      ).embedding;
+      fs.writeFileSync(CACHE_FILE, JSON.stringify(embedding));
+    }
+  } catch (error) {
+    throw error;
+  }
+  const { data, error } = await supabase.rpc("hybrid_search", {
+    query_text: QUERY,
+    query_embedding: embedding,
+    // licenses: filters.licenses.length > 0 ? filters.licenses : undefined,
+    // categories: filters.categories.length > 0 ? filters.categories : undefined,
+    // platforms: filters.platforms.length > 0 ? filters.platforms : undefined,
+    offset_amount: 0, // TODO: implement pagination
+    match_count: 10,
+  });
+  if (error) {
+    throw error;
+  }
+  console.log("Sanity check results:", data);
+}
 async function main() {
   const CACHE_FILE = ".embedding-cache.json";
   let embeddings: [number, Embedding][] = [];
@@ -93,6 +127,7 @@ async function main() {
     ),
   );
   console.log("Done!");
+  await sanityCheck();
 }
 // Run the script
 main().catch(console.error);

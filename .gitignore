@@ -48,4 +48,4 @@ node_modules/
 /playwright/.cache/
 
 
-.embedding_cache.json
+*cache.json
