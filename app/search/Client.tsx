@@ -1,10 +1,10 @@
 "use client";
 import { createOpenAI } from "@ai-sdk/openai";
 import { useQuery } from "@tanstack/react-query";
-import { embed } from "ai";
 import { ExternalLink, SlidersHorizontal } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useId, useMemo, useState } from "react";
+import { getResponseSchema } from "@/app/api/embed/types";
 import {
   type CatalogSummary,
   catalogSummarySchema,
@@ -46,10 +46,17 @@ export default function Client({
       if (searchQuery.trim() !== "") {
         // SECURITY: definitely make this into an endpoint/edge function??
         // Generate a one-time embedding for the user's query
-        const { embedding } = await embed({
-          model: openai.embedding("text-embedding-3-small"),
-          value: searchQuery,
-        });
+        const { embedding } = getResponseSchema.parse(
+          (
+            await fetch("/api/embed", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ text: searchQuery }),
+            })
+          ).body,
+        );
         console.log("Generated embedding for query:", embedding);
         // Call hybrid_search Postgres function via RPC
         const { data, error } = await client.rpc("hybrid_search", {
