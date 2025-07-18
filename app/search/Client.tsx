@@ -1,5 +1,4 @@
 "use client";
-import { createOpenAI } from "@ai-sdk/openai";
 import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, SlidersHorizontal } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -15,7 +14,6 @@ import { createClient } from "@/lib/supabase/client";
 import FilterPanel, { type Filters } from "./FilterPanel";
 import SoftwareCard from "./SoftwareCard";
 
-const openai = createOpenAI({ apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY });
 export default function Client({
   initialData,
 }: {
