@@ -151,7 +151,7 @@ export const catalogSummarySchema = softwareSchema
   })
   .extend({
     description: z.string(),
-    // upvotes: z.number(),
+    upvotes: z.number(),
     icon: z.string().nullable(),
     compatibility: z.string().array(),
   })

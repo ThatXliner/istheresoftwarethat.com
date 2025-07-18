@@ -256,18 +256,17 @@ export type Database = {
           rrf_k?: number
         }
         Returns: {
-          added_date: string
+          added_date: string | null
           category: string | null
-          compatibility: Json | null
-          embedding: unknown | null
+          compatibility: string[] | null
+          description: string | null
           fts: unknown | null
-          id: number
-          last_updated: string | null
+          icon: string | null
+          id: number | null
           license: string | null
-          name: string
-          other_details: Json
-          size: number | null
+          name: string | null
           tags: string[] | null
+          upvotes: number | null
           version: string | null
         }[]
       }

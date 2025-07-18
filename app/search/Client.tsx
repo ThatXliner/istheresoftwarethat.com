@@ -44,19 +44,15 @@ export default function Client({
       console.log("New query:", searchQuery);
       // let query = getSoftwareList(client);
       if (searchQuery.trim() !== "") {
-        // SECURITY: definitely make this into an endpoint/edge function??
         // Generate a one-time embedding for the user's query
-        const { embedding } = getResponseSchema.parse(
-          (
-            await fetch("/api/embed", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ text: searchQuery }),
-            })
-          ).body,
-        );
+        const result = await fetch("/api/embed", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text: searchQuery }),
+        });
+        const { embedding } = getResponseSchema.parse(await result.json());
         console.log("Generated embedding for query:", embedding);
         // Call hybrid_search Postgres function via RPC
         const { data, error } = await client.rpc("hybrid_search", {
