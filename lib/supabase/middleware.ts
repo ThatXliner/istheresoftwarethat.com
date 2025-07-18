@@ -49,6 +49,7 @@ export async function updateSession(request: NextRequest) {
     "/cookies",
     "/contact",
     "/licenses",
+    "/api/embed",
   ];
   if (
     request.nextUrl.pathname !== "/" &&
