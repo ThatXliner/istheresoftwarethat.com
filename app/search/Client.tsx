@@ -39,7 +39,6 @@ export default function Client({
     queryFn: async () => {
       // Convert filters to an SQL query
       const client = await createClient();
-      console.log("New query:", searchQuery);
       // let query = getSoftwareList(client);
       if (searchQuery.trim() !== "") {
         // Generate a one-time embedding for the user's query
@@ -51,7 +50,6 @@ export default function Client({
           body: JSON.stringify({ text: searchQuery }),
         });
         const { embedding } = getResponseSchema.parse(await result.json());
-        console.log("Generated embedding for query:", embedding);
         // Call hybrid_search Postgres function via RPC
         const { data, error } = await client.rpc("hybrid_search", {
           query_text: searchQuery,
@@ -79,7 +77,6 @@ export default function Client({
     initialData,
   });
   const filteredSoftware = useMemo(() => {
-    console.log("Filtering software with sortBy:", sortBy, software);
     if (sortBy === "relevance") return software ?? [];
     // XXX: it would be better to also have a loading state
     return (software ?? []).sort((a, b) => {

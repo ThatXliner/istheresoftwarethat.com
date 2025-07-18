@@ -18,7 +18,6 @@ create or replace function hybrid_search(
   semantic_weight float = 1,
   rrf_k int = 50
 )
--- Such a waste bruh
 returns setof "public"."software_summary"
 language sql
 as $$
@@ -30,7 +29,6 @@ with full_text as (
     row_number() over(order by ts_rank_cd(fts, websearch_to_tsquery(query_text)) desc) as rank_ix
   from
     "public"."software"
-    -- "public"."software_summary"
   where
     fts @@ websearch_to_tsquery(query_text)
   order by rank_ix
@@ -42,7 +40,6 @@ semantic as (
     row_number() over (order by embedding <#> query_embedding) as rank_ix
   from
     "public"."software"
-    -- "public"."software_summary"
   order by rank_ix
   limit least(match_count, 30) * 2
 )

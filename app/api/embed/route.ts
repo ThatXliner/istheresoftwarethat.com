@@ -1,11 +1,9 @@
-"use server";
-
 import { createOpenAI } from "@ai-sdk/openai";
 import { embed } from "ai";
 import crypto from "crypto";
 import { NextResponse } from "next/server";
 
-const openai = createOpenAI({ apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY });
+const openai = createOpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 // Simple LRU Cache implementation
 class LRUCache<T> {
