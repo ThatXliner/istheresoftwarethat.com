@@ -20,7 +20,7 @@
     "ai": "^4.3.19",
     "lucide-react": "^0.514.0",
     "millify": "^6.1.0",
-    "next": "15.3.3",
+    "next": "16.1.5",
     "pretty-bytes": "^7.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
