@@ -197,6 +197,35 @@ try {
     });
   }
 
+  await run("native session redirects preserve the browser origin and cookie continuity", async () => {
+    const rawOrigin = `http://127.0.0.1:${port}`;
+    const initial = fixture.session({ expiresIn: -60 });
+    const jar = cookiesFor(initial);
+    const response = await call(`${rawOrigin}/auth/session?next=%2F%3Forigin%3Draw%26keep%3Dtwo`, jar);
+    assert.equal(response.status, 307);
+    const location = response.headers.get("location");
+    assert.ok(location);
+    const destination = new URL(location, rawOrigin);
+    assert.equal(destination.origin, rawOrigin, "Native request canonicalization must not change the browser host");
+    assert.equal(`${destination.pathname}${destination.search}`, "/?origin=raw&keep=two");
+    assert.notEqual(jar.session().access_token, initial.access_token);
+    assert.ok(response.headers.getSetCookie().length);
+    for (const cookie of response.headers.getSetCookie())
+      assert.doesNotMatch(cookie, /;\s*Domain=/i, "Session cookies must remain scoped to the browser host");
+    const page = await call(destination.href, jar);
+    assert.equal(page.status, 200);
+    assert.match(await page.text(), /isLoggedIn\\?":true/);
+
+    const malformed = new CookieJar([{ name: cookieName, value: "base64-%%%malformed" }]);
+    const cleared = await call(`${rawOrigin}/auth/session?next=%2F%3Forigin%3Dmalformed%26keep%3Dtwo`, malformed);
+    assert.equal(cleared.status, 307);
+    const clearedLocation = new URL(cleared.headers.get("location"), rawOrigin);
+    assert.equal(clearedLocation.origin, rawOrigin);
+    assert.equal(`${clearedLocation.pathname}${clearedLocation.search}`, "/?origin=malformed&keep=two");
+    assert.equal(malformed.cookies.has(cookieName), false);
+    assert.equal((await call(clearedLocation.href, malformed)).status, 200);
+  });
+
   await run("revoked refresh token clears session and cannot authorize", async () => {
     const jar = cookiesFor(fixture.session({ expiresIn: -60, refresh: "revoked" }));
     const { location } = await expectSessionHop("/", jar);
@@ -266,6 +295,10 @@ try {
 
   for (const target of ["https://example.invalid/steal", "//example.invalid/steal", "/auth/session?next=/auth/session"]) {
     await run(`session next rejects ${target}`, async () => {
+      if (target === "//example.invalid/steal") {
+        const normalized = await call(`/auth/session?next=${encodeURIComponent("/.//example.invalid")}`, cookiesFor(fixture.session()));
+        assert.equal(normalized.status, 400, "Normalized // pathname must not become an external relative redirect");
+      }
       const response = await call(`/auth/session?next=${encodeURIComponent(target)}`, cookiesFor(fixture.session()));
       if ([400, 422].includes(response.status)) return;
       assert.ok([302, 303, 307, 308].includes(response.status));
