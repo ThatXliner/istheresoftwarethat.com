@@ -34,6 +34,7 @@ export async function handleSession(request: NextRequest) {
   if (
     !next.startsWith("/") ||
     target.origin !== request.nextUrl.origin ||
+    target.pathname.startsWith("//") ||
     target.pathname.replace(/\/+$/, "") === "/auth/session"
   ) {
     return new NextResponse("Invalid return path", {
@@ -42,7 +43,13 @@ export async function handleSession(request: NextRequest) {
     });
   }
 
-  const response = NextResponse.redirect(target);
+  function localLocation(url: URL) {
+    return `${url.pathname}${url.search}${url.hash}`;
+  }
+  const response = new NextResponse(null, {
+    status: 307,
+    headers: { Location: localLocation(target) },
+  });
   response.headers.set("Cache-Control", "private, no-store");
   response.headers.set("Vary", "Cookie");
   const base = sessionCookieName(process.env.NEXT_PUBLIC_SUPABASE_URL!);
@@ -52,7 +59,7 @@ export async function handleSession(request: NextRequest) {
         response.cookies.set(name, "", { path: "/", maxAge: 0 });
     }
     if (!isPublicPath(target.pathname)) target.pathname = "/login";
-    response.headers.set("Location", target.href);
+    response.headers.set("Location", localLocation(target));
     return response;
   }
   const client = createServerClient(
@@ -75,7 +82,7 @@ export async function handleSession(request: NextRequest) {
       status,
       headers: response.headers,
     });
-    if (location) result.headers.set("Location", location.href);
+    if (location) result.headers.set("Location", localLocation(location));
     else result.headers.delete("Location");
     return result;
   }
