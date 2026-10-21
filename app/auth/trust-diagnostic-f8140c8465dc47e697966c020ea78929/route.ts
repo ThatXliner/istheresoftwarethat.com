@@ -1,5 +1,5 @@
 import https from "node:https";
-import { serverTrust } from "@/lib/server/emudhra-trust.mjs";
+import { getServerTrust } from "@/lib/server/emudhra-trust.mjs";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -24,6 +24,7 @@ export async function GET(request: Request) {
       (target !== "g3b" && target !== "aaa" && target !== "trusted")) {
     return Response.json({ error: "Select one API and allowlisted target" }, { status: 400 });
   }
+  const serverTrust = getServerTrust();
   if (!serverTrust) return Response.json({ error: "Startup trust hook did not run" }, { status: 503 });
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 20_000);
