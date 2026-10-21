@@ -1,8 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { initializeServerTrust } from "@/lib/server/emudhra-trust.mjs";
 import type { Database } from "./types";
 
 export async function createClient() {
+  initializeServerTrust();
   const cookieStore = await cookies();
 
   return createServerClient<Database>(
@@ -20,8 +22,8 @@ export async function createClient() {
             );
           } catch {
             // The `setAll` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
+            // Session renewal is persisted by the Node /auth/session handler
+            // before middleware allows an expiring browser session to render.
           }
         },
       },
