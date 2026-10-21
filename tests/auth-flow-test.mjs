@@ -148,6 +148,35 @@ try {
     assert.equal(localLocation(response), "/login?case=forged");
   });
 
+  await run("forged future cookie expiry cannot authorize an expired JWT", async () => {
+    const session = fixture.session({ expiresIn: -60 });
+    session.expires_at = Math.floor(Date.now() / 1000) + 3600;
+    const start = fixture.events.length;
+    const response = await call("/__auth_fixture_private?case=forged-expiry", cookiesFor(session));
+    assert.equal(response.status, 307);
+    assert.equal(localLocation(response), "/login?case=forged-expiry");
+    assert.ok(fixture.events.slice(start).some((event) => event.path === "/auth/v1/user" && event.status === 401),
+      "The Auth server must reject the expired JWT despite the cookie expiry hint");
+  });
+
+  await run("protected POST denies guest and preserves the complete query", async () => {
+    const guest = await call("/__auth_fixture_private?post=guest&keep=two", new CookieJar(), { method: "POST" });
+    assert.equal(guest.status, 307);
+    assert.equal(localLocation(guest), "/login?post=guest&keep=two");
+    const direct = await call("/auth/session?next=%2F%3Fexternal_header%3Dignored", new CookieJar(), {
+      method: "POST", headers: { "x-session-return-path": "/__auth_fixture_private?attacker=1" },
+    });
+    assert.equal(direct.status, 307);
+    assert.equal(localLocation(direct), "/?external_header=ignored",
+      "A direct request must not supply internal rewrite metadata");
+  });
+
+  await run("protected POST lets verified identity reach 404", async () => {
+    const verified = await call("/__auth_fixture_private?post=verified", cookiesFor(fixture.session()), { method: "POST" });
+    assert.equal(verified.status, 404);
+    assert.equal(verified.headers.get("location"), null);
+  });
+
   for (const expiresIn of [-60, 120]) {
     await run(`${expiresIn < 0 ? "expired" : "near expiry"} public session refresh persists cookies and verified identity`, async () => {
       const before = fixture.session({ expiresIn });
@@ -187,6 +216,22 @@ try {
     assert.equal((await call("/", jar)).status, 200);
   });
 
+  await run("invalid UTF-8 session envelope clears before contacting Auth", async () => {
+    const invalid = Buffer.concat([
+      Buffer.from(`${JSON.stringify(fixture.session()).slice(0, -1)},"note":"`),
+      Buffer.from([0xff]), Buffer.from('"}'),
+    ]);
+    const jar = new CookieJar([{ name: cookieName, value: `base64-${invalid.toString("base64url")}` }]);
+    const start = fixture.events.length;
+    const { location } = await expectSessionHop("/", jar);
+    const response = await call(location, jar);
+    assert.equal(response.status, 307);
+    assert.equal(localLocation(response), "/");
+    assert.equal(jar.cookies.has(cookieName), false);
+    assert.equal(fixture.events.length, start, "Malformed UTF-8 must be cleared before SDK network calls");
+    assert.equal((await call("/", jar)).status, 200);
+  });
+
   await run("transient Auth failure returns 503 and retains session cookie", async () => {
     const jar = cookiesFor(fixture.session({ refresh: "transient" }));
     const original = jar.header();
@@ -199,6 +244,24 @@ try {
     assert.equal(response.status, 503);
     assert.equal(response.headers.get("location"), null);
     assert.equal(jar.header(), original);
+  });
+
+  await run("Auth outage after refresh preserves newly rotated cookies on 503", async () => {
+    const initial = fixture.session({ expiresIn: -60, refresh: "rotate_then_outage" });
+    const jar = cookiesFor(initial);
+    const start = fixture.events.length;
+    const { location } = await expectSessionHop("/?case=rotation-outage", jar);
+    const response = await call(location, jar);
+    assert.equal(response.status, 503);
+    assert.equal(response.headers.get("location"), null);
+    assert.ok(response.headers.getSetCookie().length, "The failure response must persist rotation cookies");
+    const rotated = jar.session();
+    assert.notEqual(rotated.access_token, initial.access_token);
+    assert.notEqual(rotated.refresh_token, initial.refresh_token);
+    assert.ok(rotated.expires_at > Date.now() / 1000 + 300);
+    const events = fixture.events.slice(start);
+    assert.equal(events.filter((event) => event.grant === "refresh_token" && event.status === 200).length, 1);
+    assert.ok(events.some((event) => event.path === "/auth/v1/user" && event.status === 503));
   });
 
   for (const target of ["https://example.invalid/steal", "//example.invalid/steal", "/auth/session?next=/auth/session"]) {

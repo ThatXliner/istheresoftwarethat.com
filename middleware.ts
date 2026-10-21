@@ -21,14 +21,28 @@ export function middleware(request: NextRequest) {
       sessionCookieName(process.env.NEXT_PUBLIC_SUPABASE_URL!),
     )
   ) {
-    return NextResponse.redirect(session);
+    const response = NextResponse.redirect(session);
+    response.headers.set("Cache-Control", "private, no-store");
+    response.headers.set("Vary", "Cookie");
+    return response;
   }
 
   if (!isPublicPath(path)) {
-    if (!navigation) return NextResponse.rewrite(session);
+    if (!navigation) {
+      const headers = new Headers(request.headers);
+      headers.set("x-session-return-path", target);
+      return NextResponse.rewrite(new URL("/auth/session", request.url), {
+        request: { headers },
+      });
+    }
     const guard = request.nextUrl.clone();
     guard.pathname = `/auth/guard${path}`;
     return NextResponse.rewrite(guard);
+  }
+  if (path === "/auth/session") {
+    const headers = new Headers(request.headers);
+    headers.delete("x-session-return-path");
+    return NextResponse.next({ request: { headers } });
   }
   return NextResponse.next();
 }

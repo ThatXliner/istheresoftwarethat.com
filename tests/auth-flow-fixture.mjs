@@ -23,6 +23,7 @@ export async function startAuthFixture({ port = FIXTURE_PORT } = {}) {
   const temporaryAccessTokens = new Set();
   const transientRefreshTokens = new Set();
   const validRefreshTokens = new Set();
+  const rotateThenOutageRefreshTokens = new Set();
   const origin = `http://127.0.0.1:${port}`;
 
   function session({ expiresIn = 3600, refresh = "valid", padding = 0 } = {}) {
@@ -35,7 +36,8 @@ export async function startAuthFixture({ port = FIXTURE_PORT } = {}) {
     })}`;
     const access_token = `${unsigned}.${createHmac("sha256", "local-auth-fixture-only").update(unsigned).digest("base64url")}`;
     const refresh_token = `fixture-${refresh}-${randomUUID()}`;
-    if (refresh === "valid") validRefreshTokens.add(refresh_token);
+    if (refresh === "valid" || refresh === "rotate_then_outage") validRefreshTokens.add(refresh_token);
+    if (refresh === "rotate_then_outage") rotateThenOutageRefreshTokens.add(refresh_token);
     if (refresh === "transient") transientRefreshTokens.add(refresh_token);
     if (refresh === "transient") temporaryAccessTokens.add(access_token);
     else if (refresh !== "revoked" && refresh !== "forged") validAccessTokens.add(access_token);
@@ -66,13 +68,20 @@ export async function startAuthFixture({ port = FIXTURE_PORT } = {}) {
       const token = request.headers.authorization?.replace(/^Bearer /, "");
       if (temporaryAccessTokens.has(token)) return send(503, { message: "Fixture Auth temporarily unavailable" });
       if (!validAccessTokens.has(token)) return send(401, { code: "bad_jwt", error_code: "bad_jwt", msg: "Fixture token rejected" });
+      const claims = JSON.parse(Buffer.from(token.split(".")[1], "base64url").toString());
+      if (claims.exp <= Date.now() / 1000) return send(401, { code: "jwt_expired", error_code: "jwt_expired", msg: "Fixture token expired" });
       return send(200, FIXTURE_USER);
     }
     if (url.pathname === "/auth/v1/token" && event.grant === "refresh_token") {
       if (transientRefreshTokens.has(input.refresh_token)) return send(503, { message: "Fixture Auth temporarily unavailable" });
       if (!validRefreshTokens.has(input.refresh_token)) return invalid();
       validRefreshTokens.delete(input.refresh_token);
-      return send(200, session());
+      const rotated = session();
+      if (rotateThenOutageRefreshTokens.delete(input.refresh_token)) {
+        temporaryAccessTokens.add(rotated.access_token);
+        validAccessTokens.delete(rotated.access_token);
+      }
+      return send(200, rotated);
     }
     if (url.pathname === "/auth/v1/token" && event.grant === "password") {
       if (input.email !== FIXTURE_USER.email || input.password !== "fixture-password") return invalid();

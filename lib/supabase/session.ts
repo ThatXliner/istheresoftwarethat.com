@@ -11,7 +11,12 @@ import {
 
 export async function handleSession(request: NextRequest) {
   initializeServerTrust();
-  const next = request.nextUrl.searchParams.get("next") ?? "/";
+  const next =
+    (request.method !== "GET" && request.method !== "HEAD"
+      ? request.headers.get("x-session-return-path")
+      : null) ??
+    request.nextUrl.searchParams.get("next") ??
+    "/";
   let target: URL;
   try {
     target = new URL(next, request.url);
