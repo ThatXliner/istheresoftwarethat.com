@@ -1,5 +1,7 @@
 {
-  "engines": { "node": "^22.23.4 || ^24.22.1 || >=26.12.1" },
+  "engines": {
+    "node": "^22.23.4 || ^24.22.1 || >=26.12.1"
+  },
   "name": "istheresoftwarethat.com",
   "version": "0.1.0",
   "private": true,
@@ -11,7 +13,8 @@
     "lint": "next lint",
     "update-types": "supabase gen types typescript --local --schema public > lib/supabase/types.ts",
     "format": "bunx biome format --write",
-    "hyperformat": "bunx biome check --write && bunx biome format --write"
+    "hyperformat": "bunx biome check --write && bunx biome format --write",
+    "test:auth": "node --test tests/edge-routing.test.mjs && node tests/auth-flow-test.mjs"
   },
   "dependencies": {
     "@ai-sdk/openai": "^2.0.136",
