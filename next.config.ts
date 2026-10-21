@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  env: { SECURITY_BUILD_NODE_VERSION: process.version },
 };
 
 export default nextConfig;
