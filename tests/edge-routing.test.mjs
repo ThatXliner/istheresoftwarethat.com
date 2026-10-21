@@ -18,7 +18,7 @@ function load(file) {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText;
   vm.runInNewContext(code, {
-    exports, URL, URLSearchParams, Headers, TextDecoder, atob, Uint8Array,
+    exports, URL, URLSearchParams, Headers, TextEncoder, TextDecoder, atob, btoa, Uint8Array,
     process: { env: { NEXT_PUBLIC_SUPABASE_URL: 'https://project.supabase.co' } },
     fetch() { throw new Error('Edge routing must never make HTTP requests'); },
     require(name) {
@@ -31,7 +31,7 @@ function load(file) {
   return exports;
 }
 const { middleware } = load('middleware.ts');
-const { needsSessionRefresh } = load('lib/supabase/session-routing.ts');
+const { needsSessionRefresh, decodeReturnPath } = load('lib/supabase/session-routing.ts');
 const base = 'sb-project-auth-token';
 function session(expiresAt) {
   return 'base64-' + Buffer.from(JSON.stringify({
@@ -51,8 +51,9 @@ test('Edge handles public, protected, renewal, callback and action routing witho
   const protectedResponse = route('/private?keep=yes');
   assert.equal(protectedResponse.headers.get('x-middleware-rewrite'), 'https://site.example/auth/guard/private?keep=yes');
   const unsafe = route('/private?first=1&second=2', undefined, 'POST');
-  assert.equal(unsafe.headers.get('x-middleware-rewrite'), 'https://site.example/auth/session');
-  assert.equal(unsafe.headers.get('x-middleware-request-x-session-return-path'), '/private?first=1&second=2');
+  const unsafeDestination = new URL(unsafe.headers.get('x-middleware-rewrite'));
+  assert.equal(unsafeDestination.pathname, '/auth/session');
+  assert.equal(decodeReturnPath(unsafeDestination.searchParams.get('_session_return')), '/private?first=1&second=2');
   const expired = session(Math.floor(Date.now() / 1000) - 5);
   assert.equal(new URL(route('/about?keep=yes', expired).headers.get('location')).searchParams.get('next'), '/about?keep=yes');
   assert.equal(route('/login', expired, 'POST').headers.get('x-middleware-next'), '1');

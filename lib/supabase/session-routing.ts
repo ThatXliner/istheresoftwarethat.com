@@ -7,6 +7,26 @@ const sessionEnvelope = z.object({
 });
 const refreshWindowSeconds = 120;
 
+export function encodeReturnPath(path: string) {
+  const bytes = new TextEncoder().encode(path);
+  return btoa(Array.from(bytes, (byte) => String.fromCharCode(byte)).join(""))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+}
+
+export function decodeReturnPath(value: string) {
+  if (!/^[A-Za-z0-9_-]+$/.test(value)) return null;
+  try {
+    const bytes = atob(value.replace(/-/g, "+").replace(/_/g, "/"));
+    return new TextDecoder("utf-8", { fatal: true }).decode(
+      Uint8Array.from(bytes, (char) => char.charCodeAt(0)),
+    );
+  } catch {
+    return null;
+  }
+}
+
 export function isPublicPath(path: string) {
   return (
     path === "/" ||

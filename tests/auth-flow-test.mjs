@@ -160,9 +160,9 @@ try {
   });
 
   await run("protected POST denies guest and preserves the complete query", async () => {
-    const guest = await call("/__auth_fixture_private?post=guest&keep=two", new CookieJar(), { method: "POST" });
+    const guest = await call("/__auth_fixture_private?post=guest&keep=two&next=%2Fattacker&_session_return=collision", new CookieJar(), { method: "POST" });
     assert.equal(guest.status, 307);
-    assert.equal(localLocation(guest), "/login?post=guest&keep=two");
+    assert.equal(localLocation(guest), "/login?post=guest&keep=two&next=%2Fattacker&_session_return=collision");
     const direct = await call("/auth/session?next=%2F%3Fexternal_header%3Dignored", new CookieJar(), {
       method: "POST", headers: { "x-session-return-path": "/__auth_fixture_private?attacker=1" },
     });

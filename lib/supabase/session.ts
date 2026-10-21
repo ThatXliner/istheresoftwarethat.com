@@ -2,6 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { initializeServerTrust } from "@/lib/server/emudhra-trust.mjs";
 import {
+  decodeReturnPath,
   isPublicPath,
   isSessionCookie,
   needsSessionRefresh,
@@ -11,12 +12,16 @@ import {
 
 export async function handleSession(request: NextRequest) {
   initializeServerTrust();
+  const encoded = request.nextUrl.searchParams.get("_session_return");
   const next =
-    (request.method !== "GET" && request.method !== "HEAD"
-      ? request.headers.get("x-session-return-path")
-      : null) ??
-    request.nextUrl.searchParams.get("next") ??
-    "/";
+    encoded === null
+      ? (request.nextUrl.searchParams.get("next") ?? "/")
+      : decodeReturnPath(encoded);
+  if (next === null)
+    return new NextResponse("Invalid return path", {
+      status: 400,
+      headers: { "Cache-Control": "private, no-store" },
+    });
   let target: URL;
   try {
     target = new URL(next, request.url);

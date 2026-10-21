@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import {
+  encodeReturnPath,
   isPublicPath,
   needsSessionRefresh,
   sessionCookieName,
@@ -29,20 +30,13 @@ export function middleware(request: NextRequest) {
 
   if (!isPublicPath(path)) {
     if (!navigation) {
-      const headers = new Headers(request.headers);
-      headers.set("x-session-return-path", target);
-      return NextResponse.rewrite(new URL("/auth/session", request.url), {
-        request: { headers },
-      });
+      const guard = new URL("/auth/session", request.url);
+      guard.searchParams.set("_session_return", encodeReturnPath(target));
+      return NextResponse.rewrite(guard);
     }
     const guard = request.nextUrl.clone();
     guard.pathname = `/auth/guard${path}`;
     return NextResponse.rewrite(guard);
-  }
-  if (path === "/auth/session") {
-    const headers = new Headers(request.headers);
-    headers.delete("x-session-return-path");
-    return NextResponse.next({ request: { headers } });
   }
   return NextResponse.next();
 }
