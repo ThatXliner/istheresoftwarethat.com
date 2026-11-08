@@ -1,6 +1,5 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
-import { initializeServerTrust } from "@/lib/server/emudhra-trust.mjs";
 import {
   decodeReturnPath,
   isPublicPath,
@@ -11,7 +10,6 @@ import {
 } from "@/lib/supabase/session-routing";
 
 export async function handleSession(request: NextRequest) {
-  initializeServerTrust();
   const encoded = request.nextUrl.searchParams.get("_session_return");
   const next =
     encoded === null
